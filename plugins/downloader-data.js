@@ -1,15 +1,7 @@
 import { createHash } from 'crypto';
 import PhoneNumber from 'awesome-phonenumber';
 
-// Define el ID del propietario del bot (reemplaza 'owner_number@whatsapp.net' con el número real del propietario)
-const OWNER_ID = '+51925015528@whatsapp.net';
-
 let handler = async (m, { conn, usedPrefix }) => {
-  // Verificar si el usuario que envía el comando es el propietario
-  if (m.sender !== OWNER_ID) {
-    return conn.reply(m.chat, 'Este comando solo puede ser utilizado por el propietario del bot.', m);
-  }
-
   // Asegurarse de que haya un usuario mencionado
   if (!m.mentionedJid || !m.mentionedJid[0]) {
     return conn.reply(m.chat, `Etiqueta a un usuario con el comando, por ejemplo: *${usedPrefix}data @usuario*`, m);
@@ -54,5 +46,5 @@ let handler = async (m, { conn, usedPrefix }) => {
 handler.help = ['data @usuario'];
 handler.tags = ['info'];
 handler.command = /^data$/i; // El comando será '.data'
-
+handler.rowner = true; // Solo puede ser usado por el owner del bot
 export default handler;
