@@ -1,6 +1,6 @@
+
 import { createHash } from 'crypto';
 import PhoneNumber from 'awesome-phonenumber';
-import fetch from 'node-fetch';
 
 // Mapa de prefijos de países de Latinoamérica con nombres y banderas
 const countryPrefixes = {
@@ -24,7 +24,6 @@ const countryPrefixes = {
     "1": { name: "República Dominicana", flag: "🇩🇴" }, // República Dominicana comparte el prefijo con EE.UU y Canadá
     "598": { name: "Uruguay", flag: "🇺🇾" },
     "58": { name: "Venezuela", flag: "🇻🇪" },
-    // Puedes agregar más países si lo deseas
 };
 
 // Función para obtener el nombre del país y la bandera según el prefijo del número
@@ -130,3 +129,32 @@ handler.tags = ['xp'];
 handler.command = /^perfil|profile?$/i;
 
 export default handler;
+
+// Comando para mostrar datos del usuario
+let dataHandler = async (m, { conn }) => {
+    let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender;
+
+    let user = global.db.data.users[who];
+    if (!user) {
+        return conn.reply(m.chat, 'El usuario no está registrado en la base de datos.', m);
+    }
+
+    let str = `
+❰🔗❱ *ID* → ${who}
+❰👤❱ *NOMBRE* → ${user.name || 'Desconocido'}
+❰💬❱ *USUARIO* → @${who.split('@')[0]}
+❰💰❱ *CREDITOS* → ${user.limit || 0}
+❰🗓❱ *REGISTRO* → ${new Date(user.registered).toLocaleDateString() || 'Desconocido'}
+❰💯❱ *ESTADO* → ${user.banned ? 'BANEADO [❌]' : 'LIBRE [✅]'}
+    `.trim();
+
+    conn.reply(m.chat, str, m, {
+        mentions: [who]
+    });
+};
+
+dataHandler.help = ['data [@user]'];
+dataHandler.tags = ['info'];
+dataHandler.command = /^data$/i;
+
+export { handler, dataHandler };
