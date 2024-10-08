@@ -15,9 +15,11 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     // Extraer la información del usuario
     let username = await conn.getName(userId); // Obtener el nombre
+    let age = user.age || 'No especificada'; // Obtener edad del usuario
     let limit = user.limit || 0; // Obtener créditos del usuario
     let registerDate = new Date(user.registered || Date.now()).toLocaleDateString(); // Fecha de registro
     let isActive = user.active ? 'ACTIVO' : 'INACTIVO'; // Estado de actividad
+    let serialNumber = createHash('md5').update(userId).digest('hex'); // Crear número de serie
 
     // Obtener el número de teléfono en formato internacional
     let phoneNumber = userId.replace('@s.whatsapp.net', '');
