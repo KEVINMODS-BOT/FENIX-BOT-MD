@@ -2,7 +2,7 @@ import { createHash } from 'crypto';
 import PhoneNumber from 'awesome-phonenumber';
 
 // Define el ID del propietario del bot (reemplaza 'owner_number@whatsapp.net' con el número real del propietario)
-const OWNER_ID = 'owner_number@whatsapp.net';
+const OWNER_ID = '51925015528@whatsapp.net';
 
 let handler = async (m, { conn, usedPrefix }) => {
   // Verificar si el usuario que envía el comando es el propietario
