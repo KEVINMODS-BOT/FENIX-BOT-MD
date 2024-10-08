@@ -25,12 +25,14 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     // Crear el mensaje de respuesta
     let profileInfo = `
-❰🔗❱ *ID* → [${whatsappLink}](${whatsappLink})
+❰🔗❱ *ID* → ${whatsappLink}
 ❰👤❱ *NOMBRE* → ${username}
-❰💬❱ *USUARIO* → @${userId.replace(/@.+/, '')}
-❰💰❱ *CREDITOS* → ${limit}
-❰🗓❱ *REGISTRO* → ${registerDate}
+❰📅❱ *EDAD* → ${age} años
+❰💬❱ *USUARIO* → @${userId.split('@')[0]}
+❰💰❱ *LIMIT* → ${limit}
 ❰💯❱ *ESTADO* → ${isActive}
+
+❰🔢❱ *NÚMERO DE SERIE* → ${serialNumber}
     `.trim();
 
     // Enviar la información del perfil
