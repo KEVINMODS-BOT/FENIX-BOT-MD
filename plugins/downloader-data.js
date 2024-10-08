@@ -25,6 +25,9 @@ let handler = async (m, { conn, usedPrefix }) => {
   let phoneNumber = new PhoneNumber('+' + userId.replace('@s.whatsapp.net', '')).getNumber('international'); // Obtener número de teléfono
   let serialNumber = createHash('md5').update(userId).digest('hex'); // Número de serie basado en ID
 
+  // Definir el enlace de WhatsApp basado en el número de teléfono
+  let whatsappLink = `https://wa.me/${phoneNumber.replace(/[^0-9]/g, '')}`; // Crear el enlace de WhatsApp
+
   // Crear el mensaje de respuesta
   let profileInfo = `
 ❰🔗❱ *ID* → ${whatsappLink}
