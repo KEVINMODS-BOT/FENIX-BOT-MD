@@ -1,12 +1,4 @@
 let handler = async (m, { conn, args, usedPrefix, command }) => {
-    // Define el ID del propietario del bot (reemplaza 'owner_number@whatsapp.net' con el número real del propietario)
-    const OWNER_ID = 'owner_number@whatsapp.net';
-
-    // Verificar si el usuario que envía el comando es el propietario
-    if (m.sender !== OWNER_ID) {
-        return conn.reply(m.chat, 'Este comando solo puede ser utilizado por el propietario del bot.', m);
-    }
-
     // Asegurarse de que haya un usuario mencionado
     if (!m.mentionedJid || !m.mentionedJid[0]) {
         return conn.reply(m.chat, `Etiqueta a un usuario con el comando, por ejemplo: *${usedPrefix}data @usuario*`, m);
@@ -36,10 +28,9 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 ❰🔗❱ *ID* → [${whatsappLink}](${whatsappLink})
 ❰👤❱ *NOMBRE* → ${username}
 ❰💬❱ *USUARIO* → @${userId.replace(/@.+/, '')}
-❰📅❱ *EDAD* → ${age} años
 ❰💰❱ *CREDITOS* → ${limit}
+❰🗓❱ *REGISTRO* → ${registerDate}
 ❰💯❱ *ESTADO* → ${isActive}
-❰🔢❱ *NÚMERO DE SERIE* → ${serialNumber}
     `.trim();
 
     // Enviar la información del perfil
@@ -51,6 +42,5 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 handler.help = ['data @usuario'];
 handler.tags = ['info'];
 handler.command = /^data$/i; // El comando será '.data'
-handler.rowner = true; // Solo puede ser usado por el owner del bot
 
 export default handler;
