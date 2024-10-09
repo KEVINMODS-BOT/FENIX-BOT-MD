@@ -1,14 +1,14 @@
 import fetch from 'node-fetch'
 
 let handler  = async (m, { conn, usedPrefix, command }) => {
-let img = await (await fetch(`https://f.uguu.se/jaerFNff.jpg`)).buffer()
+let img = await (await fetch(`https://qu.ax/LXzyv.jpg`)).buffer()
 const more = String.fromCharCode(8206)
 const readMore = more.repeat(4001)
 let txt = `Bienvenido *@${m.sender.split('@')[0]}* aquí encontraras los grupos y canales de la bot ♥︎
 
 *【 GRUPO 】*
 
-*https://chat.whatsapp.com/Eij6yev1O5vIUisQhbfbSw*
+*https://chat.whatsapp.com/HI1M164O0Z3FemZ3Wvmqro*
 
 
 *【 CANALES 】*
