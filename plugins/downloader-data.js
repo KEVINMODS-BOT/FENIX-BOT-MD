@@ -77,8 +77,8 @@ let handler = async (m, { conn, usedPrefix }) => {
 ❰👤❱ *NOMBRE* → ${user ? username : 'No tiene registro'}
 ❰📅❱ *EDAD* → ${user ? age + ' años' : 'No tiene registro'}
 ❰💬❱ *USUARIO* → @${userId.split('@')[0]}
-❰🇨🇴❱ *PAÍS* → ${countryInfo.flag} ${countryInfo.name}
-❰💰❱ *LIMIT* → ${limit}
+❰🌏❱ *PAÍS* → ${countryInfo.flag} ${countryInfo.name}
+❰💰❱ *CRÉDITOS* → ${limit}
 ❰🗓❱ *REGISTRO* → ${registerDate}
 ❰💯❱ *ESTADO* → ${isActive}
 ❰🔢❱ *NÚMERO DE SERIE* → ${serialNumber}
