@@ -1,45 +1,57 @@
-let handler = async (m, { conn, usedPrefix, command, text, isAdmin, isBotAdmin }) => {
-  if (!isBotAdmin) {
-    return conn.reply(m.chat, '❌ El bot necesita ser administrador para usar este comando.', m);
+const handler = async (m, {conn, text, command, usedPrefix}) => {
+  if (m.mentionedJid.includes(conn.user.jid)) return;
+  //const pp = './lib/img/warn.jpg';
+  let who;
+  if (m.isGroup) {
+    who = m.mentionedJid[0] ?
+      m.mentionedJid[0] :
+      m.quoted ?
+      m.quoted.sender :
+      text;
+  } else who = m.chat;
+  const user = global.db.data.users[who];
+  const bot = global.db.data.settings[conn.user.jid] || {};
+  const dReason = 'No especificado';
+  const msgtext = text || dReason;
+  const sdms = msgtext.replace(/@\d+-?\d* /g, '');
+  const warntext = `*[❗] 𝙴𝚃𝙸𝚀𝚄𝙴𝚃𝙴 𝙰 𝚄𝙽𝙰 𝙿𝙴𝚁𝚂𝙾𝙽𝙰 𝙾 𝚁𝙴𝚂𝙿𝙾𝙽𝙳𝙰 𝙰 𝚄𝙽 𝙼𝙴𝙽𝚂𝙰𝙹𝙴 𝙳𝙴𝙻 𝙶𝚁𝚄𝙿𝙾 𝙿𝙰𝚁𝙰 𝙰𝙳𝚅𝙴𝚁𝚃𝙸𝚁 𝙰𝙻 𝚄𝚂𝚄𝙰𝚁𝙸𝙾*\n\n*—◉ 𝙴𝙹𝙴𝙼𝙿𝙻𝙾:*\n*${
+    usedPrefix + command
+  } @${global.suittag}*`;
+  if (!who) {
+    throw m.reply(warntext, m.chat, {mentions: conn.parseMention(warntext)});
   }
-
-  if (!isAdmin) {
-    return conn.reply(m.chat, '❌ Solo los administradores del grupo pueden usar este comando.', m);
+  user.warn += 1;
+  await m.reply(
+      `${
+      user.warn == 1 ? `*@${who.split`@`[0]}*` : `*@${who.split`@`[0]}*`
+      } 𝚁𝙴𝙲𝙸𝙱𝙸𝙾 𝚄𝙽𝙰 𝙰𝙳𝚅𝙴𝚁𝚃𝙴𝙽𝙲𝙸𝙰 𝙴𝙽 𝙴𝚂𝚃𝙴 𝙶𝚁𝚄𝙿𝙾!\nMotivo: ${sdms}\n*ADVERTENCIAS ${
+        user.warn
+      }/3*`,
+      null,
+      {mentions: [who]},
+  );
+  if (user.warn >= 3) {
+    if (!bot.restrict) {
+      return m.reply(
+          '*[❗] 𝙴𝙻 𝙿𝚁𝙾𝙿𝙸𝙴𝚃𝙰𝙳𝙾 𝙳𝙴𝙻 𝙱𝙾𝚃 𝙽𝙾 𝚃𝙸𝙴𝙽𝙴 𝙷𝙰𝙱𝙸𝙻𝙸𝚃𝙰𝙳𝙾 𝙻𝙰𝚂 𝚁𝙴𝚂𝚃𝚁𝙸𝙲𝙲𝙸𝙾𝙽𝙴𝚂 (#𝚎𝚗𝚊𝚋𝚕𝚎 𝚛𝚎𝚜𝚝𝚛𝚒𝚌𝚝) 𝙲𝙾𝙽𝚃𝙰𝙲𝚃𝙴 𝙲𝙾𝙽 𝙴𝙻 𝙿𝙰𝚁𝙰 𝚀𝚄𝙴 𝙻𝙾 𝙷𝙰𝙱𝙸𝙻𝙸𝚃𝙴*',
+      );
+    }
+    user.warn = 0;
+    await m.reply(
+        `𝚃𝙴 𝙻𝙾 𝙰𝙳𝚅𝙴𝚁𝚃𝙸 𝚅𝙰𝚁𝙸𝙰𝚂 𝚅𝙴𝙲𝙴𝚂!!\n*@${
+          who.split`@`[0]
+        }* 𝚂𝚄𝙿𝙴𝚁𝙰𝚂𝚃𝙴 𝙻𝙰𝚂 *3* 𝙰𝙳𝚅𝙴𝚁𝚃𝙴𝙽𝙲𝙸𝙰𝚂, 𝙰𝙷𝙾𝚁𝙰 𝚂𝙴𝚁𝙰𝚂 𝙴𝙻𝙸𝙼𝙸𝙽𝙰𝙳𝙾/𝙰 👽`,
+        null,
+        {mentions: [who]},
+    );
+    await conn.groupParticipantsUpdate(m.chat, [who], 'remove');
   }
+  return !1;
+};
 
-  // Asegúrate de que haya un usuario mencionado
-  let mentionedJid = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : null;
-  if (!mentionedJid) {
-    return conn.reply(m.chat, `*[⚠️]* Usa el comando correctamente: *${usedPrefix}warn @usuario*`, m);
-  }
-
-  // Si el usuario no está registrado en la base de datos, agregarlo
-  let user = global.db.data.users[mentionedJid];
-  if (!user) {
-    global.db.data.users[mentionedJid] = { warnings: 0 }; // Inicializar el usuario si no existe
-  }
-
-  // Incrementar advertencias del usuario
-  user.warnings = (user.warnings || 0) + 1;
-
-  // Si tiene 3 advertencias, eliminarlo del grupo
-  if (user.warnings >= 3) {
-    await conn.reply(m.chat, `⚠️ El usuario @${mentionedJid.split('@')[0]} ha recibido 3 advertencias y será eliminado del grupo.`, m, {
-      mentions: [mentionedJid]
-    });
-    await conn.groupParticipantsUpdate(m.chat, [mentionedJid], 'remove');
-    user.warnings = 0; // Restablecer advertencias después de ser expulsado
-  } else {
-    await conn.reply(m.chat, `⚠️ El usuario @${mentionedJid.split('@')[0]} ha sido advertido. Advertencias actuales: ${user.warnings}/3`, m, {
-      mentions: [mentionedJid]
-    });
-  }
-}
-
-handler.help = ['warn @usuario'];
-handler.tags = ['admin'];
-handler.command = /^warn$/i;
-handler.group = true; // Solo funciona en grupos
-handler.admin = true; // Solo los administradores pueden usar este comando
-
+handler.command = /^(advertir|advertencia|warn|warning)$/i;
+handler.admin = true;
+handler.register = true;
+handler.group = true;
+handler.botAdmin = true;
 export default handler;
