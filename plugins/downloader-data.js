@@ -47,8 +47,12 @@ const countryFlags = {
 };
 
 let handler = async (m, { conn, usedPrefix }) => {
-  // Asegurarse de que haya un usuario mencionado o se responda a un mensaje
-  let userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender;
+  // Obtener el ID del usuario mencionado, o si se responde a un mensaje, obtener el del autor
+  let userId = m.mentionedJid && m.mentionedJid[0] 
+    ? m.mentionedJid[0] 
+    : m.quoted 
+      ? m.quoted.sender 
+      : m.sender;
 
   // Obtener los datos del usuario de la base de datos
   let user = global.db.data.users[userId];
@@ -73,8 +77,8 @@ let handler = async (m, { conn, usedPrefix }) => {
 ❰👤❱ *NOMBRE* → ${user ? username : 'No tiene registro'}
 ❰📅❱ *EDAD* → ${user ? age + ' años' : 'No tiene registro'}
 ❰💬❱ *USUARIO* → @${userId.split('@')[0]}
-❰🌏❱ *PAÍS* → ${countryInfo.flag} ${countryInfo.name}
-❰💰❱ *CREDITOS* → ${limit}
+❰🇨🇴❱ *PAÍS* → ${countryInfo.flag} ${countryInfo.name}
+❰💰❱ *LIMIT* → ${limit}
 ❰🗓❱ *REGISTRO* → ${registerDate}
 ❰💯❱ *ESTADO* → ${isActive}
 ❰🔢❱ *NÚMERO DE SERIE* → ${serialNumber}
