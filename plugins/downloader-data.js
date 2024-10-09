@@ -21,7 +21,9 @@ let handler = async (m, { conn, usedPrefix }) => {
   let limit = user ? user.limit || 0 : 'No tiene registro'; // Obtener créditos del usuario o mostrar "No tiene registro"
   let registerDate = user ? new Date(user.registered || Date.now()).toLocaleDateString() : 'No tiene registro'; // Fecha de registro o "No tiene registro"
   let isActive = user ? (user.banned ? 'BANEADO [❌]' : 'LIBRE [✅]') : 'No tiene registro'; // Estado de actividad o "No tiene registro"
-  let age = user ? user.age || 'Desconocido' : 'No tiene registro'; // Edad del usuario o "No tiene registro"
+  
+  // Validar la edad: si es un número válido y positivo, mostrarla, si no, mostrar "Desconocido"
+  let age = user && user.age > 0 ? user.age : 'Desconocido';
 
   // Crear el mensaje de respuesta
   let profileInfo = `
