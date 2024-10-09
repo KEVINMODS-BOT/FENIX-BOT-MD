@@ -1,42 +1,71 @@
 import { createHash } from 'crypto';
 import PhoneNumber from 'awesome-phonenumber';
 
-let handler = async (m, { conn, usedPrefix, isAdmin, isGroupAdmin }) => {
-  // Verificar si el comando está siendo usado en un grupo y si el remitente es un administrador
-  if (!m.isGroup) {
-    return conn.reply(m.chat, 'Este comando solo puede ser utilizado en grupos.', m);
-  }
-  if (!isAdmin && !isGroupAdmin) {
-    return conn.reply(m.chat, 'Este comando solo puede ser utilizado por administradores.', m);
-  }
+// Mapeo de códigos de país a nombres y banderas de países latinoamericanos
+const countryFlags = {
+  AR: { name: 'Argentina', flag: '🇦🇷' },
+  BO: { name: 'Bolivia', flag: '🇧🇴' },
+  BR: { name: 'Brasil', flag: '🇧🇷' },
+  CL: { name: 'Chile', flag: '🇨🇱' },
+  CO: { name: 'Colombia', flag: '🇨🇴' },
+  CR: { name: 'Costa Rica', flag: '🇨🇷' },
+  CU: { name: 'Cuba', flag: '🇨🇺' },
+  DO: { name: 'República Dominicana', flag: '🇩🇴' },
+  EC: { name: 'Ecuador', flag: '🇪🇨' },
+  SV: { name: 'El Salvador', flag: '🇸🇻' },
+  GT: { name: 'Guatemala', flag: '🇬🇹' },
+  HN: { name: 'Honduras', flag: '🇭🇳' },
+  MX: { name: 'México', flag: '🇲🇽' },
+  NI: { name: 'Nicaragua', flag: '🇳🇮' },
+  PA: { name: 'Panamá', flag: '🇵🇦' },
+  PY: { name: 'Paraguay', flag: '🇵🇾' },
+  PE: { name: 'Perú', flag: '🇵🇪' },
+  PR: { name: 'Puerto Rico', flag: '🇵🇷' },
+  UY: { name: 'Uruguay', flag: '🇺🇾' },
+  VE: { name: 'Venezuela', flag: '🇻🇪' },
+  BZ: { name: 'Belice', flag: '🇧🇿' },
+  GY: { name: 'Guyana', flag: '🇬🇾' },
+  SR: { name: 'Surinam', flag: '🇸🇷' },
+  JM: { name: 'Jamaica', flag: '🇯🇲' },
+  TT: { name: 'Trinidad y Tobago', flag: '🇹🇹' },
+  BB: { name: 'Barbados', flag: '🇧🇧' },
+  BS: { name: 'Bahamas', flag: '🇧🇸' },
+  AG: { name: 'Antigua y Barbuda', flag: '🇦🇬' },
+  DM: { name: 'Dominica', flag: '🇩🇲' },
+  GD: { name: 'Granada', flag: '🇬🇩' },
+  KN: { name: 'San Cristóbal y Nieves', flag: '🇰🇳' },
+  LC: { name: 'Santa Lucía', flag: '🇱🇨' },
+  VC: { name: 'San Vicente y las Granadinas', flag: '🇻🇨' },
+  HT: { name: 'Haití', flag: '🇭🇹' },
+  AW: { name: 'Aruba', flag: '🇦🇼' },
+  CW: { name: 'Curazao', flag: '🇨🇼' },
+  SX: { name: 'Sint Maarten', flag: '🇸🇽' },
+  BQ: { name: 'Caribe Neerlandés', flag: '🇧🇶' },
+  GP: { name: 'Guadalupe', flag: '🇬🇵' },
+  MQ: { name: 'Martinica', flag: '🇲🇶' },
+  GF: { name: 'Guayana Francesa', flag: '🇬🇫' }
+};
 
-  // Obtener el ID del usuario ya sea por mención o por respuesta a un mensaje
-  let userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : null;
+let handler = async (m, { conn, usedPrefix }) => {
+  // Asegurarse de que haya un usuario mencionado o se responda a un mensaje
+  let userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender;
 
-  // Si no se menciona o responde a ningún usuario
-  if (!userId) {
-    return conn.reply(m.chat, `Etiqueta a un usuario o responde a su mensaje, por ejemplo: *${usedPrefix}data @usuario*`, m);
-  }
-
-  // Obtener la información del usuario
+  // Obtener los datos del usuario de la base de datos
   let user = global.db.data.users[userId];
-  let phoneNumber = new PhoneNumber('+' + userId.replace('@s.whatsapp.net', '')); // Obtener el número de teléfono
+
+  // Obtener el número de teléfono
+  let phoneNumber = new PhoneNumber('+' + userId.replace('@s.whatsapp.net', '')).getNumber('international');
+  let countryCode = new PhoneNumber(phoneNumber).getRegionCode(); // Obtener el código del país
+  let countryInfo = countryFlags[countryCode] || { name: 'Desconocido', flag: '🏳' }; // Obtener el país y la bandera
   let serialNumber = createHash('md5').update(userId).digest('hex'); // Número de serie basado en ID
-  let whatsappLink = `https://wa.me/${phoneNumber.getNumber('significant')}`; // Crear el enlace de WhatsApp
+  let whatsappLink = `https://wa.me/${phoneNumber.replace(/[^0-9]/g, '')}`; // Crear el enlace de WhatsApp
   let username = await conn.getName(userId); // Obtener el nombre de usuario
 
-  // Obtener el país y la bandera del número
-  let country = phoneNumber.getRegionCode(); // Código del país (ejemplo: US, MX, etc.)
-  let countryName = country ? phoneNumber.getRegionCode() : 'Desconocido'; // Nombre del país o "Desconocido"
-  let flag = getFlagEmoji(country); // Obtener la bandera como emoji
-
-  // Si el usuario no está registrado, asignar valores predeterminados
-  let limit = user ? user.limit || 0 : 'No tiene registro'; // Créditos del usuario o "No tiene registro"
+  // Si el usuario no está registrado en la base de datos, asignar valores predeterminados
+  let limit = user ? user.limit || 0 : 'No tiene registro'; // Obtener créditos del usuario o mostrar "No tiene registro"
   let registerDate = user ? new Date(user.registered || Date.now()).toLocaleDateString() : 'No tiene registro'; // Fecha de registro o "No tiene registro"
   let isActive = user ? (user.banned ? 'BANEADO [❌]' : 'LIBRE [✅]') : 'No tiene registro'; // Estado de actividad o "No tiene registro"
-
-  // Validar la edad: si es válida y positiva, mostrarla, si no, mostrar "Desconocido"
-  let age = user && user.age > 0 ? user.age : 'Desconocido';
+  let age = user && user.age > 0 ? user.age : 'Desconocido'; // Edad del usuario
 
   // Crear el mensaje de respuesta
   let profileInfo = `
@@ -44,7 +73,7 @@ let handler = async (m, { conn, usedPrefix, isAdmin, isGroupAdmin }) => {
 ❰👤❱ *NOMBRE* → ${user ? username : 'No tiene registro'}
 ❰📅❱ *EDAD* → ${user ? age + ' años' : 'No tiene registro'}
 ❰💬❱ *USUARIO* → @${userId.split('@')[0]}
-❰🌍❱ *PAÍS* → ${flag} ${countryName}
+❰🌏❱ *PAÍS* → ${countryInfo.flag} ${countryInfo.name}
 ❰💰❱ *CREDITOS* → ${limit}
 ❰🗓❱ *REGISTRO* → ${registerDate}
 ❰💯❱ *ESTADO* → ${isActive}
@@ -57,20 +86,8 @@ let handler = async (m, { conn, usedPrefix, isAdmin, isGroupAdmin }) => {
   });
 }
 
-// Función para obtener la bandera basada en el código del país
-function getFlagEmoji(countryCode) {
-  if (!countryCode) return '';
-  const codePoints = countryCode
-    .toUpperCase()
-    .split('')
-    .map(char => 127397 + char.charCodeAt());
-  return String.fromCodePoint(...codePoints);
-}
-
 handler.help = ['data @usuario'];
 handler.tags = ['info'];
 handler.command = /^data$/i; // El comando será '.data'
-handler.admin = true; // Solo para administradores
-handler.group = true; // Solo en grupos
 
 export default handler;
