@@ -1,57 +1,48 @@
-const handler = async (m, { conn, text, command, usedPrefix }) => {
-  // Comprobar si el bot fue mencionado
-  if (m.mentionedJid.includes(conn.user.jid)) return;
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+    let mentionedJid = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : null;
 
-  // Determinar quién se está advirtiendo
-  let who;
-  if (m.isGroup) {
-    who = m.mentionedJid[0] ?
-      m.mentionedJid[0] :
-      m.quoted ?
-      m.quoted.sender :
-      text;
-  } else who = m.chat;
+    if (!mentionedJid) {
+        return conn.reply(m.chat, `*[⚠️]* 𝙄𝙉𝙂𝙍𝙀𝙎𝙀 𝙀𝙇 𝙐𝙎𝙐𝘼𝙍𝙄𝙊 𝙐𝙎𝘼𝙉𝘿𝙊 *@usuario* 𝘿𝙀𝙎𝙋𝙐𝙀́𝙎 𝘿𝙀𝙇 𝘾𝙊𝙈𝘼𝙉𝘿𝙊
 
-  // Asegurarse de que el usuario existe en la base de datos
-  const user = global.db.data.users[who] || { warn: 0 }; // Inicializa el usuario si no existe
-  global.db.data.users[who] = user; // Asegúrate de que el usuario esté guardado en la base de datos
+𝙀𝙅𝙀𝙈𝙋𝙇𝙊: ${usedPrefix}${command} @usuario razón`, m);
+    }
 
-  // Inicializar la propiedad de advertencias si no existe
-  if (user.warn === undefined) {
-    user.warn = 0; // Establecer advertencias a 0 si no está definido
-  }
+    let reason = text.trim().split(' ').slice(1).join(' ');
+    if (!reason) {
+        return conn.reply(m.chat, `*[⚠️]* 𝙋𝙊𝙍𝙁𝙊𝙍𝙉𝙊 𝙎𝙋𝙀𝘾𝙄𝙁𝙄𝙌𝙐𝙀 𝙇𝘼 𝙍𝘼𝙕𝙊́𝙉 𝙏𝙊𝙊𝙋𝙎𝙀𝙊𝙍𝙉𝙄𝘿𝙊𝘿 𝙍𝙊𝙎𝙃𝘼𝘿𝙊 𝙎𝘼𝙋𝙋𝙊𝙍𝙃𝙐𝙉𝘼* 𝙃𝙀𝙋𝙊𝙉𝙊𝘼𝙕𝙄𝙊𝙍𝙉𝙊
 
-  // Mensaje de advertencia
-  const msgtext = text || 'No especificado';
-  const sdms = msgtext.replace(/@\d+-?\d* /g, '');
-  user.warn += 1; // Incrementar advertencias
+𝙀𝙅𝙀𝙈𝙋𝙇𝙊: ${usedPrefix}${command} @usuario razón`, m);
+    }
 
-  await m.reply(
-    `*@${who.split`@`[0]}* 𝚁𝙴𝙲𝙸𝙱𝙸𝙾 𝚄𝙽𝙰 𝙰𝙳𝚅𝙴𝚁𝚃𝙴𝙽𝙲𝙸𝙰 𝙴𝙽 𝙴𝚂𝚃𝙴 𝙶𝚁𝚄𝙿𝙾!\nMotivo: ${sdms}\n*ADVERTENCIAS: ${user.warn}/3*`,
-    null,
-    { mentions: [who] }
-  );
-
-  // Si el usuario llega a 3 advertencias
-  if (user.warn >= 3) {
-    await m.reply(
-      `*@${
-        who.split`@`[0]
-      }* 𝚂𝙴 𝙻𝙴 𝙰𝙳𝚅𝙴𝚁𝚃𝙸𝙳𝙾 𝚅𝙰𝚁𝙸𝙰𝚂 𝚅𝙴𝙲𝙴𝚂! 𝚂𝙴 𝙻𝙴 𝙴𝙻𝙸𝙼𝙸𝙽𝙰𝙳𝙾 𝙳𝙴𝙻 𝙶𝚁𝚄𝙿𝙾.`,
-      null,
-      { mentions: [who] }
-    );
+    // Agregar la advertencia al registro del usuario
+    if (!global.db.data.users[mentionedJid].warnings) {
+        global.db.data.users[mentionedJid].warnings = [];
+    }
     
-    // Eliminar al usuario del grupo
-    await conn.groupParticipantsUpdate(m.chat, [who], 'remove');
-    
-    user.warn = 0; // Reiniciar advertencias
-  }
-};
+    global.db.data.users[mentionedJid].warnings.push(reason);
+    const totalWarnings = global.db.data.users[mentionedJid].warnings.length;
 
-handler.command = /^(advertir|advertencia|warn|warning)$/i; // Los nombres de los comandos
-handler.admin = true; // Solo administradores
-handler.group = true; // Solo en grupos
-handler.botAdmin = true; // El bot debe ser administrador
+    conn.reply(m.chat, `𝙀𝙑𝙀𝙉𝙀𝙍𝙊𝙉𝙕𝙐𝙍𝙎𝙊𝙍 𝙍𝙀𝙒𝘼𝙍𝘿𝙊𝙊 𝙐𝙎𝙊𝙍𝙀𝙈𝘼𝙏𝙊𝙍𝙈𝙀𝙉𝙏𝙊: @${mentionedJid.split('@')[0]}
+
+*Razón:* ${reason}
+
+*Total de advertencias:* ${totalWarnings}`, m);
+
+    // Si el usuario tiene 3 advertencias, se elimina del grupo
+    if (totalWarnings === 3) {
+        // Intentar eliminar al usuario del grupo
+        try {
+            await conn.groupRemove(m.chat, [mentionedJid]);
+            conn.reply(m.chat, `*[🚫]* El usuario @${mentionedJid.split('@')[0]} ha sido eliminado del grupo por alcanzar 3 advertencias.`, m);
+        } catch (err) {
+            conn.reply(m.chat, `*[⚠️]* No se pudo eliminar al usuario @${mentionedJid.split('@')[0]}. Asegúrate de que el bot tenga permisos adecuados.`, m);
+        }
+    }
+}
+
+handler.help = ['warn @usuario razón'];
+handler.tags = ['owner'];
+handler.command = /^warn$/i;
+handler.rowner = true; // Solo puede ser usado por el owner del bot
 
 export default handler;
