@@ -84,21 +84,22 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
         user.registered = true;
 
         // Generar número de serie
-        let sn = createHash('md5').update(m.sender).digest('hex');
-        let video = await (await fetch(`https://qu.ax/PtaPv.mp4`)).buffer(); // Cambia por la URL de tu video
+        // Generar número de serie
+let sn = createHash('md5').update(m.sender).digest('hex');
+let image = await (await fetch(`https://qu.ax/YzpzT.jpg`)).buffer(); // Cambia por la URL de tu imagen
 
-        // Mensaje de regi stro
-        let txt = ` –  *R E G I S T R O  -  E X I T O S O*\n\n`;
-        txt += `┌  ✩  *Nombre* : ${name}\n`;
-        txt += `│  ✩  *Edad* : ${age} años\n`;
-        txt += `│  ✩  *País* : ${countryInfo.name} ${countryInfo.emoji}\n`;
-        txt += `│  ✩  *Número de serie*\n`;
-        txt += `└  ✩  ${sn}\n\n`;
-        txt += `✨ ¡Usted está registrado en mi base de datos! ✨`;
+// Mensaje de registro
+let txt = ` –  *R E G I S T R O  -  E X I T O S O*\n\n`;
+txt += `┌  ✩  *Nombre* : ${name}\n`;
+txt += `│  ✩  *Edad* : ${age} años\n`;
+txt += `│  ✩  *País* : ${countryInfo.name} ${countryInfo.emoji}\n`;
+txt += `│  ✩  *Número de serie*\n`;
+txt += `└  ✩  ${sn}\n\n`;
+txt += `✨ ¡Usted está registrado en mi base de datos! ✨`;
 
-        // Enviar el video junto con el texto
-        await conn.sendMessage(m.chat, { video: video, caption: txt });
-        await m.react('✅');
+// Enviar la imagen junto con el texto
+await conn.sendMessage(m.chat, { image: image, caption: txt });
+await m.react('✅');
     }
 
     // Si se usa el comando de mostrar usuarios
