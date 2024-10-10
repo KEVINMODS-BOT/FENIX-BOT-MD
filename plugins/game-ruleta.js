@@ -9,9 +9,9 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
     let colour = colores[Math.floor(Math.random() * colores.length)];
     let user = global.db.data.users[m.sender];
 
-    if (isNaN(amount) || amount < 10) throw `Para jugar tienes que apostar 10 💎.`;
+    if (isNaN(amount) || amount < 10) throw `Para jugar tienes que apostar 10 fenixcoins.`;
     if (!colores.includes(color)) throw 'Debes escoger un color válido: rojo o negro';
-    if (user.limit < amount) throw `¡No tienes suficientes créditos para apostar! Tienes ${user.limit} pero necesitas al menos ${amount} 💎.`;
+    if (user.limit < amount) throw `¡No tienes suficientes *fenixcoins 🐦‍🔥* para apostar! Tienes ${user.limit} pero necesitas al menos ${amount} fenixcoins.`;
 
     // Obtener el multiplicador según el rango del usuario
     let multiplicador = 1;
@@ -49,13 +49,13 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
         result = `*[ 𝙿𝚁𝚄𝙴𝙱𝙰 𝚃𝚄 𝚂𝚄𝙴𝚁𝚃𝙴 ]*\n\n` +
                  `*𝙻𝙰 𝚁𝚄𝙻𝙴𝚃𝙰 𝙿𝙰𝚁𝙾 𝙴𝙽 𝙴𝙻 𝙲𝙾𝙻𝙾𝚁:* ${colour == 'rojo' ? '🔴' : '⚫'}${rangoMensaje}\n\n` +
                  `*𝚄𝚂𝚃𝙴𝙳 𝙶𝙰𝙽𝙾:* ${amountWithMultiplier} \n` +
-                 `*CREDITOS:* ${user.limit}`;
+                 `*fenixcoins 🐦‍🔥*: ${user.limit}`;
     } else {
         user.limit -= amount;
         result = `*[ 𝙿𝚁𝚄𝙴𝙱𝙰 𝚃𝚄 𝚂𝚄𝙴𝚁𝚃𝙴 ]*\n\n` +
                  `*𝙻𝙰 𝚁𝚄𝙻𝙴𝚃𝙰 𝙿𝙰𝚁𝙾 𝙴𝙽 𝙴𝙻 𝙲𝙾𝙻𝙾𝚁:* ${colour == 'rojo' ? '🔴' : '⚫'}\n\n` +
                  `*𝚄𝚂𝚃𝙴𝙳 𝙿𝙴𝚁𝙳𝙸𝙾:* ${amount} \n` +
-                 `*CREDITOS:* ${user.limit}`;
+                 `*fenixcoins 🐦‍🔥:* ${user.limit}`;
     }
 
     conn.sendMessage(m.chat, { image: { url: ruletaresultado }, caption: result }, { quoted: m });
