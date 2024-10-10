@@ -90,6 +90,9 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
 *Tipo :* document 
 *Descripción :* Des/Activa la *Descarga En Documentos* para el Usuario
 
+*Tipo :* antiviewonce
+*Descripción :* Des/Activar El *Ver una vez* de whatsapp
+
 *• Ejemplo:*
 *- ${usedPrefix + command}* welcome
 `.trim())
