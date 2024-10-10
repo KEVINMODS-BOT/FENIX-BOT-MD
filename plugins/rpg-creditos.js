@@ -6,16 +6,16 @@ let handler = async (m) => {
 
   // Formato del mensaje
   let text = `╭──────༺♡༻──────╮\n\n` +
-             `*TUS CREDITOS*\n\n` +
-             `➢ ${creditos} 💵 créditos\n\n` +
+             `*TUS FENIXCOINS 🐦‍🔥*\n\n` +
+             `➢ ${creditos} *FEIXCOINS🐦‍🔥*\n\n` +
              `╰──────༺♡༻──────╯`
 
   // Enviar el mensaje
   await conn.reply(m.chat, text, m)
 }
 
-handler.help = ['creditos']
+handler.help = ['fenixcoins']
 handler.tags = ['rpg']
-handler.command = ['creditos', 'credits']
+handler.command = ['coins', 'fenix']
 
 export default handler
