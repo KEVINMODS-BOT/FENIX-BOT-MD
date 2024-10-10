@@ -9,7 +9,6 @@ let handler = async (m, { conn }) => {
 
 ➢ *[👨🏻‍💻] CREADOR:* KEVINMODS
 ➢ *[💮] ESTADO:* ACTIVO 🟢
-➢ *[⏱️] TIEMPO:* ACTIVO* : %muptime
 ➢ *[🔐] MODO:* ${global.opts['self'] ? 'Privado' : 'Público'}
 
 
