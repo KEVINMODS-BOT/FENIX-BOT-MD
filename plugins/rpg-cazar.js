@@ -10,6 +10,9 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
             return;
         }
 
+        // Lista global de animales en venta (la que veremos en la tienda)
+        global.animalesEnVenta = global.animalesEnVenta || [];
+
         // Comando para cazar animales mitológicos
         if (command === 'magicaventur') {
             let animalesMitologicos = [
@@ -46,20 +49,14 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
 
         // Comando para mostrar los animales a la venta y los del usuario
         if (command === 'tienda') {
-            let animalesEnVenta = [
-                { nombre: "Dragón", precio: 500 },
-                { nombre: "Fénix", precio: 300 },
-                { nombre: "Grifo", precio: 400 }
-            ];
-
-            let ventaList = animalesEnVenta.map((animal, i) => `${i + 1}. ${animal.nombre} - ${animal.precio} créditos`).join('\n');
+            let ventaList = global.animalesEnVenta.map((animal, i) => `${i + 1}. ${animal.nombre} - ${animal.precio} créditos`).join('\n');
             let animalesUsuario = user.animalesMitologicos && user.animalesMitologicos.length > 0
                 ? user.animalesMitologicos.map((animal, i) => `${i + 1}. ${animal.nombre}`).join('\n')
                 : 'No tienes animales. Caza uno con `.magicaventur`.';
 
             let mensaje = `
 *ANIMALES A LA VENTA:*
-${ventaList}
+${ventaList.length > 0 ? ventaList : 'No hay animales a la venta en este momento.'}
 
 Usa \`.comprar[número]\` para comprar un animal.
 
@@ -76,25 +73,22 @@ Usa \`.vender[número]\` para vender uno de tus animales.
         if (command.startsWith('comprar') && command.length > 7) {
             let compraIndex = parseInt(command.slice(7)) - 1;
 
-            let animalesEnVenta = [
-                { nombre: "Dragón", precio: 500 },
-                { nombre: "Fénix", precio: 300 },
-                { nombre: "Grifo", precio: 400 }
-            ];
-
-            if (compraIndex < 0 || compraIndex >= animalesEnVenta.length) {
+            if (compraIndex < 0 || compraIndex >= global.animalesEnVenta.length) {
                 conn.reply(m.chat, 'Elige un animal válido para comprar.', m);
                 return;
             }
 
-            let animalComprado = animalesEnVenta[compraIndex];
+            let animalComprado = global.animalesEnVenta[compraIndex];
+
+            // Verificar si el usuario tiene suficientes créditos para comprar el animal
             if (user.limit < animalComprado.precio) {
                 conn.reply(m.chat, `No tienes suficientes créditos para comprar un ${animalComprado.nombre}. Necesitas ${animalComprado.precio} créditos.`, m);
                 return;
             }
 
             user.limit -= animalComprado.precio;
-            user.animalesMitologicos.push({ nombre: animalComprado.nombre, imagen: 'https://example.com/imagen_de_ejemplo.jpg' });
+            user.animalesMitologicos.push({ nombre: animalComprado.nombre, imagen: animalComprado.imagen });
+            global.animalesEnVenta.splice(compraIndex, 1); // Eliminar el animal de la lista de venta
 
             conn.reply(m.chat, `¡Has comprado un ${animalComprado.nombre} por ${animalComprado.precio} créditos!`, m);
         }
@@ -116,8 +110,10 @@ Usa \`.vender[número]\` para vender uno de tus animales.
             let precioVenta = obtenerPrecioAnimal(); // Precio aleatorio de venta
             let animalVendido = user.animalesMitologicos.splice(ventaIndex, 1)[0];
 
+            global.animalesEnVenta.push({ nombre: animalVendido.nombre, imagen: animalVendido.imagen, precio: precioVenta });
+
             user.limit += precioVenta;
-            conn.reply(m.chat, `¡Has vendido el ${animalVendido.nombre} por ${precioVenta} créditos!`, m);
+            conn.reply(m.chat, `¡Has vendido el ${animalVendido.nombre} por ${precioVenta} créditos! Ahora está disponible en la tienda.`, m);
         }
 
     } catch (e) {
