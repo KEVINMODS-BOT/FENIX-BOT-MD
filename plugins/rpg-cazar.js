@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 let handler = async (m, { conn, usedPrefix, command, args }) => {
     try {
         let user = global.db.data.users[m.sender];
@@ -59,7 +57,9 @@ ${animalesUsuario}
 Usa \`.vender[número]\` para vender uno de tus animales.
             `;
 
-            conn.reply(m.chat, mensaje, m);
+            // Imagen de la tienda (puedes usar cualquier URL de imagen)
+            let imagenTienda = 'https://qu.ax/rvElh.jpg'; // Cambia la URL a la imagen que prefieras
+            conn.sendFile(m.chat, imagenTienda, 'tienda.jpg', mensaje, m);
         }
 
         // Comando para comprar un animal de la tienda
