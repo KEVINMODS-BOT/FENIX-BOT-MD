@@ -11,7 +11,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     amount = parseInt(amount);
 
     if (isNaN(amount) || amount <= 0) {
-        return conn.reply(m.chat, `*[⚠️]* 𝙄𝙉𝙂𝙍𝙀𝙎𝙀 𝙇𝘼 𝘾𝘼𝙉𝙏𝙄𝘿𝘼𝘿 𝘿𝙀 𝘾𝙍𝙀́𝘿𝙄𝙏𝙊𝙎 𝘼 𝙏𝙍𝘼𝙉𝙎𝙁𝙀𝙍𝙄𝙍 *@${mentionedJid.split('@')[0]}*
+        return conn.reply(m.chat, `*[⚠️]* 𝙄𝙉𝙂𝙍𝙀𝙎𝙀 𝙇𝘼 𝘾𝘼𝙉𝙏𝙄𝘿𝘼𝘿 𝘿𝙀 FENIXCOINS 𝘼 𝙏𝙍𝘼𝙉𝙎𝙁𝙀𝙍𝙄𝙍 *@${mentionedJid.split('@')[0]}*
 
 𝙀𝙅𝙀𝙈𝙋𝙇𝙊: ${usedPrefix}${command} 10 @usuario`, m);
     }
@@ -24,7 +24,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     if (sender.limit < amount) {
-        return conn.reply(m.chat, `No tienes suficientes créditos para transferir. Tienes ${sender.limit} créditos.`, m);
+        return conn.reply(m.chat, `No tienes suficientes *FENIXCOINS* para transferir. Tienes ${sender.limit} *FENIXCOINS*.`, m);
     }
 
     // Transferir créditos
@@ -34,14 +34,14 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     conn.reply(m.chat, `✅ *Transferencia Exitosa*
 
 ┏╍╍╍╍╍╍╍╍╍╍╍╍╍
-┃• *transferidos:* ${amount} créditos
+┃• *transferidos:* ${amount} FENIXCOINS
 ┗╍╍╍╍╍╍╍╍╍╍╍╍╍
 
 ┏╍╍╍╍╍╍╍╍╍╍╍╍╍
-┃• *tu saldo ahora:* ${sender.limit} créditos
+┃• *tu saldo ahora:* ${sender.limit} FENIXCOINS
 ┗╍╍╍╍╍╍╍╍╍╍╍╍╍
 
-@${mentionedJid.split('@')[0]} ahora tiene ${receiver.limit} créditos.`, m, {
+@${mentionedJid.split('@')[0]} ahora tiene ${receiver.limit} FENIXCOINS.`, m, {
         mentions: [mentionedJid]
     });
 }
