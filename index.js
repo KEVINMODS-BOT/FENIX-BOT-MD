@@ -14,13 +14,13 @@ let require = createRequire(__dirname)
 let { say } = cfonts
 let rl = createInterface(process.stdin, process.stdout)
 
-say('Ai Hoshino', {
+say('𝑭𝑬𝑵𝑰𝑿-𝑩𝑶𝑻 𝑴𝑫🐦‍🔥', {
   font: 'chrome',
   align: 'center',
   gradient: ['red', 'magenta']
 })
 
-say(`By Starlights Team`, {
+say(`𝑭𝑬𝑵𝑰𝑿-𝑩𝑶𝑻 𝑴𝑫🐦‍🔥`, {
   font: 'console',
   align: 'center',
   gradient: ['red', 'magenta']
