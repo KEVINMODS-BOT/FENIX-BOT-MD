@@ -13,17 +13,7 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
                       `➢ *[👤] 𝚄𝚂𝚄𝙰𝚁𝙸𝙾:* @${m.sender.split('@')[0]}\n` +
                       `➢ *[💸] 𝙲𝚁𝙴́𝙳𝙸𝚃𝙾𝚂:* ${saldoBanco} créditos\n` +
                       `➢ *[🔰] 𝙳𝙴𝙿𝙾́𝚂𝙸𝚃𝙾𝚂:* ${depositos} veces\n` +
-                      `➢ *[👁‍🗨] 𝚁𝙴𝚃𝙸𝚁𝙾𝚂:* ${retiros} veces
-
-                      .prestamo  para pedir un prestamo 
-                      
-                      𝙿𝙰𝚁𝙰 𝙳𝙴𝙿𝙾𝚂𝙸𝚃𝙰𝚁 𝚃𝚄𝚂 𝙲𝚁𝙴́𝙳𝙸𝚃𝙾𝚂 𝙴𝙽 𝙴𝙻 𝙱𝙰𝙽𝙲𝙾 𝚄𝚂𝙰 𝙴𝙻 𝙲𝙾𝙼𝙰𝙽𝙳𝙾
-                      .depositar cantidad
-                      
-                      𝙿𝙰𝚁𝙰 𝚁𝙴𝚃𝙸𝚁𝙰𝚁 𝙻𝙾𝚂 𝙲𝚁𝙴́𝙳𝙸𝚃𝙾𝚂 𝙳𝙴𝙻 𝙱𝙰𝙽𝙲𝙾 𝚄𝚂𝙰 𝙴𝙻 𝙲𝙾𝙼𝙰𝙽𝙳𝙾 
-                      .retirar cantidad
-                      
-                      .top  para ver los mejores en créditos`;
+                      `➢ *[👁‍🗨] 𝚁𝙴𝚃𝙸𝚁𝙾𝚂:* ${retiros} veces`;
 
         // URL de la foto que quieres enviar
         let foto = 'https://qu.ax/LXzyv.jpg'; // Cambia esta URL a la foto deseada
