@@ -16,7 +16,7 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
                       `➢ *[👁‍🗨] 𝚁𝙴𝚃𝙸𝚁𝙾𝚂:* ${retiros} veces`;
 
         // URL de la foto que quieres enviar
-        let foto = 'https://qu.ax/LXzyv.jpg'; // Cambia esta URL a la foto deseada
+        let foto = 'https://qu.ax/RlCQE.jpg'; // Cambia esta URL a la foto deseada
 
         conn.sendFile(m.chat, foto, 'banco.jpg', mensaje, m);
     }
