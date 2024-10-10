@@ -54,7 +54,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
           throw false
         }
       }
-      chat.antiviewonce = isEnable
+      chat.antiver = isEnable
       break
 
     case 'nsfw':
