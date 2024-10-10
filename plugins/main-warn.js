@@ -1,7 +1,7 @@
-let handler = async (m, { conn, text, usedPrefix }) => {
+let handler = async (m, { conn, text }) => {
     // Comando para advertir a un usuario
     if (m.command === 'warn') {
-        let warningMessage = `🟡 Menciona al usuario que deseas advertir.`; 
+        let warningMessage = `🟡 Menciona al usuario que deseas advertir o responde a su mensaje.`; 
 
         // Verifica si hay un usuario mencionado o un mensaje citado
         let mentionedJid = m.mentionedJid[0] ? m.mentionedJid[0] : (m.quoted ? m.quoted.sender : null);
@@ -40,7 +40,7 @@ let handler = async (m, { conn, text, usedPrefix }) => {
 
     // Comando para eliminar todas las advertencias de un usuario
     } else if (m.command === 'unwarn') {
-        let unwarnMessage = `🟡 Menciona al usuario del que deseas eliminar las advertencias.`;
+        let unwarnMessage = `🟡 Menciona al usuario del que deseas eliminar las advertencias o responde a su mensaje.`;
 
         // Verifica si hay un usuario mencionado o un mensaje citado
         let mentionedJid = m.mentionedJid[0] ? m.mentionedJid[0] : (m.quoted ? m.quoted.sender : null);
@@ -50,7 +50,7 @@ let handler = async (m, { conn, text, usedPrefix }) => {
         }
 
         // Verifica si el usuario tiene advertencias
-        if (!global.db.data.users[mentionedJid] || !global.db.data.users[mentionedJid].warnings.length) {
+        if (!global.db.data.users[mentionedJid] || !global.db.data.users[mentionedJid].warnings || global.db.data.users[mentionedJid].warnings.length === 0) {
             return conn.reply(m.chat, `*El usuario @${mentionedJid.split('@')[0]} no tiene advertencias para eliminar.*`, m, {
                 mentions: [mentionedJid]
             });
@@ -64,6 +64,7 @@ let handler = async (m, { conn, text, usedPrefix }) => {
     }
 }
 
+// Comandos disponibles para el handler
 handler.help = ['warn *@user*', 'unwarn *@user*'];
 handler.tags = ['group'];
 handler.command = ['warn', 'unwarn'];
