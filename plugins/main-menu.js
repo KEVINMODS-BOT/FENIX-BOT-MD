@@ -59,7 +59,7 @@ let handler = async (m, { conn }) => {
 ➥ roba créditos a otros usuarios 
 
 🪙➢ .robar @user
-➥ roba los créditos de otros usuarios / no se puede robar si esta en el banco
+➥ roba los créditos de otros usuarios
 
 🪙➢ .depositar cantidad 
 ➥ deposita el dinero al Banco y guardalos 
