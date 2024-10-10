@@ -283,7 +283,7 @@ let handler = async (m, { conn }) => {
 ➥ haz encuestas en el grupo 
 
 🔒➢ .promote @user 
-➥ asciende a admin a un usuario 
+➥ asciende a un usuario a admin
 
 🔒➢ .demote @user
 ➥ deciende a un admin
