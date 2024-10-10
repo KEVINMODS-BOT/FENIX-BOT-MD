@@ -1,4 +1,3 @@
-
 let handler = async (m, { conn }) => {
     // Verifica si el usuario tiene un tiempo de espera activo
     let user = global.db.data.users[m.sender];
@@ -11,21 +10,21 @@ let handler = async (m, { conn }) => {
         return conn.reply(m.chat, `Debes esperar ${minutosRestantes} minutos y ${segundosRestantes} segundos antes de cazar de nuevo.`, m);
     }
 
-    // Lista de animales con sus emojis, créditos y probabilidades
+    // Lista de animales con sus emojis, fenixcoins y probabilidades
     const animales = [
-        { emoji: '🦊', nombre: 'Zorro', creditos: 2, probabilidad: 10 },
-        { emoji: '🐗', nombre: 'Jabalí', creditos: 3, probabilidad: 5 },
-        { emoji: '🐷', nombre: 'Cerdo', creditos: 1, probabilidad: 20 },
-        { emoji: '🐔', nombre: 'Pollo', creditos: 1, probabilidad: 20 },
-        { emoji: '🦆', nombre: 'Pato', creditos: 1, probabilidad: 20 },
-        { emoji: '🐦', nombre: 'Pájaro', creditos: 1, probabilidad: 20 },
-        { emoji: '🐵', nombre: 'Mono', creditos: 2, probabilidad: 10 },
-        { emoji: '🐘', nombre: 'Elefante', creditos: 5, probabilidad: 3 },
-        { emoji: '🐮', nombre: 'Vaca', creditos: 2, probabilidad: 10 },
-        { emoji: '🐯', nombre: 'Tigre', creditos: 4, probabilidad: 4 },
-        { emoji: '🐭', nombre: 'Ratón', creditos: 1, probabilidad: 20 },
-        { emoji: '🐴', nombre: 'Caballo', creditos: 3, probabilidad: 5 },
-        { emoji: '🐧', nombre: 'Pingüino', creditos: 3, probabilidad: 5 }
+        { emoji: '🦊', nombre: 'Zorro', fenixcoins: 2, probabilidad: 10 },
+        { emoji: '🐗', nombre: 'Jabalí', fenixcoins: 3, probabilidad: 5 },
+        { emoji: '🐷', nombre: 'Cerdo', fenixcoins: 1, probabilidad: 20 },
+        { emoji: '🐔', nombre: 'Pollo', fenixcoins: 1, probabilidad: 20 },
+        { emoji: '🦆', nombre: 'Pato', fenixcoins: 1, probabilidad: 20 },
+        { emoji: '🐦', nombre: 'Pájaro', fenixcoins: 1, probabilidad: 20 },
+        { emoji: '🐵', nombre: 'Mono', fenixcoins: 2, probabilidad: 10 },
+        { emoji: '🐘', nombre: 'Elefante', fenixcoins: 5, probabilidad: 3 },
+        { emoji: '🐮', nombre: 'Vaca', fenixcoins: 2, probabilidad: 10 },
+        { emoji: '🐯', nombre: 'Tigre', fenixcoins: 4, probabilidad: 4 },
+        { emoji: '🐭', nombre: 'Ratón', fenixcoins: 1, probabilidad: 20 },
+        { emoji: '🐴', nombre: 'Caballo', fenixcoins: 3, probabilidad: 5 },
+        { emoji: '🐧', nombre: 'Pingüino', fenixcoins: 3, probabilidad: 5 }
     ];
 
     // Función para seleccionar animales aleatoriamente según la probabilidad
@@ -46,8 +45,8 @@ let handler = async (m, { conn }) => {
         capturados.push(seleccionarAnimal());
     }
 
-    // Suma de los créditos capturados
-    let totalCreditos = capturados.reduce((total, animal) => total + animal.creditos, 0);
+    // Suma de los fenixcoins capturados
+    let totalFenixcoins = capturados.reduce((total, animal) => total + animal.fenixcoins, 0);
 
     // Obtener el multiplicador según el rango del usuario
     let multiplicador = 1;
@@ -78,15 +77,15 @@ let handler = async (m, { conn }) => {
         rangoMensaje = `\n\n𝚃𝙸𝙴𝙽𝙴 𝚄𝙽 𝚁𝙰𝙽𝙶𝙾: ${user.rango.charAt(0).toUpperCase() + user.rango.slice(1)}`;
     }
 
-    // Aplicar el multiplicador de créditos
-    let creditosMultiplicados = totalCreditos * multiplicador;
+    // Aplicar el multiplicador de fenixcoins
+    let fenixcoinsMultiplicados = totalFenixcoins * multiplicador;
 
     // Crear el mensaje de captura
     let mensajeCaptura = `Cazaste:\n\n${capturados.map(a => `${a.emoji}`).join(' + ')}\n\n`;
-    mensajeCaptura += capturados.map(a => `${a.nombre} ${a.emoji} ${a.creditos} crédito${a.creditos > 1 ? 's' : ''}`).join('\n') + rangoMensaje + `\n\n¡Has ganado ${creditosMultiplicados} crédito${creditosMultiplicados > 1 ? 's' : ''}!`;
+    mensajeCaptura += capturados.map(a => `${a.nombre} ${a.emoji} ${a.fenixcoins} fenixcoin${a.fenixcoins > 1 ? 's' : ''}`).join('\n') + rangoMensaje + `\n\n¡Has ganado ${fenixcoinsMultiplicados} fenixcoin${fenixcoinsMultiplicados > 1 ? 's' : ''}!`;
 
-    // Sumar los créditos al usuario
-    user.limit += creditosMultiplicados;
+    // Sumar los fenixcoins al usuario
+    user.limit += fenixcoinsMultiplicados;
 
     // Actualizar el tiempo de la última caza
     user.lastCaza = tiempoActual;
