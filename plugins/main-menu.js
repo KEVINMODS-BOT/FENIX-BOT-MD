@@ -91,7 +91,7 @@ let handler = async (m, { conn }) => {
 ➥ vende la waifu que tienes
 
 💎➢ .pokemon pikachu
-➥ para ver el pokemon y sus estadísticas
+➥ para ver el pokemon y sus estats
 
 💎➢ .comprarpokemon pikachu
 ➥ compra el pokemon
@@ -116,7 +116,7 @@ let handler = async (m, { conn }) => {
 ➥ busca imágenes de pinterest
 
 🔍➢ .fenixgpt cuanto es 1+1
-➥ busca información rápido con fenixgpt 🐦‍🔥
+➥ información rápido con fenixgpt 🐦‍🔥
 
 🔎➢ .google búsqueda
 ➥ busca cosas de google 
@@ -125,7 +125,7 @@ let handler = async (m, { conn }) => {
 ➥ busca imagen de lo que busques
 
 🔎➢ .tiktok link 
-➥ descarga un vídeo de tiktok sin marca de agua 
+➥ Videos sin marca de agua
 
 🔍➢ .tiktoksearch nombre 
 ➥ ve videos de tiktok en carrusel
