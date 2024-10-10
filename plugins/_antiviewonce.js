@@ -1,34 +1,24 @@
-let handler = async (m, { conn }) => {
-    // Verifica si el mensaje es de tipo 'viewOnceMessage' (Ver una vez)
-    if (m.message && m.message.viewOnceMessage) {
-        let viewOnceMessage = m.message.viewOnceMessage;
+export async function before(m, { conn, isAdmin, isBotAdmin }) {
+    if (m.isBaileys && m.fromMe) return !0;
+    if (!m.isGroup) return !1;
 
-        // Extrae el contenido del mensaje original
+    let chat = global.db.data.chats[m.chat];
+    if (chat.antiviewonce && m.message && m.message.viewOnceMessage) {
+        let viewOnceMessage = m.message.viewOnceMessage;
         let mediaMessage = viewOnceMessage.message.imageMessage || viewOnceMessage.message.videoMessage;
 
-        // Si el mensaje es una imagen o un video
         if (mediaMessage) {
             let mediaType = mediaMessage.mimetype.startsWith('image') ? 'imagen' : 'video';
-
-            // Descarga el contenido del mensaje (media)
             let buffer = await conn.downloadMediaMessage(mediaMessage);
 
-            // Enviar el contenido al chat como un mensaje normal, para que se pueda ver más de una vez
             await conn.sendMessage(m.chat, {
                 [mediaMessage.mimetype.startsWith('image') ? 'image' : 'video']: buffer,
-                caption: `*Este es un mensaje de ${mediaType} que estaba en modo "Ver una vez". Ahora puedes verlo cuantas veces quieras.*`
+                caption: `*Este ${mediaType} estaba en modo "Ver una vez", pero ahora puedes verlo cuantas veces quieras.*`
             });
 
-            // Confirmar que el mensaje ha sido interceptado
-            conn.reply(m.chat, `*El ${mediaType} de "Ver una vez" ha sido interceptado y convertido a un mensaje normal.*`, m);
+            await conn.reply(m.chat, `*El ${mediaType} de "Ver una vez" ha sido interceptado y convertido en un mensaje normal.*`, m);
         }
-    } else {
-        conn.reply(m.chat, 'Este mensaje no es un contenido de "Ver una vez".', m);
     }
-};
 
-handler.help = ['antiviewonce'];
-handler.tags = ['tools'];
-handler.command = /^antiviewonce$/i;
-
-export default handler;
+    return !0;
+}
