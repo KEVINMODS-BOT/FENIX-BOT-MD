@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-let handler = async (m, { conn, usedPrefix, command, args, text }) => {
+let handler = async (m, { conn, usedPrefix, command, args }) => {
     try {
         let user = global.db.data.users[m.sender];
 
@@ -37,63 +37,86 @@ let handler = async (m, { conn, usedPrefix, command, args, text }) => {
 
             // Selección aleatoria de un animal mitológico
             let animal = animalesMitologicos[Math.floor(Math.random() * animalesMitologicos.length)];
-            
+
             user.animalesMitologicos = user.animalesMitologicos || [];
             user.animalesMitologicos.push(animal);
 
             conn.sendFile(m.chat, animal.imagen, 'animal.jpg', `¡Has cazado un ${animal.nombre}!`, m);
         }
 
-        // Comando para mostrar las sesiones disponibles (la tienda)
+        // Comando para mostrar los animales a la venta y los del usuario
         if (command === 'tienda') {
-            let mensaje = `
-Elige una sesión para ver los ítems que puedes vender:
-1. Animales Mitológicos
-2. Otra Sesión (a implementar)
+            let animalesEnVenta = [
+                { nombre: "Dragón", precio: 500 },
+                { nombre: "Fénix", precio: 300 },
+                { nombre: "Grifo", precio: 400 }
+            ];
 
-Responde con solo el número de la sesión (ejemplo: 1).
+            let ventaList = animalesEnVenta.map((animal, i) => `${i + 1}. ${animal.nombre} - ${animal.precio} créditos`).join('\n');
+            let animalesUsuario = user.animalesMitologicos && user.animalesMitologicos.length > 0
+                ? user.animalesMitologicos.map((animal, i) => `${i + 1}. ${animal.nombre}`).join('\n')
+                : 'No tienes animales. Caza uno con `.magicaventur`.';
+
+            let mensaje = `
+*ANIMALES A LA VENTA:*
+${ventaList}
+
+Usa \`.comprar[número]\` para comprar un animal.
+
+*TUS ANIMALES:*
+${animalesUsuario}
+
+Usa \`.vender[número]\` para vender uno de tus animales.
             `;
+
             conn.reply(m.chat, mensaje, m);
         }
 
-        // Ver ítems dentro de la sesión elegida (respondiendo con un número)
-        if (/^\d+$/.test(text)) {
-            let sesion = text;
+        // Comando para comprar un animal de la tienda
+        if (command.startsWith('comprar') && command.length > 7) {
+            let compraIndex = parseInt(command.slice(7)) - 1;
 
-            if (sesion === '1') {  // Sesión 1: Animales Mitológicos
-                if (!user.animalesMitologicos || user.animalesMitologicos.length === 0) {
-                    conn.reply(m.chat, 'No tienes animales mitológicos para vender.', m);
-                    return;
-                }
+            let animalesEnVenta = [
+                { nombre: "Dragón", precio: 500 },
+                { nombre: "Fénix", precio: 300 },
+                { nombre: "Grifo", precio: 400 }
+            ];
 
-                let animalList = user.animalesMitologicos.map((animal, i) => `${i + 1}. ${animal.nombre}`).join('\n');
-                conn.reply(m.chat, `Estos son tus animales mitológicos atrapados:\n\n${animalList}\n\nUsa \`.vender[número]\` para vender un animal.`, m);
-            } else if (sesion === '2') {
-                conn.reply(m.chat, 'La sesión 2 aún no está disponible.', m);
-            } else {
-                conn.reply(m.chat, 'Debes especificar una sesión válida. Ejemplo: responde con "1" para la sesión de Animales Mitológicos.', m);
-            }
-        }
-
-        // Comando para vender un ítem específico con formato vender[número]
-        if (command.startsWith('vender') && command.length > 6) {
-            let animalIndex = parseInt(command.slice(6)) - 1;
-
-            if (!user.animalesMitologicos || user.animalesMitologicos.length === 0) {
-                conn.reply(m.chat, 'No tienes animales mitológicos para vender.', m);
+            if (compraIndex < 0 || compraIndex >= animalesEnVenta.length) {
+                conn.reply(m.chat, 'Elige un animal válido para comprar.', m);
                 return;
             }
 
-            if (animalIndex < 0 || animalIndex >= user.animalesMitologicos.length) {
+            let animalComprado = animalesEnVenta[compraIndex];
+            if (user.limit < animalComprado.precio) {
+                conn.reply(m.chat, `No tienes suficientes créditos para comprar un ${animalComprado.nombre}. Necesitas ${animalComprado.precio} créditos.`, m);
+                return;
+            }
+
+            user.limit -= animalComprado.precio;
+            user.animalesMitologicos.push({ nombre: animalComprado.nombre, imagen: 'https://example.com/imagen_de_ejemplo.jpg' });
+
+            conn.reply(m.chat, `¡Has comprado un ${animalComprado.nombre} por ${animalComprado.precio} créditos!`, m);
+        }
+
+        // Comando para vender un animal del usuario
+        if (command.startsWith('vender') && command.length > 6) {
+            let ventaIndex = parseInt(command.slice(6)) - 1;
+
+            if (!user.animalesMitologicos || user.animalesMitologicos.length === 0) {
+                conn.reply(m.chat, 'No tienes animales para vender.', m);
+                return;
+            }
+
+            if (ventaIndex < 0 || ventaIndex >= user.animalesMitologicos.length) {
                 conn.reply(m.chat, 'Elige un animal válido para vender.', m);
                 return;
             }
 
             let precioVenta = obtenerPrecioAnimal(); // Precio aleatorio de venta
+            let animalVendido = user.animalesMitologicos.splice(ventaIndex, 1)[0];
 
             user.limit += precioVenta;
-            let animalVendido = user.animalesMitologicos.splice(animalIndex, 1)[0];
-
             conn.reply(m.chat, `¡Has vendido el ${animalVendido.nombre} por ${precioVenta} créditos!`, m);
         }
 
@@ -105,13 +128,13 @@ Responde con solo el número de la sesión (ejemplo: 1).
 
 // Función para obtener un precio aleatorio para vender los animales mitológicos
 function obtenerPrecioAnimal() {
-    const precios = [50, 100, 150, 200];
+    const precios = [150, 200, 250, 300];
     return precios[Math.floor(Math.random() * precios.length)];
 }
 
-handler.help = ['magicaventur', 'tienda', 'vender[número]'];
+handler.help = ['magicaventur', 'tienda', 'comprar[número]', 'vender[número]'];
 handler.tags = ['adventure', 'econ'];
-handler.command = /^(magicaventur|tienda|vender\d+)$/i;
+handler.command = /^(magicaventur|tienda|comprar\d+|vender\d+)$/i;
 handler.register = true;
 
 export default handler;
