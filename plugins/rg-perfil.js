@@ -58,7 +58,7 @@ let handler = async (m, { conn, usedPrefix }) => {
         return;
     }
 
-    let pp = 'https://qu.ax/KFrad.jpg';
+    let pp = 'https://qu.ax/fyCYR.jpg';
     try {
         pp = await conn.getProfilePicture(who);
     } catch (e) {
@@ -102,7 +102,7 @@ let handler = async (m, { conn, usedPrefix }) => {
     // Definir estado basado en si el usuario está baneado o no
     let estado = banned ? 'BANEADO [❌]' : 'LIBRE [✅]';
 
-    let str = `*[𝘽𝙄𝙇𝙇 - 𝘽𝙊𝙏]*
+    let str = `*[𝑭𝑬𝑵𝑰𝑿-𝑩𝑶𝑻 𝑴𝑫🐦‍🔥]*
     
 *PERFIL DE* @${who.split('@')[0]}
 
@@ -117,9 +117,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 *[🔱] RANGO →* ${rank}
 *[🔒] ESTADO →* ${estado}
 
-*[🔢] NÚMERO DE SERIE:* ${sn}
-
-.topcreditos para ver los mejores en créditos`;
+*[🔢] NÚMERO DE SERIE:* ${sn}`;
 
     conn.sendFile(m.chat, pp, 'pp.jpg', str, fkontak, false, { contextInfo: { mentionedJid }});
 };
