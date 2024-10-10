@@ -81,7 +81,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 ❰📅❱ *EDAD* → ${user ? age + ' años' : 'No tiene registro'}
 ❰💬❱ *USUARIO* → @${userId.split('@')[0]}
 ❰🌏❱ *PAÍS* → ${countryInfo.flag} ${countryInfo.name}
-❰💰❱ *CRÉDITOS* → ${limit}
+❰🐦‍🔥❱ *FENIXCOINS* → ${limit}
 ❰🗓❱ *REGISTRO* → ${registerDate}
 ❰⚠️❱ *ADVERTENCIAS* → ${warnings}/3
 ❰💯❱ *ESTADO* → ${isActive}
