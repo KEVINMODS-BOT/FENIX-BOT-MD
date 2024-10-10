@@ -111,8 +111,8 @@ let handler = async (m, { conn, usedPrefix }) => {
 *[🔗] ID →* ${phoneNumber.getNumber('international')}
 *[💬] NICKNAME →* ${username}
 *[🌍] NACIONALIDAD →* ${country}
-*[💸] CRÉDITOS →* ${limit}
-*[💵] CRÉDITOS EN EL BANCO →* ${user.banco || 0}
+*[💸] FENIXCOINS 🐦‍🔥 →* ${limit}
+*[💵] FENIXCOINS EN EL BANCO →* ${user.banco || 0}
 *[🔱] TOP →* ${topPosition} de ${sortedUsers.length}
 *[🔱] RANGO →* ${rank}
 *[🔒] ESTADO →* ${estado}
