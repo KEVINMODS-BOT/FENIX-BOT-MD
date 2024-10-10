@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-let handler = async (m, { conn, usedPrefix, command, args }) => {
+let handler = async (m, { conn, usedPrefix, command, args, text }) => {
     try {
         let user = global.db.data.users[m.sender];
 
@@ -49,16 +49,16 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
             let mensaje = `
 Elige una sesión para ver los ítems que puedes vender:
 1. Animales Mitológicos
-2. Otra Sesión ()
+2. Otra Sesión (a implementar)
 
-Responde a este mensaje con el número de la sesión (ejemplo: .tienda 1).
+Responde con solo el número de la sesión (ejemplo: 1).
             `;
             conn.reply(m.chat, mensaje, m);
         }
 
-        // Ver ítems dentro de la sesión elegida
-        if (args[0]) {
-            let sesion = args[0];
+        // Ver ítems dentro de la sesión elegida (respondiendo con un número)
+        if (/^\d+$/.test(text)) {
+            let sesion = text;
 
             if (sesion === '1') {  // Sesión 1: Animales Mitológicos
                 if (!user.animalesMitologicos || user.animalesMitologicos.length === 0) {
@@ -67,17 +67,17 @@ Responde a este mensaje con el número de la sesión (ejemplo: .tienda 1).
                 }
 
                 let animalList = user.animalesMitologicos.map((animal, i) => `${i + 1}. ${animal.nombre}`).join('\n');
-                conn.reply(m.chat, `Estos son tus animales mitológicos atrapados:\n\n${animalList}\n\nUsa \`.vender [número]\` para vender un animal.`, m);
+                conn.reply(m.chat, `Estos son tus animales mitológicos atrapados:\n\n${animalList}\n\nUsa \`.vender[número]\` para vender un animal.`, m);
             } else if (sesion === '2') {
                 conn.reply(m.chat, 'La sesión 2 aún no está disponible.', m);
             } else {
-                conn.reply(m.chat, 'Debes especificar una sesión válida. Ejemplo: .tienda 1', m);
+                conn.reply(m.chat, 'Debes especificar una sesión válida. Ejemplo: responde con "1" para la sesión de Animales Mitológicos.', m);
             }
         }
 
-        // Comando para vender un ítem específico
-        if (command === 'vender' && args[0]) {
-            let animalIndex = parseInt(args[0]) - 1;
+        // Comando para vender un ítem específico con formato vender[número]
+        if (command.startsWith('vender') && command.length > 6) {
+            let animalIndex = parseInt(command.slice(6)) - 1;
 
             if (!user.animalesMitologicos || user.animalesMitologicos.length === 0) {
                 conn.reply(m.chat, 'No tienes animales mitológicos para vender.', m);
@@ -109,9 +109,9 @@ function obtenerPrecioAnimal() {
     return precios[Math.floor(Math.random() * precios.length)];
 }
 
-handler.help = ['magicaventur', 'tienda', 'vender [número]'];
+handler.help = ['magicaventur', 'tienda', 'vender[número]'];
 handler.tags = ['adventure', 'econ'];
-handler.command = /^(magicaventur|tienda|vender)$/i;
+handler.command = /^(magicaventur|tienda|vender\d+)$/i;
 handler.register = true;
 
 export default handler;
