@@ -1,25 +1,30 @@
-let handler = async (m, { conn, text, usedPrefix }) => {
+let handler = async (m, { conn, text }) => {
     // Mensaje inicial si no se menciona a un usuario
     let warningMessage = `🟡 Menciona al usuario que deseas advertir.`; 
 
     // Verifica si hay un usuario mencionado o un mensaje citado
-    let mentionedJid = m.mentionedJid[0] ? m.mentionedJid[0] : (m.quoted ? m.quoted.sender : null);
+    let mentionedJid = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : (m.quoted ? m.quoted.sender : null);
     
     if (!mentionedJid) {
         return conn.reply(m.chat, warningMessage, m);
     }
 
-    // Asegúrate de que el usuario tenga un registro de advertencias
+    // Asegúrate de que el usuario tenga un registro de advertencias y esté inicializado
     if (!global.db.data.users[mentionedJid]) {
         global.db.data.users[mentionedJid] = { warnings: [] };
+    }
+
+    // Si la propiedad warnings no existe, inicialízala como un array vacío
+    if (!global.db.data.users[mentionedJid].warnings) {
+        global.db.data.users[mentionedJid].warnings = [];
     }
 
     // Añade una advertencia al registro del usuario
     global.db.data.users[mentionedJid].warnings.push('Advertencia');
     const totalWarnings = global.db.data.users[mentionedJid].warnings.length;
 
-    // Mensaje de advertencia
-    conn.reply(m.chat, `*El usuario @${mentionedJid.split('@')[0]} ha recibido una advertencia.*\n*Advertencias ${totalWarnings}/3*`, m, {
+    // Mensaje de advertencia con contador de advertencias
+    conn.reply(m.chat, `*El usuario @${mentionedJid.split('@')[0]} ha recibido una advertencia.*\n\n*Advertencias ${totalWarnings}/3*`, m, {
         mentions: [mentionedJid]
     });
 
