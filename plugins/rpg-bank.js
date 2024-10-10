@@ -11,7 +11,7 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
 
         let mensaje = `*【 𝙱𝙰𝙽𝙲𝙾】*\n\n` +
                       `➢ *[👤] 𝚄𝚂𝚄𝙰𝚁𝙸𝙾:* @${m.sender.split('@')[0]}\n` +
-                      `➢ *[🐦‍🔥] FENIXCOINS* ${saldoBanco} créditos\n` +
+                      `➢ *[🐦‍🔥] FENIXCOINS* ${saldoBanco} \n` +
                       `➢ *[🔰] DEPOSITOS::* ${depositos} veces\n` +
                       `➢ *[👁‍🗨] RETIROS:* ${retiros} veces`;
 
