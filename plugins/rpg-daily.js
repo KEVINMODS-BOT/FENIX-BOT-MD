@@ -8,7 +8,7 @@ let handler = async (m, { conn, isPrems }) => {
 
   if (cooldowns[m.sender] && Date.now() - cooldowns[m.sender] < tiempoEspera * 1000) {
     const tiempoRestante = segundosAHMS(Math.ceil((cooldowns[m.sender] + tiempoEspera * 1000 - Date.now()) / 1000))
-    conn.reply(m.chat, `🚩 Ya has realizado tu pedido gratis de hoy.\nRecuerda que solo puedes realizarlo 1 vez cada 24 horas.\n\n*Próximo Monto* : +${isPrems ? `${prem.min} - ${prem.max}` : `${free.min} - ${free.max}`} 💵 créditos\n*En* : ⏱ ${tiempoRestante}`, m)
+    conn.reply(m.chat, `🚩 Ya has realizado tu pedido gratis de hoy.\nRecuerda que solo puedes realizarlo 1 vez cada 24 horas.\n\n*Próximo Monto* : +${isPrems ? `${prem.min} - ${prem.max}` : `${free.min} - ${free.max}`} *fenixcoins 🐦‍🔥*\n*En* : ⏱ ${tiempoRestante}`, m)
     return
   }
 
@@ -19,7 +19,7 @@ let handler = async (m, { conn, isPrems }) => {
 
   // Incrementar los créditos del usuario
   global.db.data.users[m.sender].limit += creditosGanados
-  conn.reply(m.chat, `🚩 Felicidades 🎉, reclamaste *+${creditosGanados} 💵 créditos*.`, m)
+  conn.reply(m.chat, `🚩 Felicidades 🎉, reclamaste *+${creditosGanados} *fenixcoins 🐦‍🔥*.`, m)
 
   // Actualizar el tiempo de cooldown
   cooldowns[m.sender] = Date.now()
