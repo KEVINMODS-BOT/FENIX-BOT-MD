@@ -1,102 +1,117 @@
-let handler = async (m, { conn }) => {
-    // Verifica si el usuario tiene un tiempo de espera activo
-    let user = global.db.data.users[m.sender];
-    let tiempoActual = new Date().getTime();
-    let tiempoRestante = user.lastCaza ? (user.lastCaza + 30 * 60 * 1000) - tiempoActual : 0;
+import fetch from 'node-fetch';
 
-    if (tiempoRestante > 0) {
-        let minutosRestantes = Math.floor(tiempoRestante / 60000);
-        let segundosRestantes = Math.floor((tiempoRestante % 60000) / 1000);
-        return conn.reply(m.chat, `Debes esperar ${minutosRestantes} minutos y ${segundosRestantes} segundos antes de cazar de nuevo.`, m);
-    }
+let handler = async (m, { conn, usedPrefix, command, args }) => {
+    try {
+        let user = global.db.data.users[m.sender];
 
-    // Lista de animales con sus emojis, fenixcoins y probabilidades
-    const animales = [
-        { emoji: '🦊', nombre: 'Zorro', fenixcoins: 2, probabilidad: 10 },
-        { emoji: '🐗', nombre: 'Jabalí', fenixcoins: 3, probabilidad: 5 },
-        { emoji: '🐷', nombre: 'Cerdo', fenixcoins: 1, probabilidad: 20 },
-        { emoji: '🐔', nombre: 'Pollo', fenixcoins: 1, probabilidad: 20 },
-        { emoji: '🦆', nombre: 'Pato', fenixcoins: 1, probabilidad: 20 },
-        { emoji: '🐦', nombre: 'Pájaro', fenixcoins: 1, probabilidad: 20 },
-        { emoji: '🐵', nombre: 'Mono', fenixcoins: 2, probabilidad: 10 },
-        { emoji: '🐘', nombre: 'Elefante', fenixcoins: 5, probabilidad: 3 },
-        { emoji: '🐮', nombre: 'Vaca', fenixcoins: 2, probabilidad: 10 },
-        { emoji: '🐯', nombre: 'Tigre', fenixcoins: 4, probabilidad: 4 },
-        { emoji: '🐭', nombre: 'Ratón', fenixcoins: 1, probabilidad: 20 },
-        { emoji: '🐴', nombre: 'Caballo', fenixcoins: 3, probabilidad: 5 },
-        { emoji: '🐧', nombre: 'Pingüino', fenixcoins: 3, probabilidad: 5 }
-    ];
+        // Verificar si el usuario está registrado
+        if (!user.registered) {
+            conn.reply(m.chat, 'Por favor, regístrate usando el comando `.reg nombre.edad` antes de usar este comando.', m);
+            return;
+        }
 
-    // Función para seleccionar animales aleatoriamente según la probabilidad
-    function seleccionarAnimal() {
-        let totalProbabilidad = animales.reduce((total, animal) => total + animal.probabilidad, 0);
-        let random = Math.floor(Math.random() * totalProbabilidad);
-        for (let animal of animales) {
-            if (random < animal.probabilidad) {
-                return animal;
+        // Comando para cazar animales mitológicos
+        if (command === 'magicaventur') {
+            let animalesMitologicos = [
+                { nombre: "Dragón", imagen: "https://example.com/dragon.jpg" },
+                { nombre: "Fénix", imagen: "https://example.com/fenix.jpg" },
+                { nombre: "Grifo", imagen: "https://example.com/grifo.jpg" },
+                { nombre: "Unicornio", imagen: "https://example.com/unicornio.jpg" },
+                { nombre: "Minotauro", imagen: "https://example.com/minotauro.jpg" },
+                { nombre: "Hidra", imagen: "https://example.com/hidra.jpg" },
+                { nombre: "Cíclope", imagen: "https://example.com/ciclope.jpg" },
+                { nombre: "Quimera", imagen: "https://example.com/quimera.jpg" },
+                { nombre: "Sirena", imagen: "https://example.com/sirena.jpg" },
+                { nombre: "Pegaso", imagen: "https://example.com/pegaso.jpg" },
+                { nombre: "Basilisco", imagen: "https://example.com/basilisco.jpg" },
+                { nombre: "Leviatán", imagen: "https://example.com/leviatan.jpg" },
+                { nombre: "Harpía", imagen: "https://example.com/harpia.jpg" },
+                { nombre: "Kraken", imagen: "https://example.com/kraken.jpg" },
+                { nombre: "Mantícora", imagen: "https://example.com/manticora.jpg" },
+                { nombre: "Esfinge", imagen: "https://example.com/esfinge.jpg" },
+                { nombre: "Cerbero", imagen: "https://example.com/cerbero.jpg" },
+                { nombre: "Chupacabras", imagen: "https://example.com/chupacabras.jpg" },
+                { nombre: "Yeti", imagen: "https://example.com/yeti.jpg" },
+                { nombre: "Naga", imagen: "https://example.com/naga.jpg" }
+            ];
+
+            // Selección aleatoria de un animal mitológico
+            let animal = animalesMitologicos[Math.floor(Math.random() * animalesMitologicos.length)];
+            
+            user.animalesMitologicos = user.animalesMitologicos || [];
+            user.animalesMitologicos.push(animal);
+
+            conn.sendFile(m.chat, animal.imagen, 'animal.jpg', `¡Has cazado un ${animal.nombre}!`, m);
+        }
+
+        // Comando para mostrar las sesiones disponibles (la tienda)
+        if (command === 'tienda') {
+            let mensaje = `
+Elige una sesión para ver los ítems que puedes vender:
+1. Animales Mitológicos
+2. Otra Sesión ()
+
+Responde a este mensaje con el número de la sesión (ejemplo: .tienda 1).
+            `;
+            conn.reply(m.chat, mensaje, m);
+        }
+
+        // Ver ítems dentro de la sesión elegida
+        if (args[0]) {
+            let sesion = args[0];
+
+            if (sesion === '1') {  // Sesión 1: Animales Mitológicos
+                if (!user.animalesMitologicos || user.animalesMitologicos.length === 0) {
+                    conn.reply(m.chat, 'No tienes animales mitológicos para vender.', m);
+                    return;
+                }
+
+                let animalList = user.animalesMitologicos.map((animal, i) => `${i + 1}. ${animal.nombre}`).join('\n');
+                conn.reply(m.chat, `Estos son tus animales mitológicos atrapados:\n\n${animalList}\n\nUsa \`.vender [número]\` para vender un animal.`, m);
+            } else if (sesion === '2') {
+                conn.reply(m.chat, 'La sesión 2 aún no está disponible.', m);
+            } else {
+                conn.reply(m.chat, 'Debes especificar una sesión válida. Ejemplo: .tienda 1', m);
             }
-            random -= animal.probabilidad;
         }
-    }
 
-    // Selección aleatoria de 3 animales
-    let capturados = [];
-    for (let i = 0; i < 3; i++) {
-        capturados.push(seleccionarAnimal());
-    }
+        // Comando para vender un ítem específico
+        if (command === 'vender' && args[0]) {
+            let animalIndex = parseInt(args[0]) - 1;
 
-    // Suma de los fenixcoins capturados
-    let totalFenixcoins = capturados.reduce((total, animal) => total + animal.fenixcoins, 0);
+            if (!user.animalesMitologicos || user.animalesMitologicos.length === 0) {
+                conn.reply(m.chat, 'No tienes animales mitológicos para vender.', m);
+                return;
+            }
 
-    // Obtener el multiplicador según el rango del usuario
-    let multiplicador = 1;
-    let rangoMensaje = '';
-    if (user.rango) {
-        switch (user.rango) {
-            case 'bronce':
-                multiplicador = 2;
-                break;
-            case 'plata':
-                multiplicador = 3;
-                break;
-            case 'oro':
-                multiplicador = 4;
-                break;
-            case 'diamante':
-                multiplicador = 5;
-                break;
-            case 'maestro':
-                multiplicador = 6;
-                break;
-            case 'leyenda':
-                multiplicador = 7;
-                break;
-            default:
-                multiplicador = 1;
+            if (animalIndex < 0 || animalIndex >= user.animalesMitologicos.length) {
+                conn.reply(m.chat, 'Elige un animal válido para vender.', m);
+                return;
+            }
+
+            let precioVenta = obtenerPrecioAnimal(); // Precio aleatorio de venta
+
+            user.limit += precioVenta;
+            let animalVendido = user.animalesMitologicos.splice(animalIndex, 1)[0];
+
+            conn.reply(m.chat, `¡Has vendido el ${animalVendido.nombre} por ${precioVenta} créditos!`, m);
         }
-        rangoMensaje = `\n\n𝚃𝙸𝙴𝙽𝙴 𝚄𝙽 𝚁𝙰𝙽𝙶𝙾: ${user.rango.charAt(0).toUpperCase() + user.rango.slice(1)}`;
+
+    } catch (e) {
+        console.log(e);
+        conn.reply(m.chat, 'Hubo un error al procesar tu solicitud.', m);
     }
+};
 
-    // Aplicar el multiplicador de fenixcoins
-    let fenixcoinsMultiplicados = totalFenixcoins * multiplicador;
-
-    // Crear el mensaje de captura
-    let mensajeCaptura = `Cazaste:\n\n${capturados.map(a => `${a.emoji}`).join(' + ')}\n\n`;
-    mensajeCaptura += capturados.map(a => `${a.nombre} ${a.emoji} ${a.fenixcoins} fenixcoin${a.fenixcoins > 1 ? 's' : ''}`).join('\n') + rangoMensaje + `\n\n¡Has ganado ${fenixcoinsMultiplicados} fenixcoin${fenixcoinsMultiplicados > 1 ? 's' : ''}!`;
-
-    // Sumar los fenixcoins al usuario
-    user.limit += fenixcoinsMultiplicados;
-
-    // Actualizar el tiempo de la última caza
-    user.lastCaza = tiempoActual;
-
-    // Enviar el mensaje con la captura
-    await conn.reply(m.chat, mensajeCaptura, m);
+// Función para obtener un precio aleatorio para vender los animales mitológicos
+function obtenerPrecioAnimal() {
+    const precios = [50, 100, 150, 200];
+    return precios[Math.floor(Math.random() * precios.length)];
 }
 
-handler.help = ['cazar'];
-handler.tags = ['game'];
-handler.command = /^cazar$/i;
+handler.help = ['magicaventur', 'tienda', 'vender [número]'];
+handler.tags = ['adventure', 'econ'];
+handler.command = /^(magicaventur|tienda|vender)$/i;
 handler.register = true;
 
 export default handler;
