@@ -16,26 +16,19 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
         // Comando para cazar animales mitológicos
         if (command === 'magicaventur') {
             let animalesMitologicos = [
-                { nombre: "Dragón", imagen: "https://example.com/dragon.jpg" },
-                { nombre: "Fénix", imagen: "https://example.com/fenix.jpg" },
-                { nombre: "Grifo", imagen: "https://example.com/grifo.jpg" },
-                { nombre: "Unicornio", imagen: "https://example.com/unicornio.jpg" },
-                { nombre: "Minotauro", imagen: "https://example.com/minotauro.jpg" },
-                { nombre: "Hidra", imagen: "https://example.com/hidra.jpg" },
-                { nombre: "Cíclope", imagen: "https://example.com/ciclope.jpg" },
-                { nombre: "Quimera", imagen: "https://example.com/quimera.jpg" },
-                { nombre: "Sirena", imagen: "https://example.com/sirena.jpg" },
-                { nombre: "Pegaso", imagen: "https://example.com/pegaso.jpg" },
-                { nombre: "Basilisco", imagen: "https://example.com/basilisco.jpg" },
-                { nombre: "Leviatán", imagen: "https://example.com/leviatan.jpg" },
-                { nombre: "Harpía", imagen: "https://example.com/harpia.jpg" },
-                { nombre: "Kraken", imagen: "https://example.com/kraken.jpg" },
-                { nombre: "Mantícora", imagen: "https://example.com/manticora.jpg" },
-                { nombre: "Esfinge", imagen: "https://example.com/esfinge.jpg" },
-                { nombre: "Cerbero", imagen: "https://example.com/cerbero.jpg" },
-                { nombre: "Chupacabras", imagen: "https://example.com/chupacabras.jpg" },
-                { nombre: "Yeti", imagen: "https://example.com/yeti.jpg" },
-                { nombre: "Naga", imagen: "https://example.com/naga.jpg" }
+                { nombre: "Dragón", imagen: "https://qu.ax/xXObC.jpg" },
+                { nombre: "Fénix", imagen: "https://qu.ax/wTAHK.jpg" },
+                { nombre: "Grifo", imagen: "https://qu.ax/ppmYX.jpg" },
+                { nombre: "Unicornio", imagen: "https://qu.ax/TQcok.jpg" },
+                { nombre: "Minotauro", imagen: "https://qu.ax/dZRLq.jpg" },
+                { nombre: "Hidra", imagen: "https://qu.ax/ejQbH.jpg" },
+                { nombre: "Cíclope", imagen: "https://qu.ax/WLjAz.jpg" },
+                { nombre: "Quimera", imagen: "https://qu.ax/tKzKn.jpg" },
+                { nombre: "Sirena", imagen: "https://qu.ax/HQjBt.jpg" },
+                { nombre: "Pegaso", imagen: "https://qu.ax/ovonj.jpg" },
+                { nombre: "Basilisco", imagen: "https://qu.ax/TkBRb.jpg" },
+                { nombre: "Leviatán", imagen: "https://qu.ax/mieQx.jpg" },
+                { nombre: "Kraken", imagen: "https://qu.ax/HHXFY.jpg" },
             ];
 
             // Selección aleatoria de un animal mitológico
