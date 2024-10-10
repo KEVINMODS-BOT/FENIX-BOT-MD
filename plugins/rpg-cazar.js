@@ -37,7 +37,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
             user.animalesMitologicos = user.animalesMitologicos || [];
             user.animalesMitologicos.push(animal);
 
-            conn.sendFile(m.chat, animal.imagen, 'animal.jpg', `¡Has cazado un ${animal.nombre}!`, m);
+            conn.sendFile(m.chat, animal.imagen, 'animal.jpg', `HAZ CAZADO UN ANIMAL MITOLÓGICO ☛ ${animal.nombre} ☚ \n\n .tienda para ver los seres mitológicos a la venta `, m);
         }
 
         // Comando para mostrar los animales a la venta y los del usuario
