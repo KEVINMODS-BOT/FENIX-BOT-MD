@@ -1,18 +1,20 @@
-//
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-   let who
-    if (m.isGroup) who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : false
-    else who = m.chat
-    let user = global.db.data.users[who]
-    if (!who) return m.reply(`🚩 Etiqueta a un usuario.`)
-    let users = global.db.data.users
-    users[who].banned = true
-    conn.reply(m.chat, `🚩 @${who.split`@`[0]} ha sido baneado con exito, ya no podrá volver a usar mis comandos.`, m, { mentions: [who] })
-}
-handler.help = ['mban *@user*']
-handler.tags = ['owner']
-handler.command = /^mban$/i
-handler.rowner = true
 
-export default handler
+const handler = async (m, {conn, participants, usedPrefix, command}) => {
+    const datas = global
+    const idioma = datas.db.data.users[m.sender].language
+    const _translate = JSON.parse(fs.readFileSync(`./language/${idioma}.json`))
+    const tradutor = _translate.plugins.owner_banuser
+  
+    const BANtext = `${tradutor.texto1}\n*${usedPrefix + command} @${global.suittag}*`;
+    if (!m.mentionedJid[0] && !m.quoted) return m.reply(BANtext, m.chat, {mentions: conn.parseMention(BANtext)});
+    let who;
+    if (m.isGroup) who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted.sender;
+    else who = m.chat;
+    const users = global.db.data.users;
+    users[who].banned = true;
+    m.reply(tradutor.texto2);
+  };
+  handler.command = /^banuser$/i;
+  handler.rowner = true;
+  export default handler;
