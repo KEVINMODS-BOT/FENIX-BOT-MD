@@ -145,7 +145,7 @@ let dataHandler = async (m, { conn }) => {
 ❰💬❱ *USUARIO* → @${who.split('@')[0]}
 ❰💰❱ *CREDITOS* → ${user.limit || 0}
 ❰🗓❱ *REGISTRO* → ${new Date(user.registered).toLocaleDateString() || 'Desconocido'}
-❰💯❱ *ESTADO* → ${user.banned ? 'BANEADO [❌]' : 'LIBRE [✅]'}
+❰💯❱ *ESTADO* → ${user.banned ? 'BANEADO [❌]' : 'NOBANEADO [✅]'}
     `.trim();
 
     conn.reply(m.chat, str, m, {
