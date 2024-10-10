@@ -1,9 +1,9 @@
 let handler = async (m, { conn, text, usedPrefix }) => {
     // Comando para advertir a un usuario
     if (m.command === 'warn') {
-        let warningMessage = `🟡 Menciona al usuario que deseas advertir o responde a su mensaje.`;
+        let warningMessage = `🟡 Menciona al usuario que deseas advertir.`; 
 
-        // Determina a quién se está respondiendo
+        // Verifica si hay un usuario mencionado o un mensaje citado
         let mentionedJid = m.mentionedJid[0] ? m.mentionedJid[0] : (m.quoted ? m.quoted.sender : null);
         
         if (!mentionedJid) {
@@ -40,7 +40,7 @@ let handler = async (m, { conn, text, usedPrefix }) => {
 
     // Comando para eliminar todas las advertencias de un usuario
     } else if (m.command === 'unwarn') {
-        let unwarnMessage = `🟡 Menciona al usuario del que deseas eliminar las advertencias o responde a su mensaje.`;
+        let unwarnMessage = `🟡 Menciona al usuario del que deseas eliminar las advertencias.`;
 
         // Verifica si hay un usuario mencionado o un mensaje citado
         let mentionedJid = m.mentionedJid[0] ? m.mentionedJid[0] : (m.quoted ? m.quoted.sender : null);
@@ -64,7 +64,7 @@ let handler = async (m, { conn, text, usedPrefix }) => {
     }
 }
 
-handler.help = ['warn', 'unwarn *@user*'];
+handler.help = ['warn *@user*', 'unwarn *@user*'];
 handler.tags = ['group'];
 handler.command = ['warn', 'unwarn'];
 handler.admin = true;
