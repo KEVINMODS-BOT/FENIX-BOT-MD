@@ -47,14 +47,14 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
       chat.antiLink = isEnable
       break
 
-    case 'antiviewonce': // Aquí se añade el manejo de antiviewonce
+    case 'antiver': case 'modover': case 'modoobservar': case 'modobservar': case 'antiviewonce':
       if (m.isGroup) {
         if (!(isAdmin || isOwner)) {
           global.dfail('admin', m, conn)
           throw false
         }
       }
-      chat.antiver = isEnable
+      chat.antiver = isEnable 
       break
 
     case 'nsfw':
