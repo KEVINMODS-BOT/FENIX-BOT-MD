@@ -1,4 +1,3 @@
-
 let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isROwner }) => {
   let isEnable = /true|enable|(turn)?on|1/i.test(command)
   let chat = global.db.data.chats[m.chat]
@@ -7,7 +6,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
   let type = (args[0] || '').toLowerCase()
   let isAll = false, isUser = false
   switch (type) {
-  case 'welcome':
+    case 'welcome':
     case 'bv':
     case 'bienvenida':
       if (!m.isGroup) {
@@ -21,8 +20,8 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
       }
       chat.bienvenida = isEnable
       break
-     
-     case 'autoread':
+
+    case 'autoread':
     case 'autoleer':
       isAll = true
       if (!isROwner) {
@@ -34,10 +33,10 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
 
     case 'document':
     case 'documento':
-    isUser = true
-    user.useDocument = isEnable
-    break
- 
+      isUser = true
+      user.useDocument = isEnable
+      break
+
     case 'antilink':
       if (m.isGroup) {
         if (!(isAdmin || isOwner)) {
@@ -48,7 +47,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
       chat.antiLink = isEnable
       break
 
-      case 'antiviewonce':
+    case 'antiviewonce': // Aquí se añade el manejo de antiviewonce
       if (m.isGroup) {
         if (!(isAdmin || isOwner)) {
           global.dfail('admin', m, conn)
@@ -57,26 +56,29 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
       }
       chat.antiviewonce = isEnable
       break
-      
-      case 'nsfw':
-      case 'modohorny':
-       if (m.isGroup) {
-         if (!(isAdmin || isOwner)) {
-           global.dfail('admin', m, conn)
-            throw false
-           }}
-    chat.nsfw = isEnable          
-    break
 
-     case 'antiarabes':
-     case 'antinegros':
-       if (m.isGroup) {
-         if (!(isAdmin || isOwner)) {
-           global.dfail('admin', m, conn)
-           throw false
-         }}
-       chat.onlyLatinos = isEnable  
-       break
+    case 'nsfw':
+    case 'modohorny':
+      if (m.isGroup) {
+        if (!(isAdmin || isOwner)) {
+          global.dfail('admin', m, conn)
+          throw false
+        }
+      }
+      chat.nsfw = isEnable
+      break
+
+    case 'antiarabes':
+    case 'antinegros':
+      if (m.isGroup) {
+        if (!(isAdmin || isOwner)) {
+          global.dfail('admin', m, conn)
+          throw false
+        }
+      }
+      chat.onlyLatinos = isEnable
+      break
+
     default:
       if (!/[01]/.test(command)) return m.reply(`
 *🚩 Ingresa una opción para habilitar o deshabilitar*
