@@ -16,15 +16,15 @@ let handler = async (m, { conn }) => {
         else if (user.limit >= 100) rank = '🥈 PLATA';
         else rank = '🥉 BRONCE';
 
-        str += `${index + 1})\n*[👤] 𝚄𝚂𝚄𝙰𝚁𝙸𝙾:* ${conn.getName(jid)}\n*[📱] 𝙽𝚄𝙼𝙴𝚁𝙾:* https://wa.me/${jid.split('@')[0]}\n*[💸] 𝙲𝚁𝙴́𝙳𝙸𝚃𝙾𝚂:* ${user.limit}\n*[🔱] 𝚁𝙰𝙽𝙶𝙾:* ${rank}\n\n`;
+        str += `${index + 1})\n*[👤] USUARIO:* ${conn.getName(jid)}\n*[📱] NUMERO:* https://wa.me/${jid.split('@')[0]}\n*[🐦‍🔥] FENIXCOINS:* ${user.limit}\n*[🔱] 𝚁𝙰𝙽𝙶𝙾:* ${rank}\n\n`;
     });
 
     let imageUrl = 'https://qu.ax/zbSJ.jpg';
     await conn.sendFile(m.chat, imageUrl, 'topcreditos.jpg', str.trim(), m);
 }
 
-handler.help = ['topcreditos'];
+handler.help = ['topfenix'];
 handler.tags = ['econ'];
-handler.command = /^topcreditos$/i;
+handler.command = /^topfenix$/i;
 
 export default handler;
