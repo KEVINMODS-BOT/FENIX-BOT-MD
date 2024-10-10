@@ -28,13 +28,13 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
         let cantidad = parseInt(text);
         if (cantidad <= 0) return conn.reply(m.chat, 'La cantidad debe ser mayor que 0', m);
         
-        if (user.limit < cantidad) return conn.reply(m.chat, 'No tienes suficientes créditos para depositar', m);
+        if (user.limit < cantidad) return conn.reply(m.chat, 'No tienes suficientes *fenixcoins 🐦‍🔥* para depositar', m);
         
         user.limit -= cantidad;
         user.banco = (user.banco || 0) + cantidad;
         user.depositos = (user.depositos || 0) + 1;
         
-        conn.reply(m.chat, `*Has depositado ${cantidad} créditos en tu banco*. Te quedan ${user.limit} créditos en tu perfil.\n\n .banco  para ver el banco `, m);
+        conn.reply(m.chat, `*Has depositado ${cantidad} *fenixcoins 🐦‍🔥* en tu banco*. Te quedan ${user.limit} *fenixcoins 🐦‍🔥* en tu perfil.\n\n .banco  para ver el banco `, m);
     }
 
     // Comando .retirar
@@ -44,13 +44,13 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
         let cantidad = parseInt(text);
         if (cantidad <= 0) return conn.reply(m.chat, 'La cantidad debe ser mayor que 0', m);
         
-        if ((user.banco || 0) < cantidad) return conn.reply(m.chat, 'No tienes suficientes créditos en tu banco', m);
+        if ((user.banco || 0) < cantidad) return conn.reply(m.chat, 'No tienes suficientes *fenixcoins 🐦‍🔥* en tu banco', m);
         
         user.banco -= cantidad;
         user.limit += cantidad;
         user.retiros = (user.retiros || 0) + 1;
         
-        conn.reply(m.chat, `*Has retirado ${cantidad} créditos de tu banco*. Te quedan ${user.limit} créditos en tu perfil.\n\n .banco para ver cuantos créditos tienes en el banco`, m);
+        conn.reply(m.chat, `*Has retirado ${cantidad} *fenixcoins 🐦‍🔥* de tu banco*. Te quedan ${user.limit} *fenixcoins 🐦‍🔥* en tu perfil.\n\n .banco para ver cuantos fenixcoins tienes en el banco`, m);
     }
 }
 
