@@ -71,6 +71,9 @@ let handler = async (m, { conn, usedPrefix }) => {
   let isActive = user ? (user.banned ? 'BANEADO [❌]' : 'LIBRE [✅]') : 'No tiene registro'; // Estado de actividad o "No tiene registro"
   let age = user && user.age > 0 ? user.age : 'Desconocido'; // Edad del usuario
 
+  // Obtener el número de advertencias
+  let warnings = user ? (user.warnings ? user.warnings.length : 0) : 0; // Contar advertencias, si no hay, 0
+
   // Crear el mensaje de respuesta
   let profileInfo = `
 ❰🔗❱ *ID* → ${whatsappLink}
@@ -80,6 +83,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 ❰🌏❱ *PAÍS* → ${countryInfo.flag} ${countryInfo.name}
 ❰💰❱ *CRÉDITOS* → ${limit}
 ❰🗓❱ *REGISTRO* → ${registerDate}
+❰⚠️❱ *ADVERTENCIAS* → ${warnings}/3
 ❰💯❱ *ESTADO* → ${isActive}
 ❰🔢❱ *NÚMERO DE SERIE* → ${serialNumber}
   `.trim();
