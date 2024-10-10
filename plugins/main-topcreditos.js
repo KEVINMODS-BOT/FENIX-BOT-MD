@@ -19,7 +19,7 @@ let handler = async (m, { conn }) => {
         str += `${index + 1})\n*[👤] USUARIO:* ${conn.getName(jid)}\n*[📱] NUMERO:* https://wa.me/${jid.split('@')[0]}\n*[🐦‍🔥] FENIXCOINS:* ${user.limit}\n*[🔱] 𝚁𝙰𝙽𝙶𝙾:* ${rank}\n\n`;
     });
 
-    let imageUrl = 'https://qu.ax/zbSJ.jpg';
+    let imageUrl = 'https://qu.ax/XoUsa.jpg';
     await conn.sendFile(m.chat, imageUrl, 'topcreditos.jpg', str.trim(), m);
 }
 
