@@ -276,11 +276,17 @@ let handler = async (m, { conn }) => {
 🔒➢ .link 
 ➥ ve el link del Grupo 
 
+🔒➢ .invite +numero
+➥ invitar a un usuario al grupo
+
 🔒➢ .encuesta pregunta|opciones 
 ➥ haz encuestas en el grupo 
 
 🔒➢ .promote @user 
 ➥ asciende a admin a un usuario 
+
+🔒➢ .demote @user
+➥ deciende a un admin
 
 🔒➢ .invocar mensaje 
 ➥ invoca a todo el grupo
