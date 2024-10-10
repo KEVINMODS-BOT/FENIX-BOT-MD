@@ -56,6 +56,7 @@ async function serbot() {
             txt += `│  ✩  *1* : Haga click en los 3 puntos\n`
             txt += `│  ✩  *2* : Toque dispositivos vinculados\n`
             txt += `└  ✩  *3* : Escanea este QR\n\n`
+            txt += `> *ᵇʸ 𝑲𝑬𝑽𝑰𝑵𝑴𝑶𝑫𝑺 `
             txt += `> *Nota:* Este código QR expira en 30 segundos.`
         let sendQR = await parentw.sendFile(m.chat, await qrcode.toDataURL(qr, { scale: 8 }), "qrcode.png", txt, m, null, rcanal)
         
