@@ -7,252 +7,252 @@ let handler = async (m, { conn }) => {
 
 *🔰INFORMACIÓN DEL BOT🔰*
 
-➢ *[👨🏻‍💻] CREADOR:* ALDAIR
+➢ *[👨🏻‍💻] CREADOR:* KEVINMODS
 ➢ *[💮] ESTADO:* ACTIVO 🟢
 ➢ *[🔐] MODO:* ${global.opts['self'] ? 'Privado' : 'Público'}
 
 
- ╭──────༺♡༻──────╮
-                *INFO-BOT*
+╭──────༺♡༻──────╮
+             📁  *INFO-BOT* 📁
 ╰──────༺♡༻──────╯
 
 
-➢ .owner 
+📁➢ .owner 
 ➥ ve los contactos de los creadores 
 
-➢ .grupos 
+📁➢ .grupos 
 ➥ ve los grupos y canales oficiales del bot 
 
-➢ .estado 
+📁➢ .estado 
 ➥ ve el estado del bot 
 
-➢ .totalfunciones 
+📁➢ .totalfunciones 
 ➥ ve cuantas funciones tiene el bot 
 
-➢ .ping 
+📁➢ .ping 
 ➥ ve la velocidad del bot 
 
-➢ .runtime 
+📁➢ .runtime 
 ➥ ve cuanto tiempo lleva activo el bot
 
-➢ .joinfree link
+📁➢ .joinfree link
 ➥ agrega al bot a tu grupo 
 
 
 ╭──────༺♡༻──────╮
-               *ECONOMÍA*
+             🪙 *ECONOMÍA* 🪙
 ╰──────༺♡༻──────╯
 
-➢ .minar
+🪙➢ .minar
 ➥ mina diamantes
 
-➢ .cazar 
+🪙➢ .cazar 
 ➥ caza animales y gana créditos 
 
-➢ .slot cantidad 
+🪙➢ .slot cantidad 
 ➥ apuesta créditos y gana 
 
-➢ .ruleta 10 negro / rojo 
+🪙➢ .ruleta 10 negro / rojo 
 ➥ apuesta y gana créditos 
 
-➢ .crimen 
+🪙➢ .crimen 
 ➥ roba créditos a otros usuarios 
 
-➢ .robar @user
+🪙➢ .robar @user
 ➥ roba los créditos de otros usuarios / no se puede robar si esta en el banco
 
-➢ .depositar cantidad 
+🪙➢ .depositar cantidad 
 ➥ deposita el dinero al Banco y guardalos 
 
-➢ .retirar cantidad 
+🪙➢ .retirar cantidad 
 ➥ retira el dinero del Banco 
 
-➢ .banco 
+🪙➢ .banco 
 ➥ guarda tus créditos de cualquier robo 
 
-➢ .topcreditos
+🪙➢ .topcreditos
 ➥ ve el top de mayores créditos 
 
-➢ .transferir @user cantidad 
+🪙➢ .transferir @user cantidad 
 ➥ transfiere créditos a otros usuarios
 
 
 ╭──────༺♡༻──────╮
-         *TIENDA Y VENTAS*
+       💎 *TIENDA Y VENTAS* 💎
 ╰──────༺♡༻──────╯
  
-➢ .comprarwaifu 
+💎➢ .comprarwaifu 
 ➥ comprar una waifu 
 
-➢ .miswaifus 
+💎➢ .miswaifus 
 ➥ ve tus waifus que compraste
 
-➢ .venderwaifu
+💎➢ .venderwaifu
 ➥ vende la waifu que tienes
 
-➢ .pokemon pikachu
+💎➢ .pokemon pikachu
 ➥ para ver el pokemon y sus estadísticas
 
-➢ .comprarpokemon pikachu
+💎➢ .comprarpokemon pikachu
 ➥ compra el pokemon
 
-➢ .mipokemon
+💎➢ .mipokemon
 ➥ ve tu pokemon que tienes 
 
-➢ .venderpokemon número 
+💎➢ .venderpokemon número 
 ➥ vende tu pokemon 
 
-➢ .regalarpokemon @user Pikachu
+💎➢ .regalarpokemon @user Pikachu
 ➥ regala un pokemon a tu amigo 
 
 
 
 ╭──────༺♡༻──────╮
-              *BUSQUEDAS*
+            🔎 *BUSQUEDAS* 🔍
 ╰──────༺♡༻──────╯
 
 
-➢ .pinterest 
+🔎➢ .pinterest 
 ➥ busca imágenes de pinterest
 
-➢ .fenixgpt cuanto es 1+1
+🔍➢ .fenixgpt cuanto es 1+1
 ➥ busca información rápido con fenixgpt 🐦‍🔥
 
-➢ .google búsqueda
+🔎➢ .google búsqueda
 ➥ busca cosas de google 
 
-➢ .imagen búsqueda
+🔍➢ .imagen búsqueda
 ➥ busca imagen de lo que busques
 
-➢ .tiktok link 
+🔎➢ .tiktok link 
 ➥ descarga un vídeo de tiktok sin marca de agua 
 
-➢ .tiktoksearch nombre 
+🔍➢ .tiktoksearch nombre 
 ➥ ve videos de tiktok en carrusel
 
 
 ╭──────༺♡༻──────╮
-               *SUB BOTS*
+             🤖 *SUB BOTS* 🤖
 ╰──────༺♡༻──────╯
 
 
-➢ .bots 
+🤖➢ .bots 
 ➥ ve cuantos subots ahí 
 
-➢ .code 
+🤖➢ .code 
 ➥ pide Código para vincular y ser un subot 
 
-➢ .qr
+🤖➢ .qr
 ➥ pide Código qr para escanear y ser un subot
 
 
 ╭──────༺♡༻──────╮
-                *REGISTRO*
+              🗂 *REGISTRO* 🗂
 ╰──────༺♡༻──────╯
 
 
-➢ .reg nombre.edad
+🗂➢ .reg nombre.edad
 ➥ regístrate en el bot 
 
-➢ .unreg número de serie 
+🗂➢ .unreg número de serie 
 ➥ elimina tu registro del bot 
 
-➢ .nserie 
+🗂➢ .nserie 
 ➥ ve tu número de serie 
 
-➢ .perfil 
+🗂➢ .perfil 
 ➥ ve tu perfil en el bot
 
 
 ╭──────༺♡༻──────╮
-                *STICKERS*
+              👻 *STICKERS* 👻
 ╰──────༺♡༻──────╯
 
 
-➢ .s / .stikert 
+👻➢ .s / .stikert 
 ➥ convierte una foto en stikert
 
 
 ╭──────༺♡༻──────╮
-               *IMÁGENES*
+             🌅 *IMÁGENES* 🌅
 ╰──────༺♡༻──────╯
 
 
-➢ .megumin 
+🌅➢ .megumin 
 
-➢ .neko 
+🌅➢ .neko 
 
-➢ .shinobu
+🌅➢ .shinobu
 
 
 ╭──────༺♡༻──────╮
-               *DIVERSION*
+             🎊 *DIVERSION* 🎊
 ╰──────༺♡༻──────╯
 
 
-➢ .afk razón 
+🎊➢ .afk razón 
 ➥ quédate afk sin que te molesten 
 
-➢ .dance @user 
+🎊➢ .dance @user 
 ➥ baila con un usuario
 
-➢ .abrazo @user 
+🎊➢ .abrazo @user 
 ➥ abraza a un usuario 
 
-➢ .golpear @user
+🎊➢ .golpear @user
 ➥ golpear a un usuario
 
-➢ .besar @user
+🎊➢ .besar @user
 ➥ besa a un usuario 
 
-➢ .gay @user 
+🎊➢ .gay @user 
 ➥ ve el promedio de gay de un usuario 
 
-➢ .ship @user @user 
+🎊➢ .ship @user @user 
 ➥ shipea a dos usuarios 
 
-➢ .bot hola 
+🎊➢ .bot hola 
 ➥ interactúa con el bot
 
 
 ╭──────༺♡༻──────╮
-                  *GRUPOS*
+                🔒 *GRUPOS* 🔒
 ╰──────༺♡༻──────╯
 
-➢ .infogrupo
+🔒➢ .infogrupo
 ➥ ve la información del grupo
 
-➢ .grupo cerrar 
+🔒➢ .grupo cerrar 
 ➥ cierra el grupo
 
-➢ .grupo abrir
+🔒➢ .grupo abrir
 ➥ abre el grupo 
 
-➢ .kick @user 
+🔒➢ .kick @user 
 ➥ elimina a un usuario 
 
-➢ .link 
+🔒➢ .link 
 ➥ ve el link del Grupo 
 
-➢ .encuesta pregunta|opciones 
+🔒➢ .encuesta pregunta|opciones 
 ➥ haz encuestas en el grupo 
 
-➢ .promote @user 
+🔒➢ .promote @user 
 ➥ asciende a admin a un usuario 
 
-➢ .invocar mensaje 
+🔒➢ .invocar mensaje 
 ➥ invoca a todo el grupo
 
 
 ╭──────༺♡༻──────╮
-                 *ON / OFF*
+               ✅ *ON / OFF* ❌
 ╰──────༺♡༻──────╯
 
 
-➢ .on / off welcome 
+🔄➢ .on / off welcome 
 ➥ activa y desactiva la bienvenida
 
-➢ .on / off antilink 
+🔄➢ .on / off antilink 
 ➥ activa y desactiva el antilink
 `.trim()
 
