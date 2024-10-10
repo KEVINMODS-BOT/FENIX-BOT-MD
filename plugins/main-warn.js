@@ -19,7 +19,7 @@ let handler = async (m, { conn, text, usedPrefix }) => {
     const totalWarnings = global.db.data.users[mentionedJid].warnings.length;
 
     // Mensaje de advertencia
-    conn.reply(m.chat, `*El usuario @${mentionedJid.split('@')[0]} ha recibido una advertencia.*`, m, {
+    conn.reply(m.chat, `*El usuario @${mentionedJid.split('@')[0]} ha recibido una advertencia.*\n*Advertencias ${totalWarnings}/3*`, m, {
         mentions: [mentionedJid]
     });
 
