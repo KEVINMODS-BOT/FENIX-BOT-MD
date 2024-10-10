@@ -73,11 +73,11 @@ let handler = async (m, { conn }) => {
     
     if (premio.emoji === '🎀') {
         user.limit += premio.creditos; // Agregar 500 créditos al perfil del usuario sin multiplicador
-        mensaje = `ENHORABUENAAAAA te ganaste el moño 🎀\n\n¡Has ganado 500 créditos que han sido agregados a tu cuenta!\n\nTus créditos han sido actualizados.`;
+        mensaje = `ENHORABUENAAAAA te ganaste el moño 🎀\n\n¡Has ganado 500 *fenixcoins 🐦‍🔥* que han sido agregados a tu cuenta!\n\nTus *fenixcoins 🐦‍🔥* han sido actualizados.`;
     } else {
         let creditosGanados = premio.creditos * multiplicador;
         user.limit += creditosGanados; // Agregar créditos con multiplicador al perfil del usuario
-        mensaje = `¡Has ganado ${premio.emoji}! Has obtenido ${creditosGanados} crédito${creditosGanados > 1 ? 's' : ''}. Tus créditos han sido actualizados.${rangoMensaje}`;
+        mensaje = `¡Has ganado ${premio.emoji}! Has obtenido ${creditosGanados} *fenixcoins 🐦‍🔥* ${creditosGanados > 1 ? 's' : ''}. Tus *fenixcoins 🐦‍🔥* han sido actualizados.${rangoMensaje}`;
     }
 
     // Actualizar el tiempo de la última apertura del cofre
