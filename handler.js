@@ -411,7 +411,7 @@ global.dfail = (type, m, conn, usedPrefix) => {
         private: `✯ Hola, este comando solo puede ser utilizado en mi Chat *Privado*.`,
         admin: `✯ Hola, este comando solo puede ser utilizado por los *Administradores* del Grupo.`,
         botAdmin: `✯ Hola, la bot debe ser *Administradora* para ejecutar este Comando.`,
-        unreg: `✯ Hola, para usar este comando debes estar *Registrado.*\n\nPara usar el bot debes registrarte primero\n\nUtiliza: */reg nombre.edad*\n\n_Ejemplo: */reg aldair.17*_\n\nNo pongas los * *`,
+        unreg: '🌟 ¡Hola! Bienvenido a *FENIX - BOT MD 🐦‍🔥*\n\n🔑 Para empezar a usarlo, debes registrarte primero.\n\nSigue estos sencillos pasos para unirte:\n\n📋 Comando de Registro\nUsa el formato:\n*`.reg Nombre.Edad`*\n\n✏️ Ejemplo:\n*`.reg Fenix.15`*\n\n📌 Recuerda:\n\nNombre: Tu nombre.\n\nEdad: Tu edad en años.\n\n✨ ¡Y listo! Ahora estarás registrado y podrás acceder a todas las funciones del bot. 🚀',
         restrict: `✯ Hola, esta característica está *deshabilitada.*`  
     }[type]
     if (msg) return conn.reply(m.chat, msg, m, rcanal).then(_ => m.react('✖️'))
