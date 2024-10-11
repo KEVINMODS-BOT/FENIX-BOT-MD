@@ -123,20 +123,22 @@ export async function handler(chatUpdate) {
         if (typeof m.text !== 'string')
             m.text = ''
         
-            // Comandos prohibidos +18
-    let prohibitedCommands = ['porno', '+18', 'adultos', 'xxx', 'tetas', 'culos', 'nsfw', 'sexo', 'orgia', 'kchar']
+               // Comandos prohibidos +18
+    let prohibitedCommands = ['porno', '+18', 'adultos', 'xxx'];
+    let warningSent = false; // Bandera para controlar si se envió la advertencia
 
     // Verificamos si el texto contiene uno de los comandos prohibidos
     for (let command of prohibitedCommands) {
-        if (m.text.toLowerCase().includes(command)) {
+        if (m.text.toLowerCase().includes(command) && !warningSent) {
             // Enviar el mensaje de advertencia
             let warningMessage = `
             *AVISO* 🚫
 
             \`\`\`QUITAMOS TODOS LOS COMANDOS +18\`\`\`
             `;
-            await this.sendMessage(m.chat, { text: warningMessage }, { quoted: m })
-            return
+            await this.sendMessage(m.chat, { text: warningMessage }, { quoted: m });
+            warningSent = true; // Establecemos la bandera a true
+            return; // Salimos después de enviar la advertencia
         }
     }
 
