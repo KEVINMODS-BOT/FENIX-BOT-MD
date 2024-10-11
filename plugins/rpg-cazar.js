@@ -29,13 +29,29 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
                 { nombre: "Kraken", imagen: "https://qu.ax/HHXFY.jpg" },
             ];
 
-            // Selección aleatoria de un animal mitológico
-            let animal = animalesMitologicos[Math.floor(Math.random() * animalesMitologicos.length)];
+            // Determinar si el usuario caza un animal (50% de probabilidad de éxito)
+            let cazaExitosa = Math.random() < 0.5;
+
+            if (!cazaExitosa) {
+                conn.reply(m.chat, 'No has tenido suerte esta vez, intenta de nuevo más tarde.', m);
+                return;
+            }
+
+            // Filtrar animales que el usuario ya posee
+            let animalesDisponibles = animalesMitologicos.filter(animal => !user.animalesMitologicos?.some(a => a.nombre === animal.nombre));
+
+            if (animalesDisponibles.length === 0) {
+                conn.reply(m.chat, '¡Ya has cazado todos los animales mitológicos disponibles!', m);
+                return;
+            }
+
+            // Selección aleatoria de un animal mitológico no repetido
+            let animal = animalesDisponibles[Math.floor(Math.random() * animalesDisponibles.length)];
 
             user.animalesMitologicos = user.animalesMitologicos || [];
             user.animalesMitologicos.push(animal);
 
-            conn.sendFile(m.chat, animal.imagen, 'animal.jpg', `HAZ CAZADO UN ANIMAL MITOLÓGICO ☛ ${animal.nombre} ☚ \n\n .tienda para ver los seres mitológicos a la venta `, m);
+            conn.sendFile(m.chat, animal.imagen, 'animal.jpg', `¡HAZ CAZADO UN ANIMAL MITOLÓGICO! ☛ ${animal.nombre} ☚ \n\nUsa .tienda para ver los seres mitológicos a la venta.`, m);
         }
 
         // Comando para mostrar los animales a la venta y los del usuario
@@ -75,7 +91,7 @@ Usa \`.vender[número]\` para vender uno de tus animales.
 
             // Verificar si el usuario tiene suficientes créditos para comprar el animal
             if (user.limit < animalComprado.precio) {
-                conn.reply(m.chat, `No tienes suficientes créditos para comprar un ${animalComprado.nombre}. Necesitas ${animalComprado.precio} créditos.`, m);
+                conn.reply(m.chat, `No tienes suficientes fenixcoins para comprar un ${animalComprado.nombre}. Necesitas ${animalComprado.precio} fenixcoins.`, m);
                 return;
             }
 
@@ -83,7 +99,7 @@ Usa \`.vender[número]\` para vender uno de tus animales.
             user.animalesMitologicos.push({ nombre: animalComprado.nombre, imagen: animalComprado.imagen });
             global.animalesEnVenta.splice(compraIndex, 1); // Eliminar el animal de la lista de venta
 
-            conn.reply(m.chat, `¡Has comprado un ${animalComprado.nombre} por ${animalComprado.precio} créditos!`, m);
+            conn.reply(m.chat, `¡Has comprado un ${animalComprado.nombre} por ${animalComprado.precio} fenixcoins`, m);
         }
 
         // Comando para vender un animal del usuario
@@ -100,13 +116,19 @@ Usa \`.vender[número]\` para vender uno de tus animales.
                 return;
             }
 
-            let precioVenta = obtenerPrecioAnimal(); // Precio aleatorio de venta
             let animalVendido = user.animalesMitologicos.splice(ventaIndex, 1)[0];
 
+            // Verificar si el animal ya está en venta
+            if (global.animalesEnVenta.some(a => a.nombre === animalVendido.nombre)) {
+                conn.reply(m.chat, `Ya hay un ${animalVendido.nombre} a la venta, no puedes venderlo de nuevo.`, m);
+                return;
+            }
+
+            let precioVenta = obtenerPrecioAnimal(); // Precio aleatorio de venta
             global.animalesEnVenta.push({ nombre: animalVendido.nombre, imagen: animalVendido.imagen, precio: precioVenta });
 
             user.limit += precioVenta;
-            conn.reply(m.chat, `¡Has vendido el ${animalVendido.nombre} por ${precioVenta} créditos! Ahora está disponible en la tienda.`, m);
+            conn.reply(m.chat, `¡Has vendido el ${animalVendido.nombre} por ${precioVenta} fenixcoins Ahora está disponible en la tienda.`, m);
         }
 
     } catch (e) {
