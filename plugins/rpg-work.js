@@ -9,12 +9,12 @@ let handler = async (m, { conn, isPrems }) => {
     return
   }
   
-  // Genera un número aleatorio de créditos entre 10 y 30
+
   let resultado = Math.floor(Math.random() * 21) + 10
   cooldowns[m.sender] = Date.now()
 
-  await conn.reply(m.chat, `🚩 ${pickRandom(works)} *${toNum(resultado)}* ( *${resultado}* ) créditos. 💵`, m, rcanal)
-  user.limit += resultado // Incrementa los créditos del usuario
+  await conn.reply(m.chat, `🚩 ${pickRandom(works)} *${toNum(resultado)}* ( *${resultado}* ) fenixcoins`, m, rcanal)
+  user.limit += resultado 
 }
 
 handler.help = ['work']
@@ -47,7 +47,7 @@ function pickRandom(list) {
   return list[Math.floor(list.length * Math.random())]
 }
 
-// Gracias a FG98
+
 const works = [
   "Trabajas como cortador de galletas y ganas",
   "Trabaja para una empresa militar privada, ganando",
