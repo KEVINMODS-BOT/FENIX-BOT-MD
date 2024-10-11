@@ -2,7 +2,7 @@ import Starlights from '@StarlightsTeam/Scraper'
 import fetch from 'node-fetch'
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-if (!text) return conn.reply(m.chat,`*🚩 Ingrese su petición*\n*🪼 Ejemplo de uso:* ${usedPrefix + command} como hacer estrella de papel`, m, rcanal)
+if (!text) return conn.reply(m.chat,`*.fenixgpt peticion  para usar bien el comando*`, m, rcanal)
 await m.react('💬')
 try {
 let { msg } = await Starlights.openAi(text)
@@ -29,9 +29,9 @@ await m.react('✖️')
 await m.react('✖️')
 }}}}}
 
-handler.help = ['ai *<petición>*']
+handler.help = ['fenixgpt *<petición>*']
 handler.tags = ['tools']
-handler.command = /^(miku|ai|ia|chatgpt|gpt)$/i
+handler.command = /^(fenixgpt)$/i
 handler.register = true
 
 export default handler
