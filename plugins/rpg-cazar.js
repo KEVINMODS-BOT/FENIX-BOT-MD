@@ -29,8 +29,8 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
                 { nombre: "Kraken", imagen: "https://qu.ax/HHXFY.jpg" },
             ];
 
-            // Determinar si el usuario caza un animal (50% de probabilidad de éxito)
-            let cazaExitosa = Math.random() < 0.1;
+            // Determinar si el usuario caza un animal (probabilidad ajustada de éxito)
+            let cazaExitosa = Math.random() < 0.1; // Ahora hay un 10% de probabilidad de cazar un animal
 
             if (!cazaExitosa) {
                 conn.reply(m.chat, 'No has tenido suerte esta vez, intenta de nuevo más tarde.', m);
@@ -56,7 +56,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
 
         // Comando para mostrar los animales a la venta y los del usuario
         if (command === 'tienda') {
-            let ventaList = global.animalesEnVenta.map((animal, i) => `${i + 1}. ${animal.nombre} - ${animal.precio} créditos`).join('\n');
+            let ventaList = global.animalesEnVenta.map((animal, i) => `${i + 1}. ${animal.nombre} - ${animal.precio} Fenixcoins`).join('\n');
             let animalesUsuario = user.animalesMitologicos && user.animalesMitologicos.length > 0
                 ? user.animalesMitologicos.map((animal, i) => `${i + 1}. ${animal.nombre}`).join('\n')
                 : 'No tienes animales. Caza uno con `.magicaventur`.';
@@ -89,9 +89,9 @@ Usa \`.vender[número]\` para vender uno de tus animales.
 
             let animalComprado = global.animalesEnVenta[compraIndex];
 
-            // Verificar si el usuario tiene suficientes créditos para comprar el animal
+            // Verificar si el usuario tiene suficientes Fenixcoins para comprar el animal
             if (user.limit < animalComprado.precio) {
-                conn.reply(m.chat, `No tienes suficientes fenixcoins para comprar un ${animalComprado.nombre}. Necesitas ${animalComprado.precio} fenixcoins.`, m);
+                conn.reply(m.chat, `No tienes suficientes Fenixcoins para comprar un ${animalComprado.nombre}. Necesitas ${animalComprado.precio} Fenixcoins.`, m);
                 return;
             }
 
@@ -99,7 +99,7 @@ Usa \`.vender[número]\` para vender uno de tus animales.
             user.animalesMitologicos.push({ nombre: animalComprado.nombre, imagen: animalComprado.imagen });
             global.animalesEnVenta.splice(compraIndex, 1); // Eliminar el animal de la lista de venta
 
-            conn.reply(m.chat, `¡Has comprado un ${animalComprado.nombre} por ${animalComprado.precio} fenixcoins`, m);
+            conn.reply(m.chat, `¡Has comprado un ${animalComprado.nombre} por ${animalComprado.precio} Fenixcoins!`, m);
         }
 
         // Comando para vender un animal del usuario
@@ -128,7 +128,7 @@ Usa \`.vender[número]\` para vender uno de tus animales.
             global.animalesEnVenta.push({ nombre: animalVendido.nombre, imagen: animalVendido.imagen, precio: precioVenta });
 
             user.limit += precioVenta;
-            conn.reply(m.chat, `¡Has vendido el ${animalVendido.nombre} por ${precioVenta} fenixcoins Ahora está disponible en la tienda.`, m);
+            conn.reply(m.chat, `¡Has vendido el ${animalVendido.nombre} por ${precioVenta} Fenixcoins! Ahora está disponible en la tienda.`, m);
         }
 
     } catch (e) {
