@@ -124,7 +124,7 @@ export async function handler(chatUpdate) {
             m.text = ''
         
                // Comandos prohibidos +18
-    let prohibitedCommands = ['porno', '+18', 'adultos', 'xxx'];
+    let prohibitedCommands = ['porno', 'sexo', 'adultos', 'xxx', 'orgia', 'kchar', 'tetas', 'culos'];
     let warningSent = false; // Bandera para controlar si se envió la advertencia
 
     // Verificamos si el texto contiene uno de los comandos prohibidos
