@@ -30,7 +30,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
             ];
 
             // Determinar si el usuario caza un animal (50% de probabilidad de éxito)
-            let cazaExitosa = Math.random() < 0.5;
+            let cazaExitosa = Math.random() < 0.1;
 
             if (!cazaExitosa) {
                 conn.reply(m.chat, 'No has tenido suerte esta vez, intenta de nuevo más tarde.', m);
