@@ -8,7 +8,7 @@ let txt = `Bienvenido *@${m.sender.split('@')[0]}* aquí encontraras los grupos 
 
 *【 GRUPO 】*
 
-*https://chat.whatsapp.com/HI1M164O0Z3FemZ3Wvmqro*
+*https://chat.whatsapp.com/CojAg0whhea96ddUJrQaVZ*
 
 
 *【 CANALES 】*
