@@ -1,38 +1,37 @@
 let handler = async (m, { conn }) => {
-    // Obtener metadata del grupo
+
     let chat = await conn.groupMetadata(m.chat);
     let groupName = chat.subject;
     let groupDesc = chat.desc;
     let participants = chat.participants.length;
     let owner = chat.owner ? '@' + chat.owner.split('@')[0] : 'Desconocido';
-    let groupCreation = new Date(chat.creation * 1000).toLocaleString("es-ES", { timeZone: "UTC", hour12: false }); // Fecha de creación
+    let groupCreation = new Date(chat.creation * 1000).toLocaleString("es-ES", { timeZone: "UTC", hour12: false }); 
 
-    // Verificar si el bot es administrador
     let botIsAdmin = chat.participants.find(p => p.id === conn.user.jid)?.admin;
     let groupInviteCode;
     let groupLink;
 
     if (botIsAdmin) {
-        // Obtener el enlace del grupo si el bot es admin
+
         groupInviteCode = await conn.groupInviteCode(m.chat);
         groupLink = `https://chat.whatsapp.com/${groupInviteCode}`;
     } else {
         groupLink = 'El bot no es administrador';
     }
 
-    // Obtener la imagen del grupo
+
     let groupPic;
     try {
         groupPic = await conn.profilePictureUrl(m.chat, 'image');
     } catch (e) {
-        groupPic = 'https://qu.ax/LXzyv.jpg'; // URL de la imagen de respaldo
+        groupPic = 'https://qu.ax/YzpzT.jpg';
     }
 
-    // Obtener la lista de administradores
+
     let admins = chat.participants.filter(p => p.admin).map(p => '@' + p.id.split('@')[0]);
     let adminList = admins.length > 0 ? admins.join('\n') : 'Sin administradores';
 
-    // Información del grupo
+  
     let info = `
 *🔹 Información del Grupo 🔹*
 
@@ -52,14 +51,14 @@ ${adminList}
 ➤ *Enlace del Grupo:* ${groupLink}
     `;
 
-    // Enviar el mensaje con la imagen del grupo o la imagen de respaldo
+ 
     conn.sendFile(m.chat, groupPic, 'group.jpg', info, m, { mentions: [chat.owner, ...admins] });
 };
 
 handler.help = ['infogrupo'];
 handler.tags = ['group'];
 handler.command = /^infogrupo$/i;
-handler.group = true; // Solo funcionará en grupos
-handler.admin = false; // No requiere ser admin
+handler.group = true; 
+handler.admin = false; 
 
 export default handler;
