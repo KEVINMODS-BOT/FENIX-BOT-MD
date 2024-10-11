@@ -90,7 +90,7 @@ let image = await (await fetch(`https://qu.ax/YzpzT.jpg`)).buffer(); // Cambia p
 
 // Mensaje de registro
 let txt = '*`R E G I S T R O - F E N I X`* \n\n';
-txt += `*REGISTRO DE \n\n`;
+txt += `*REGISTRO DE @${name}*\n\n`;
 txt += `*[🐦‍🔥] ➢ NOMBRE:*  ${name}\n\n`;
 txt += `*[🐦‍🔥] ➢ EDAD:*  ${age} años\n\n`;
 txt += `*[🐦‍🔥] ➢ PAÍS:*  ${countryInfo.name} ${countryInfo.emoji}\n\n`;
