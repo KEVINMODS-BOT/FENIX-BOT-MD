@@ -43,11 +43,11 @@ let handler = async (m, { conn, usedPrefix, command }) => {
             esTresEnLinea(resultado[0][2], resultado[1][1], resultado[2][0])) {
 
             if (resultado[1][0] === '🐦‍🔥' && resultado[1][1] === '🐦‍🔥' && resultado[1][2] === '🐦‍🔥') {
-                premio = 30;
+                premio = 35;
                 user.limit += premio;
                 mensajeResultado += `\n\n🎉 ¡FELICIDADES! Tres 🐦‍🔥 en línea: ¡Has ganado ${premio} Fenixcoins! 🎉`;
             } else {
-                premio = Math.floor(Math.random() * 6) + 1;
+                premio = Math.floor(Math.random() * 7) + 1; 
                 user.limit += premio;
                 mensajeResultado += `\n\n🎉 ¡Ganaste ${premio} Fenixcoins con tres animales iguales! 🎉`;
             }
@@ -55,7 +55,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
         }
 
         if (!hayGanador) {
-            premio = -(Math.floor(Math.random() * 6) + 5);
+            premio = -(Math.floor(Math.random() * 6) + 5); 
             user.limit += premio;
             mensajeResultado += `\n\n😢 Has perdido ${-premio} Fenixcoins. Mejor suerte la próxima vez.`;
         }
