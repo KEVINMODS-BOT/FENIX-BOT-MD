@@ -55,6 +55,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
         }
 
         if (!hayGanador) {
+            // Incrementamos las probabilidades de perder
             premio = -(Math.floor(Math.random() * 6) + 5); 
             user.limit += premio;
             mensajeResultado += `\n\n😢 Has perdido ${-premio} Fenixcoins. Mejor suerte la próxima vez.`;
