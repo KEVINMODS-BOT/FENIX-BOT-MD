@@ -24,20 +24,21 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 
         // Evaluar si el jugador ha ganado o perdido
         let premio;
-        let probabilidadDeGanar = Math.random(); // Probabilidad aleatoria de ganar o perder
+        let probabilidadDePremioMayor = Math.random(); // Probabilidad del premio mayor
+        let probabilidadGeneral = Math.random(); // Probabilidad de ganar o perder
 
-        if (resultado[1][0] === '🐦‍🔥' && resultado[1][1] === '🐦‍🔥' && resultado[1][2] === '🐦‍🔥') {
-            // Tres 🐦‍🔥 en la fila del medio: Premio mayor
+        if (probabilidadDePremioMayor < 0.25 && resultado[1][0] === '🐦‍🔥' && resultado[1][1] === '🐦‍🔥' && resultado[1][2] === '🐦‍🔥') {
+            // 25% de probabilidad y tres 🐦‍🔥 en la fila del medio: Premio mayor
             premio = 30;
             user.limit += premio;
             mensajeResultado += `\n\n🎉 ¡FELICIDADES! Has conseguido tres 🐦‍🔥 en línea y ganas ${premio} Fenixcoins. 🎉`;
-        } else if (probabilidadDeGanar < 0.5) {
-            // Probabilidad de ganar (50% de las veces), premio entre 1 y 6 Fenixcoins
+        } else if (probabilidadGeneral < 0.5) {
+            // 50% de probabilidad de ganar, premio entre 1 y 6 Fenixcoins
             premio = Math.floor(Math.random() * 6) + 1;
             user.limit += premio;
             mensajeResultado += `\n\n🎉 ¡Ganaste ${premio} Fenixcoins con tres ${resultado[1][0]} en línea! 🎉`;
         } else {
-            // Pérdida de Fenixcoins: entre 5 y 10 Fenixcoins
+            // 50% de probabilidad de perder, pérdida entre 5 y 10 Fenixcoins
             premio = -(Math.floor(Math.random() * 6) + 5);
             user.limit += premio;
             mensajeResultado += `\n\n😢 Has perdido ${-premio} Fenixcoins. Mejor suerte la próxima vez.`;
