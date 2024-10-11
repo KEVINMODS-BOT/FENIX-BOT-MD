@@ -14,7 +14,7 @@ let handler = async (m, { conn }) => {
 
   // Incrementar los créditos del usuario
   global.db.data.users[m.sender].limit += hasil
-  let txt = `🚩 Genial! minaste *${hasil} 💵 créditos.*`
+  let txt = `🚩 Genial! minaste *${hasil} fenixcoins.*`
   
   await m.react('⛏')
   await conn.reply(m.chat, txt, m, rcanal)
