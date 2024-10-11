@@ -89,13 +89,13 @@ let sn = createHash('md5').update(m.sender).digest('hex');
 let image = await (await fetch(`https://qu.ax/YzpzT.jpg`)).buffer(); // Cambia por la URL de tu imagen
 
 // Mensaje de registro
-let txt = ` –  *R E G I S T R O  -  E X I T O S O*\n\n`;
-txt += `┌  ✩  *Nombre* : ${name}\n`;
-txt += `│  ✩  *Edad* : ${age} años\n`;
-txt += `│  ✩  *País* : ${countryInfo.name} ${countryInfo.emoji}\n`;
-txt += `│  ✩  *Número de serie*\n`;
+let txt = '*`R E G I S T R O - F E N I X`* \n\n';
+txt += `*[🐦‍🔥] NOMBRE:* : ${name}\n\n`;
+txt += `*[🐦‍🔥] EDAD:* : ${age} años\n\n`;
+txt += `*[🐦‍🔥] PAÍS:* : ${countryInfo.name} ${countryInfo.emoji}\n\n`;
+txt += `*[🐦‍🔥] NUMERO DE SERIE:*\n`;
 txt += `└  ✩  ${sn}\n\n`;
-txt += `✨ ¡Usted está registrado en mi base de datos! ✨`;
+txt += `> *YA SE ENCUENTRA REGISTRADO EN MI BASE DE DATOS*`;
 
 // Enviar la imagen junto con el texto
 await conn.sendMessage(m.chat, { image: image, caption: txt });
