@@ -1,12 +1,24 @@
 let handler = async (m, { conn, usedPrefix, command }) => {
     try {
         let user = global.db.data.users[m.sender];
+        const cooldown = 60 * 1000; // 1 minuto en milisegundos
+        const ahora = new Date().getTime();
 
         // Verificar si el usuario está registrado
         if (!user.registered) {
             conn.reply(m.chat, 'Por favor, regístrate usando el comando `.reg nombre.edad` antes de usar este comando.', m);
             return;
         }
+
+        // Verificar si ha pasado suficiente tiempo desde el último uso del comando
+        if (user.lastSlot && (ahora - user.lastSlot) < cooldown) {
+            let tiempoRestante = Math.ceil((cooldown - (ahora - user.lastSlot)) / 1000); // Tiempo restante en segundos
+            conn.reply(m.chat, `*SPAM: ESPERA ${tiempoRestante} SEGUNDOS PARA USAR ESTE COMANDO DE NUEVO*`, m);
+            return;
+        }
+
+        // Actualizar el último uso del comando
+        user.lastSlot = ahora;
 
         // Animales para el juego de slots
         const animales = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐦‍🔥'];
