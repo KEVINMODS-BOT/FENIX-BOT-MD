@@ -1,4 +1,3 @@
-
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, usedPrefix, command, args }) => {
@@ -36,7 +35,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
             conn.sendFile(m.chat, pokemon.sprites.front_default, 'pokemon.jpg', 
                 `*Nombre:* ${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}\n` +
                 `*Poder Total:* ${poderTotal}\n` +
-                `*Precio de Compra:* ${precioCompra} créditos\n\n` +
+                `*Precio de Compra:* ${precioCompra} Fenixcoins\n\n` +
                 `Estadísticas:\n${statsMessage}\n\n` +
                 `.comprarpokemon ${pokemon.name}`, m
             );
@@ -61,7 +60,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
             let precioCompra = calcularPrecioCompra(poderTotal);
 
             if (user.limit < precioCompra) {
-                conn.reply(m.chat, `No tienes suficientes créditos para comprar este Pokémon. Necesitas ${precioCompra} créditos.`, m);
+                conn.reply(m.chat, `No tienes suficientes Fenixcoins para comprar este Pokémon. Necesitas ${precioCompra} Fenixcoins.`, m);
                 return;
             }
 
@@ -77,7 +76,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
                 `¡Has comprado un Pokémon!\n` +
                 `*Nombre:* ${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}\n` +
                 `*Poder Total:* ${poderTotal}\n` +
-                `*Precio de Compra:* ${precioCompra} créditos\n\n` +
+                `*Precio de Compra:* ${precioCompra} Fenixcoins\n\n` +
                 `Usa \`.mipokemon\` para ver tus Pokémon`, m
             );
         }
@@ -97,7 +96,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
             user.limit += precioVenta;
             user.pokemons.splice(pokemonIndex, 1);
 
-            conn.reply(m.chat, `¡Venta exitosa! Has vendido a ${pokemon.name} por ${precioVenta} créditos.`, m);
+            conn.reply(m.chat, `¡Venta exitosa! Has vendido a ${pokemon.name} por ${precioVenta} Fenixcoins.`, m);
         }
 
         // Comando .mipokemon
@@ -160,15 +159,15 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
 
 // Función para calcular el precio de compra basado en el rango de poder
 function calcularPrecioCompra(poder) {
-    if (poder >= 900) return 4000;
-    if (poder >= 800) return 1800;
-    if (poder >= 700) return 1200;
-    if (poder >= 600) return 900;
-    if (poder >= 500) return 600;
-    if (poder >= 400) return 490;
-    if (poder >= 300) return 290;
-    if (poder >= 200) return 120;
-    if (poder >= 100) return 50;
+    if (poder >= 900) return 4000; // 4000 Fenixcoins
+    if (poder >= 800) return 1800; // 1800 Fenixcoins
+    if (poder >= 700) return 1200; // 1200 Fenixcoins
+    if (poder >= 600) return 900;  // 900 Fenixcoins
+    if (poder >= 500) return 600;  // 600 Fenixcoins
+    if (poder >= 400) return 490;  // 490 Fenixcoins
+    if (poder >= 300) return 290;  // 290 Fenixcoins
+    if (poder >= 200) return 120;  // 120 Fenixcoins
+    if (poder >= 100) return 50;   // 50 Fenixcoins
     return 0; // Sin precio si está fuera de los rangos
 }
 
