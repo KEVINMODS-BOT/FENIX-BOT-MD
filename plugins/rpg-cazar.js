@@ -1,12 +1,24 @@
 let handler = async (m, { conn, usedPrefix, command, args }) => {
     try {
         let user = global.db.data.users[m.sender];
+        const cooldownTime = 5 * 60 * 1000; // 5 minutos en milisegundos
+        let now = Date.now();
 
         // Verificar si el usuario está registrado
         if (!user.registered) {
             conn.reply(m.chat, 'Por favor, regístrate usando el comando `.reg nombre.edad` antes de usar este comando.', m);
             return;
         }
+
+        // Verificar si hay un tiempo de espera activo para este comando
+        if (user.cooldown && (now - user.cooldown) < cooldownTime) {
+            let tiempoRestante = Math.ceil((cooldownTime - (now - user.cooldown)) / 1000 / 60); // Tiempo restante en minutos
+            conn.reply(m.chat, `*SPAM: ESPERE ${tiempoRestante} MINUTOS PARA USAR ESTE COMANDO DE NUEVO*`, m);
+            return;
+        }
+
+        // Actualizar el timestamp del último uso del comando
+        user.cooldown = now;
 
         // Lista global de animales en venta (la que veremos en la tienda)
         global.animalesEnVenta = global.animalesEnVenta || [];
