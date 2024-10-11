@@ -2,7 +2,7 @@ let handler = async (m, { conn, isRowner}) => {
 	let _muptime
 	let totalreg = Object.keys(global.db.data.users).length
 	let totalchats = Object.keys(global.db.data.chats).length
-	let pp = 'https://qu.ax/zbSJ.jpg'
+	let pp = 'https://qu.ax/YzpzT.jpg'
     if (process.send) {
       process.send('uptime')
       _muptime = await new Promise(resolve => {
@@ -21,7 +21,6 @@ let handler = async (m, { conn, isRowner}) => {
       txt += `*[👤] Chats Privados:* ${chats.length - groupsIn.length}\n`
       txt += `*[💬] Total De Chats:* ${chats.length}\n`
       txt += `*[🐢] Usuarios Registrados:* ${totalreg}\n`
-      txt += `*[🕜] Uptime:* ${muptime}\n`
 await conn.sendFile(m.chat, pp, 'thumbnail.jpg', txt, m)
 }
 handler.help = ['status']
