@@ -1,29 +1,29 @@
 let handler = async (m, { conn, usedPrefix, command, args }) => {
     try {
         let user = global.db.data.users[m.sender];
-        const cooldownTime = 5 * 60 * 1000; // 5 minutos en milisegundos
+        const cooldownTime = 5 * 60 * 1000; 
         let now = Date.now();
 
-        // Verificar si el usuario está registrado
+
         if (!user.registered) {
             conn.reply(m.chat, 'Por favor, regístrate usando el comando `.reg nombre.edad` antes de usar este comando.', m);
             return;
         }
 
-        // Verificar si hay un tiempo de espera activo para este comando
+
         if (user.cooldown && (now - user.cooldown) < cooldownTime) {
-            let tiempoRestante = Math.ceil((cooldownTime - (now - user.cooldown)) / 1000 / 60); // Tiempo restante en minutos
+            let tiempoRestante = Math.ceil((cooldownTime - (now - user.cooldown)) / 1000 / 60); 
             conn.reply(m.chat, `*SPAM: ESPERE ${tiempoRestante} MINUTOS PARA USAR ESTE COMANDO DE NUEVO*`, m);
             return;
         }
 
-        // Actualizar el timestamp del último uso del comando
+
         user.cooldown = now;
 
-        // Lista global de animales en venta (la que veremos en la tienda)
+   
         global.animalesEnVenta = global.animalesEnVenta || [];
 
-        // Comando para cazar animales mitológicos
+     
         if (command === 'magicaventur') {
             let animalesMitologicos = [
                 { nombre: "Dragón", imagen: "https://qu.ax/xXObC.jpg" },
@@ -41,7 +41,6 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
                 { nombre: "Kraken", imagen: "https://qu.ax/HHXFY.jpg" },
             ];
 
-            // Determinar si el usuario caza un animal (probabilidad ajustada de éxito)
             let cazaExitosa = Math.random() < 0.1; // Ahora hay un 10% de probabilidad de cazar un animal
 
             if (!cazaExitosa) {
@@ -49,7 +48,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
                 return;
             }
 
-            // Filtrar animales que el usuario ya posee
+            
             let animalesDisponibles = animalesMitologicos.filter(animal => !user.animalesMitologicos?.some(a => a.nombre === animal.nombre));
 
             if (animalesDisponibles.length === 0) {
@@ -57,7 +56,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
                 return;
             }
 
-            // Selección aleatoria de un animal mitológico no repetido
+          
             let animal = animalesDisponibles[Math.floor(Math.random() * animalesDisponibles.length)];
 
             user.animalesMitologicos = user.animalesMitologicos || [];
@@ -66,7 +65,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
             conn.sendFile(m.chat, animal.imagen, 'animal.jpg', `¡HAZ CAZADO UN ANIMAL MITOLÓGICO! ☛ ${animal.nombre} ☚ \n\nUsa .tienda para ver los seres mitológicos a la venta.`, m);
         }
 
-        // Comando para mostrar los animales a la venta y los del usuario
+    
         if (command === 'tienda') {
             let ventaList = global.animalesEnVenta.map((animal, i) => `${i + 1}. ${animal.nombre} - ${animal.precio} Fenixcoins`).join('\n');
             let animalesUsuario = user.animalesMitologicos && user.animalesMitologicos.length > 0
@@ -85,12 +84,12 @@ ${animalesUsuario}
 Usa \`.vender[número]\` para vender uno de tus animales.
             `;
 
-            // Imagen de la tienda (puedes usar cualquier URL de imagen)
-            let imagenTienda = 'https://qu.ax/rvElh.jpg'; // Cambia la URL a la imagen que prefieras
+          
+            let imagenTienda = 'https://qu.ax/rvElh.jpg'; 
             conn.sendFile(m.chat, imagenTienda, 'tienda.jpg', mensaje, m);
         }
 
-        // Comando para comprar un animal de la tienda
+        
         if (command.startsWith('comprar') && command.length > 7) {
             let compraIndex = parseInt(command.slice(7)) - 1;
 
@@ -101,7 +100,7 @@ Usa \`.vender[número]\` para vender uno de tus animales.
 
             let animalComprado = global.animalesEnVenta[compraIndex];
 
-            // Verificar si el usuario tiene suficientes Fenixcoins para comprar el animal
+          l
             if (user.limit < animalComprado.precio) {
                 conn.reply(m.chat, `No tienes suficientes Fenixcoins para comprar un ${animalComprado.nombre}. Necesitas ${animalComprado.precio} Fenixcoins.`, m);
                 return;
@@ -109,12 +108,12 @@ Usa \`.vender[número]\` para vender uno de tus animales.
 
             user.limit -= animalComprado.precio;
             user.animalesMitologicos.push({ nombre: animalComprado.nombre, imagen: animalComprado.imagen });
-            global.animalesEnVenta.splice(compraIndex, 1); // Eliminar el animal de la lista de venta
+            global.animalesEnVenta.splice(compraIndex, 1); 
 
             conn.reply(m.chat, `¡Has comprado un ${animalComprado.nombre} por ${animalComprado.precio} Fenixcoins!`, m);
         }
 
-        // Comando para vender un animal del usuario
+   
         if (command.startsWith('vender') && command.length > 6) {
             let ventaIndex = parseInt(command.slice(6)) - 1;
 
@@ -130,13 +129,13 @@ Usa \`.vender[número]\` para vender uno de tus animales.
 
             let animalVendido = user.animalesMitologicos.splice(ventaIndex, 1)[0];
 
-            // Verificar si el animal ya está en venta
+       
             if (global.animalesEnVenta.some(a => a.nombre === animalVendido.nombre)) {
                 conn.reply(m.chat, `Ya hay un ${animalVendido.nombre} a la venta, no puedes venderlo de nuevo.`, m);
                 return;
             }
 
-            let precioVenta = obtenerPrecioAnimal(); // Precio aleatorio de venta
+            let precioVenta = obtenerPrecioAnimal(); 
             global.animalesEnVenta.push({ nombre: animalVendido.nombre, imagen: animalVendido.imagen, precio: precioVenta });
 
             user.limit += precioVenta;
@@ -149,7 +148,7 @@ Usa \`.vender[número]\` para vender uno de tus animales.
     }
 };
 
-// Función para obtener un precio aleatorio para vender los animales mitológicos
+
 function obtenerPrecioAnimal() {
     const precios = [150, 200, 250, 300];
     return precios[Math.floor(Math.random() * precios.length)];
