@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 
 let handler  = async (m, { conn, usedPrefix, command }) => {
-let img = await (await fetch(`https://qu.ax/LXzyv.jpg`)).buffer()
+let img = await (await fetch(`https://qu.ax/YzpzT.jpg`)).buffer()
 const more = String.fromCharCode(8206)
 const readMore = more.repeat(4001)
 let txt = `Bienvenido *@${m.sender.split('@')[0]}* aquí encontraras los grupos y canales de la bot ♥︎
