@@ -25,7 +25,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
             [animales[Math.floor(Math.random() * animales.length)], animales[Math.floor(Math.random() * animales.length)], animales[Math.floor(Math.random() * animales.length)]]
         ];
 
-        let mensajeResultado = `.bienvenido *@${m.sender.split('@')[0]}* al juego de slot\n\nAquí el resultado:\n\n` +
+        let mensajeResultado = `Bienvenido *@${m.sender.split('@')[0]}* al juego de slot\n\nAquí el resultado:\n\n` +
             `${resultado[0].join(' | ')}\n${resultado[1].join(' | ')}\n${resultado[2].join(' | ')}`;
 
         const esTresEnLinea = (a, b, c) => a === b && b === c;
