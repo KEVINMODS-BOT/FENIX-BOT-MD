@@ -19,7 +19,6 @@ let handler = async (m, { conn, db }) => {
 *➢ [👨🏻‍💻] \`CREADOR:\`* Kevinmodz
 *➢ [💮] \`ACTUALIZACION:\`* 1.1.1
 *➢ [👥] \`USUARIOS:\`* ${registeredUsers} registrados
-*➢ [🪽] \`GRUPO:\`* https://chat.whatsapp.com/CojAg0whhea96ddUJrQaVZ
 *➢ [🪼] \`CANAL:\`* https://whatsapp.com/channel/0029VapwUi0Dp2QC3xO9PX42
 
 └──┸─┸┸─┸─┸┸┸┸─┙
