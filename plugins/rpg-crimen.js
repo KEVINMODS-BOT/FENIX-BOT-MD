@@ -1,7 +1,6 @@
-
-let minRob = 15  // Cantidad mínima de créditos que se puede robar
-let maxRob = 30  // Cantidad máxima de créditos que se puede robar
-let cooldown = 1200000  // 20 minutos en milisegundos
+let minRob = 15 
+let maxRob = 30  
+let cooldown = 1200000 
 
 let handler = async (m, { conn, usedPrefix, command }) => {
     let userData = global.db.data.users[m.sender]
@@ -27,20 +26,20 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     let targetUserData = global.db.data.users[who]
     let robAmount = Math.floor(Math.random() * (maxRob - minRob + 1)) + minRob
 
-    // Verificar si el usuario objetivo tiene suficientes créditos fuera del banco
-    let availableCredits = targetUserData.limit
-    if (availableCredits < robAmount) 
-        return m.reply(`😿 @${who.split`@`[0]} tiene menos de *${robAmount} Créditos*. No robes a un pobre :v`, null, { mentions: [who] })
+   
+    let availableFenixcoins = targetUserData.limit
+    if (availableFenixcoins < robAmount) 
+        return m.reply(`😿 @${who.split`@`[0]} tiene menos de *${robAmount} Fenixcoins*. No robes a un pobre :v`, null, { mentions: [who] })
 
-    // Transferir créditos
+
     userData.limit += robAmount
     targetUserData.limit -= robAmount
 
-    // Asegurarse de que las modificaciones se guarden en la base de datos
+
     global.db.write()
 
-    // Enviar mensaje de éxito
-    m.reply(`*✧ Robaste ${robAmount} Créditos a @${who.split`@`[0]}*`, null, { mentions: [who] })
+
+    m.reply(`*✧ Robaste ${robAmount} Fenixcoins a @${who.split`@`[0]}*`, null, { mentions: [who] })
     userData.lastrob = now
 }
 
