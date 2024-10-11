@@ -1,28 +1,24 @@
-import {googleIt} from '@bochilteam/scraper'
-import google from 'google-it'
-import axios from 'axios'
+import {googleIt} from '@bochilteam/scraper';
+import google from 'google-it';
+import axios from 'axios';
 let handler = async (m, { conn, command, args, usedPrefix }) => {
-const fetch = (await import('node-fetch')).default;
-const text = args.join` `
-if (!text) return conn.reply(m.chat, '🍟 Ingresa lo que deseas buscar en Google.', m, rcanal)
-conn.reply(m.chat, `🚩 Buscando Su Información...`, m, {
-contextInfo: { externalAdReply :{ mediaUrl: null, mediaType: 1, showAdAttribution: true,
-title: packname,
-body: wm,
-previewType: 0, thumbnail: icons,
-sourceUrl: channel }}})
-const url = 'https://google.com/search?q=' + encodeURIComponent(text)
+  const fetch = (await import('node-fetch')).default;
+  const text = args.join` `;
+  if (!text) return conn.reply(m.chat, '🚩 Ingresa lo que deseas buscar junto al comando.', m)
+  await m.react('🕓')
+  let img = 'https://i.ibb.co/P5kZNFF/file.jpg'
+const url = 'https://google.com/search?q=' + encodeURIComponent(text);
 google({'query': text}).then(res => {
-let teks = `🍟 *Resultado de* : ${text}\n\n`
+let teks = `\t\t\t*乂  S E A R C H  -  G O O G L E*\n\n`
 for (let g of res) {
-teks += `🐢 *Titulo ∙* ${g.title}\n🚩 *Info ∙* ${g.snippet}\n🔗 *Url ∙* ${g.link}\n\n`
-}
-conn.reply(m.chat, teks, m, rcanal)
+teks += `*${g.title}*\n${g.link}\n${g.snippet}\n\n`
+} 
+conn.sendFile(m.chat, img, 'thumbnail.jpg', teks, m).then(_ => m.react('✅'))
 })
 }
-handler.help = ['google <búsqueda>']
-handler.tags = ['buscador']
-handler.command = ['google']
-handler.group = true;
-handler.register = true
-export default handler
+handler.help = ['google *<texto>*']
+handler.tags = ['tools', 'search']
+handler.command = /^googlef?$/i
+//handler.limit = 1
+handler.register = true 
+export default handler;
