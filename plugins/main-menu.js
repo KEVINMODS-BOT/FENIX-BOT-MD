@@ -113,6 +113,15 @@ let handler = async (m, { conn, db }) => {
 ║⏤͟͟͞͞💎➢ .regalarpokemon @user Pikachu
 ║➥ regala un pokemon a tu amigo 
 ║
+║⏤͟͟͞͞💎➢ .tienda
+║➥ ve la tienda de animales mitologicos
+║
+║⏤͟͟͞͞💎➢ .vender1
+║➥ vende tus animales mitologicos
+║
+║⏤͟͟͞͞💎➢ .comprar1
+║➥ comprar animales mitologicos
+║
 ║
 ╬╬════════════════╬╬
             🔎 *BUSQUEDAS* 🔍
