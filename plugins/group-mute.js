@@ -20,16 +20,6 @@ let handler = async (message, { conn, command, text, isAdmin, isBotAdmin }) => {
             text: `✅ El usuario @${mentionedUser.split('@')[0]} ha sido silenciado.`,
             mentions: [mentionedUser]
         });
-
-        conn.on('chat-update', async (chat) => {
-            if (chat.messages && chat.count) {
-                const m = chat.messages.all()[0];
-                if (m.key.fromMe || !user.muted) return;
-                if (m.key.participant === mentionedUser && isBotAdmin) {
-                    await conn.sendMessage(m.key.remoteJid, { delete: m.key });
-                }
-            }
-        });
     }
 
     if (unmute) {
@@ -41,6 +31,16 @@ let handler = async (message, { conn, command, text, isAdmin, isBotAdmin }) => {
             text: `✅ El usuario @${mentionedUser.split('@')[0]} ha sido desmuteado.`,
             mentions: [mentionedUser]
         });
+    }
+};
+
+handler.before = async (message, { conn }) => {
+    let user = global.db.data.users[message.sender];
+    if (user && user.muted && message.isGroup) {
+        if (message.fromMe) return; // No borra los mensajes del bot mismo
+        if (conn.isBotAdmin) {
+            await conn.sendMessage(message.chat, { delete: message.key }); // Eliminar el mensaje
+        }
     }
 };
 
