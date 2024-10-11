@@ -31,7 +31,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
         ];
 
       
-        let mensajeResultado = `.bienvenido *@${m.sender.split('@')[0]}* al juego de slot\n\nAquí el resultado:\n\n` +
+        let mensajeResultado = `Bienvenido *@${m.sender.split('@')[0]}* al juego de slot\n\nAquí el resultado:\n\n` +
             `${resultado[0].join(' | ')}\n${resultado[1].join(' | ')}\n${resultado[2].join(' | ')}`;
 
        
