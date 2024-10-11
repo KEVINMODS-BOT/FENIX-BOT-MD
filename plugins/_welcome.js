@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 
 export async function before(m, { conn, participants, groupMetadata }) {
   if (!m.messageStubType || !m.isGroup) return !0;
-  let pp = await conn.profilePictureUrl(m.messageStubParameters[0], 'image').catch(_ => 'https://tinyurl.com/2dfx6f8r');
+  let pp = await conn.profilePictureUrl(m.messageStubParameters[0], 'image').catch(_ => 'https://qu.ax/YzpzT.jpg');
   let img = await (await fetch(`${pp}`)).buffer();
   let chat = global.db.data.chats[m.chat];
 
