@@ -7,11 +7,11 @@ let handler = async (m, { conn: star, command, args, text, usedPrefix }) => {
     try {
     let res = await search(args.join(" "))
     let img = await (await fetch(`${res[0].image}`)).buffer()
-    let txt = '`乂  Y O U T U B E  -  P L A Y`\n\n'
-       txt += `*➢ Título* : ${res[0].title}\n`
-       txt += `*➢ Duración* : ${secondString(res[0].duration.seconds)}\n`
-       txt += `*➢ Publicado* : ${eYear(res[0].ago)}\n`
-       txt += `*➢ Canal* : ${res[0].author.name || 'Desconocido'}\n`
+    let txt = '`乂  F E N I X -  P L A Y 🐦‍🔥`\n\n'
+       txt += `*➢ Título* : ${res[0].title}\n\n`
+       txt += `*➢ Duración* : ${secondString(res[0].duration.seconds)}\n\n`
+       txt += `*➢ Publicado* : ${eYear(res[0].ago)}\n\n`
+       txt += `*➢ Canal* : ${res[0].author.name || 'Desconocido'}\n\n`
        txt += `*➢ Url* : ${'https://youtu.be/' + res[0].videoId}\n\n`
        txt += `> *-* Para descargar primero usa el comando  .off document  luego responde a este mensaje con *Video* o *Audio*.`
 await star.sendFile(m.chat, img, 'thumbnail.jpg', txt, m, null, rcanal)
