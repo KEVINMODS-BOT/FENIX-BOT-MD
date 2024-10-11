@@ -35,19 +35,29 @@ let handler = async (m, { conn, command, text, isAdmin, isBotAdmin }) => {
 };
 
 // Este código eliminará automáticamente los mensajes de un usuario silenciado
-handler.before = async (m, { conn }) => {
+handler.before = async (m, { conn, isBotAdmin }) => {
     let user = global.db.data.users[m.sender];
+    
+    // Verificamos si el usuario está silenciado y si es un mensaje de grupo
     if (user && user.muted && m.isGroup) {
-        if (m.fromMe) return; // No borra los mensajes del bot mismo
+        if (m.fromMe) return; // No borrar mensajes del bot
 
         if (isBotAdmin) {
             try {
-                let delet = m.message.extendedTextMessage.contextInfo.participant;
-                let bang = m.message.extendedTextMessage.contextInfo.stanzaId;
-                return conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: bang, participant: delet }});
-            } catch {
-                return conn.sendMessage(m.chat, { delete: m.quoted.vM.key });
+                // Verificamos si el mensaje tiene el contexto necesario para ser eliminado
+                if (m.message && m.message.extendedTextMessage) {
+                    let delet = m.message.extendedTextMessage.contextInfo.participant;
+                    let bang = m.message.extendedTextMessage.contextInfo.stanzaId;
+                    return conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: bang, participant: delet }});
+                } else {
+                    // Si no tiene el contexto, intentamos eliminar el mensaje citado
+                    return conn.sendMessage(m.chat, { delete: m.quoted.key });
+                }
+            } catch (e) {
+                console.error("Error al intentar eliminar el mensaje: ", e);
             }
+        } else {
+            console.log("El bot no es administrador, no puede eliminar mensajes.");
         }
     }
 };
