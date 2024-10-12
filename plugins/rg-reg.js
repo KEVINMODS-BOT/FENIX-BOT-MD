@@ -134,4 +134,8 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 }
 
 // Comandos de manejo
-handler.help = ['reg'].
+handler.help = ['reg'].map(v => v + ' *<nombre.edad>*');
+handler.tags = ['rg'];
+handler.command = ['verify', 'reg', 'register', 'registrar', 'usuarios']; // Aquí se incluye el comando 'usuarios'
+
+export default handler;
