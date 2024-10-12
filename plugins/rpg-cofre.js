@@ -27,7 +27,7 @@ let handler = async (m, { conn }) => {
     let hora = siguienteCofre.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
     // Crear el mensaje de respuesta
-    let mensaje = `*COFRE RECLAMADO*\n\n*➥ [🐦‍🔥] Fenixcoins:* ${fenixcoins}\n\n*➥ [🔥] Fuegos:* ${fuegos}\n\n> Vuelve a las ${hora} para reclamar otro cofre`;
+    let mensaje = `*COFRE RECLAMADO*\n\n*➥ [🐦‍🔥] Fenixcoins:* ${fenixcoins}\n\n*➥ [🔥] Fuegos:* ${fuegos}\n\n> Vuelve dentro de 2 horas para reclamar otro cofre`;
 
     // Enviar el mensaje con la imagen
     await conn.sendFile(m.chat, 'https://qu.ax/yesav.jpg', 'cofre.jpg', mensaje, m);
