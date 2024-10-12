@@ -5,12 +5,12 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     // Verificar si el usuario tiene suficientes fuegos
     if (!user.fuegos || user.fuegos < 3) {
-        return conn.reply(m.chat, '❌ No tienes suficientes fuegos para usar este comando. Necesitas al menos 3 fuegos.', m);
+        return conn.reply(m.chat, '*`No tienes suficientes fuegos para usar este comando.`*\n\n*`Necesitas al menos 3 fuegos.`*', m);
     }
 
     // Verificar si el enlace es proporcionado
     if (!args || !args[0]) {
-        return conn.reply(m.chat, '🚩 Ingresa un enlace del vídeo de TikTok junto al comando.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* https://vm.tiktok.com/ZMrFCX5jf/`, m);
+        return conn.reply(m.chat, '*`Ingresa un enlace del vídeo de TikTok junto al comando.`*\n\n*`Ejemplo:`*\n' + `> *${usedPrefix + command}* https://vm.tiktok.com/ZMrFCX5jf/`, m);
     }
 
     // Verificar si el enlace es válido
@@ -30,8 +30,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         txt += `\t✩  *Autor* : ${author}\n`;
         txt += `\t✩  *Duración* : ${duration} segundos\n`;
         txt += `\t✩  *Vistas* : ${views}\n`;
-        txt += `\t✩  *Likes* : ${likes}\n`;
-        txt += `\t✩  *Publicado* : ${published}\n\n`;
+        txt += `\t✩  *Likes* : ${likes}\n\n`;
         txt += `> *Haz gastado 3 fuegos 🔥*`;
 
         // Descontar fuegos antes de enviar el video
