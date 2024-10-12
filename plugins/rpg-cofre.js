@@ -2,11 +2,16 @@ let handler = async (m, { conn }) => {
     // Verifica si el usuario tiene un tiempo de espera activo
     let user = global.db.data.users[m.sender];
     let tiempoActual = new Date().getTime();
-    let tiempoRestante = user.lastCofre ? (user.lastCofre + 5 * 1000) - tiempoActual : 0;
+    let tiempoRestante = user.lastCofre ? (user.lastCofre + 2 * 60 * 60 * 1000) - tiempoActual : 0; // 2 horas en milisegundos
 
     if (tiempoRestante > 0) {
         let segundosRestantes = Math.floor(tiempoRestante / 1000);
-        return conn.reply(m.chat, `Debes esperar ${segundosRestantes} segundos antes de abrir otro cofre.`, m);
+        let minutosRestantes = Math.floor(segundosRestantes / 60);
+        let horasRestantes = Math.floor(minutosRestantes / 60);
+        segundosRestantes = segundosRestantes % 60;
+        minutosRestantes = minutosRestantes % 60;
+
+        return conn.reply(m.chat, `Debes esperar ${horasRestantes}h ${minutosRestantes}m ${segundosRestantes}s antes de abrir otro cofre.`, m);
     }
 
     // Generar una cantidad aleatoria de fenixcoins y fuegos
@@ -18,11 +23,11 @@ let handler = async (m, { conn }) => {
     user.fuegos = (user.fuegos || 0) + fuegos;  // Fuegos
 
     // Formatear el tiempo de espera para el mensaje
-    let siguienteCofre = new Date(tiempoActual + 5 * 1000);
+    let siguienteCofre = new Date(tiempoActual + 2 * 60 * 60 * 1000);
     let hora = siguienteCofre.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
     // Crear el mensaje de respuesta
-    let mensaje = `*COFRE RECLAMADO*\n\n*➥ [🐦‍🔥] Fenixcoins:* ${fenixcoins}\n\n*➥ [🔥] Fuegos:* ${fuegos}\n\n> Vuelve en ${hora} para reclamar otro cofre`;
+    let mensaje = `*COFRE RECLAMADO*\n\n*➥ [🐦‍🔥] Fenixcoins:* ${fenixcoins}\n\n*➥ [🔥] Fuegos:* ${fuegos}\n\n> Vuelve a las ${hora} para reclamar otro cofre`;
 
     // Enviar el mensaje con la imagen
     await conn.sendFile(m.chat, 'https://qu.ax/yesav.jpg', 'cofre.jpg', mensaje, m);
