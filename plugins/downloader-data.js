@@ -67,7 +67,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 
   // Si el usuario no está registrado en la base de datos, asignar valores predeterminados
   let limit = user ? user.limit || 0 : 'No tiene registro'; // Obtener créditos del usuario o mostrar "No tiene registro"
-  let fuego = user ? user.fuego || 0 : 'No tiene registro'; // Obtener fuegos del usuario o mostrar "No tiene registro"
+  let fuegos = user ? user.fuegos || 0 : 'No tiene registro'; // Obtener fuegos del usuario o mostrar "No tiene registro"
   let registerDate = user ? new Date(user.registered || Date.now()).toLocaleDateString() : 'No tiene registro'; // Fecha de registro o "No tiene registro"
   let isActive = user ? (user.banned ? 'BANEADO [❌]' : 'LIBRE [✅]') : 'No tiene registro'; // Estado de actividad o "No tiene registro"
   let age = user && user.age > 0 ? user.age : 'Desconocido'; // Edad del usuario
@@ -83,7 +83,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 ❰💬❱ *USUARIO* → @${userId.split('@')[0]}
 ❰🌏❱ *PAÍS* → ${countryInfo.flag} ${countryInfo.name}
 ❰🐦‍🔥❱ *FENIXCOINS* → ${limit}
-❰🔥❱ *FUEGOS* → ${fuego}
+❰🔥❱ *FUEGOS* → ${fuegos}
 ❰🗓❱ *REGISTRO* → ${registerDate}
 ❰⚠️❱ *ADVERTENCIAS* → ${warnings}/3
 ❰💯❱ *ESTADO* → ${isActive}
