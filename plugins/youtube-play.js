@@ -18,7 +18,7 @@ let handler = async (m, { conn: star, command, args, text, usedPrefix }) => {
         let res = await search(args.join(" "));
         let img = await (await fetch(`${res[0].image}`)).buffer();
         let txt = '`D E S C A R G A S  -  F E N I X`\n\n\n';
-        txt += `> *-* *Descarga Exitosa Con FENIX 🐦‍🔥*.\n\n\n`;
+        txt += `> *- *Has gastado 3 fuegos 🔥*.\n\n\n`;
         txt += `*➢ Título* : ${res[0].title}\n\n`;
         txt += `*➢ Duración* : ${secondString(res[0].duration.seconds)}\n\n`;
         txt += `*➢ Publicado* : ${eYear(res[0].ago)}\n\n`;
