@@ -83,24 +83,30 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
         user.regTime = +new Date();
         user.registered = true;
 
-        // Generar número de serie
-        // Generar número de serie
-let sn = createHash('md5').update(m.sender).digest('hex');
-let image = await (await fetch(`https://qu.ax/YzpzT.jpg`)).buffer(); // Cambia por la URL de tu imagen
+        // Inicializa los premios
+        user.fenixcoins = 10; // Otorga 10 FenixCoins
+        user.fuegos = 10; // Otorga 10 fuegos
 
-// Mensaje de registro
-let txt = '*`R E G I S T R O - F E N I X`* \n\n';
-txt += `*REGISTRO DE @${m.sender.split('@')[0]}*\n\n`;
-txt += `*[🐦‍🔥] ➢ NOMBRE:*  ${name}\n\n`;
-txt += `*[🐦‍🔥] ➢ EDAD:*  ${age} años\n\n`;
-txt += `*[🐦‍🔥] ➢ PAÍS:*  ${countryInfo.name} ${countryInfo.emoji}\n\n`;
-txt += `*[🐦‍🔥] ➢ NUMERO DE SERIE:*\n`;
-txt += `${sn}\n\n\n`;
-txt += `> *YA SE ENCUENTRA REGISTRADO EN MI BASE DE DATOS*`;
+        // Generar número de serie
+        let sn = createHash('md5').update(m.sender).digest('hex');
+        let image = await (await fetch(`https://qu.ax/YzpzT.jpg`)).buffer(); // Cambia por la URL de tu imagen
 
-// Enviar la imagen junto con el texto
-await conn.sendMessage(m.chat, { image: image, caption: txt });
-await m.react('✅');
+        // Mensaje de registro
+        let txt = '*`R E G I S T R O - F E N I X`* \n\n';
+        txt += `*REGISTRO DE @${m.sender.split('@')[0]}*\n\n`;
+        txt += `*[🐦‍🔥] ➢ NOMBRE:*  ${name}\n\n`;
+        txt += `*[🐦‍🔥] ➢ EDAD:*  ${age} años\n\n`;
+        txt += `*[🐦‍🔥] ➢ PAÍS:*  ${countryInfo.name} ${countryInfo.emoji}\n\n`;
+        txt += `*[🐦‍🔥] ➢ NUMERO DE SERIE:*\n`;
+        txt += `${sn}\n\n`;
+        txt += `*PREMIOS OBTENIDOS*\n\n`;
+        txt += `*[🐦‍🔥] ➢ FENIXCOINS:*  ${user.fenixcoins}\n\n`;
+        txt += `*[🔥] ➢ FUEGOS:*  ${user.fuegos}\n\n\n`;
+        txt += `> *YA SE ENCUENTRA REGISTRADO EN MI BASE DE DATOS*`;
+
+        // Enviar la imagen junto con el texto
+        await conn.sendMessage(m.chat, { image: image, caption: txt });
+        await m.react('✅');
     }
 
     // Si se usa el comando de mostrar usuarios
@@ -128,8 +134,4 @@ await m.react('✅');
 }
 
 // Comandos de manejo
-handler.help = ['reg'].map(v => v + ' *<nombre.edad>*');
-handler.tags = ['rg'];
-handler.command = ['verify', 'reg', 'register', 'registrar', 'usuarios']; // Aquí se incluye el comando 'usuarios'
-
-export default handler;
+handler.help = ['reg'].
