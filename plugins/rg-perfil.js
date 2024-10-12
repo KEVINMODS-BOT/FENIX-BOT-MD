@@ -1,4 +1,3 @@
-
 import { createHash } from 'crypto';
 import PhoneNumber from 'awesome-phonenumber';
 
@@ -65,7 +64,7 @@ let handler = async (m, { conn, usedPrefix }) => {
         // Manejar errores si es necesario
     }
 
-    let { name, limit, lastclaim, registered, regTime, age, banned, level, premiumTime } = global.db.data.users[who];
+    let { name, limit, lastclaim, registered, regTime, age, banned, level, premiumTime, fuegos } = global.db.data.users[who];
     let mentionedJid = [who];
     let username = conn.getName(who);
     let prem = global.prems.includes(who.split`@`[0]);
@@ -112,6 +111,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 *[💬] NICKNAME →* ${username}
 *[🌍] NACIONALIDAD →* ${country}
 *[🐦‍🔥] FENIXCOINS →* ${limit}
+*[🔥] FUEGOS →* ${fuegos || 0}
 *[💵] FENIXCOINS EN EL BANCO →* ${user.banco || 0}
 *[🔱] TOP →* ${topPosition} de ${sortedUsers.length}
 *[🔱] RANGO →* ${rank}
@@ -142,6 +142,7 @@ let dataHandler = async (m, { conn }) => {
 ❰👤❱ *NOMBRE* → ${user.name || 'Desconocido'}
 ❰💬❱ *USUARIO* → @${who.split('@')[0]}
 ❰💰❱ *CREDITOS* → ${user.limit || 0}
+❰🔥❱ *FUEGOS* → ${user.fuegos || 0}
 ❰🗓❱ *REGISTRO* → ${new Date(user.registered).toLocaleDateString() || 'Desconocido'}
 ❰💯❱ *ESTADO* → ${user.banned ? 'BANEADO [❌]' : 'NOBANEADO [✅]'}
     `.trim();
