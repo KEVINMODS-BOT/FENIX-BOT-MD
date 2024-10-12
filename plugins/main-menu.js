@@ -23,13 +23,9 @@ let handler = async (m, { conn, db }) => {
           *INFO - BOT*
 
 *➢ [👨🏻‍💻] \`CREADOR:\`* Kevinmodz
-
 *➢ [💮] \`ACTUALIZACION:\`* 1.1.1
-
 *➢ [👥] \`USUARIOS:\`* ${registeredUsers} registrados
-
 *➢ [🪼] \`CANAL:\`* https://whatsapp.com/channel/0029VapwUi0Dp2QC3xO9PX42
-
 
 └──┸─┸┸─┸─┸┸┸┸─┙
 
