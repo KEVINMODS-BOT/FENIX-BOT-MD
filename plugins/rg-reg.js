@@ -102,7 +102,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
         txt += `*PREMIOS OBTENIDOS*\n\n`;
         txt += `*[🐦‍🔥] ➢ FENIXCOINS:*  ${user.fenixcoins}\n\n`;
         txt += `*[🔥] ➢ FUEGOS:*  ${user.fuegos}\n\n\n`;
-        txt += `> *YA SE ENCUENTRA REGISTRADO EN MI BASE DE DATOS*`;
+        txt += `> *YA SE ENCUENTRA REGISTRADO EN MI BASE DE DATOS 🐦‍🔥*`;
 
         // Enviar la imagen junto con el texto
         await conn.sendMessage(m.chat, { image: image, caption: txt });
