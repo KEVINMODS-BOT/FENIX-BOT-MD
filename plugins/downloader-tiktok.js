@@ -4,7 +4,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let user = global.db.data.users[m.sender];
 
     // Verificar si el usuario tiene suficientes fuegos
-    if (user.fuegos < 3) {
+    if (!user.fuegos || user.fuegos < 3) {
         return conn.reply(m.chat, '❌ No tienes suficientes fuegos para usar este comando. Necesitas al menos 3 fuegos.', m);
     }
 
@@ -19,6 +19,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     }
 
     await m.react('🕓');
+
     try {
         // Obtener los datos del video
         let { title, author, duration, views, likes, published, dl_url } = await Starlights.tiktokdl(args[0]);
@@ -33,12 +34,12 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         txt += `\t✩  *Publicado* : ${published}\n\n`;
         txt += `> *Haz gastado 3 fuegos 🔥*`;
 
+        // Descontar fuegos antes de enviar el video
+        user.fuegos -= 3;
+
         // Enviar el video y mensaje formateado
         await conn.sendFile(m.chat, dl_url, 'tiktok.mp4', txt, m, null);
         await m.react('✅');
-
-        // Descontar 3 fuegos después de enviar el video
-        user.fuegos -= 3;
     } catch (e) {
         // Manejo de error si falla la descarga
         await m.react('✖️');
