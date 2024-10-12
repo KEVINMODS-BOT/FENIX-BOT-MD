@@ -35,9 +35,9 @@ let modifyFuegos = async (m, { conn, args, participants }) => {
     }
 };
 
-modifyFuegos.help = ['agregarfuego @user <cantidad>', 'quitarfuego @user <cantidad>'];
-modifyFuegos.tags = ['admin'];
-modifyFuegos.command = /^(agregarfuego|quitarfuego)$/i;
-modifyFuegos.admin = true; // Solo administradores pueden usar este comando
+handler.help = ['agregarfuego @user <cantidad>', 'quitarfuego @user <cantidad>'];
+handler.tags = ['admin'];
+handler.command = /^(agregarfuego|quitarfuego)$/i;
+handler.admin = true; // Solo administradores pueden usar este comando
 
 export default modifyFuegos;
