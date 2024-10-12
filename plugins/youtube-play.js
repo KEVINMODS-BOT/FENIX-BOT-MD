@@ -4,7 +4,7 @@ import yts from 'yt-search';
 let handler = async (m, { conn: star, command, args, text, usedPrefix }) => {
     let user = global.db.data.users[m.sender];
 
-    // Verificar si el usuario tiene al menos 3 fuegos
+    
     if (!user.fuegos || user.fuegos < 3) {
         return star.reply(m.chat, '*`No tienes suficientes fuegos para usar este comando.`*\n\n *`Necesitas al menos 3 fuegos.`*', m);
     }
@@ -26,10 +26,10 @@ let handler = async (m, { conn: star, command, args, text, usedPrefix }) => {
         txt += `*➢ Url* : ${'https://youtu.be/' + res[0].videoId}\n\n`;
         txt += `> *-* Para descargar primero usa el comando .off document  luego responde a este mensaje con *Video* o *Audio*.`;
         
-        // Enviar la información al usuario
+      
         await star.sendFile(m.chat, img, 'thumbnail.jpg', txt, m, null);
         
-        // Descontar 3 fuegos al usuario
+      
         user.fuegos -= 3;
 
         await m.react('✅');
@@ -41,7 +41,7 @@ let handler = async (m, { conn: star, command, args, text, usedPrefix }) => {
 handler.help = ['play *<búsqueda>*'];
 handler.tags = ['downloader'];
 handler.command = ['play'];
-//handler.register = true;
+
 export default handler;
 
 async function search(query, options = {}) {
