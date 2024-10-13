@@ -13,7 +13,7 @@ let handler = async (m, { conn, text, isOwner, usedPrefix, command }) => {
     if (!chats) chats = global.db.data.chats[res] = {}
     if (expired) chats.expired = +new Date() + expired * 1000 * 60 * 60 * 24
     let pp = 'https://telegra.ph/file/4fa3f65b6698517cd8dcf.mp4'
-   await conn.sendMessage(res, { video: { url: pp }, gifPlayback: true, caption: 'Ya llego el mejor Bot de todo WhatsApp.', mentions: [m.sender] }, { quoted: estilo })
+   await conn.sendMessage(res, { video: { url: pp }, gifPlayback: true, caption: '*`EL BOT SE ÚNICO EXITOSAMENTE`*\n\n `CANAL`\n\n https://whatsapp.com/channel/0029VapwUi0Dp2QC3xO9PX42', mentions: [m.sender] }, { quoted: estilo })
 }
 handler.help = ['join *<link> <días>*']
 handler.tags = ['owner']
