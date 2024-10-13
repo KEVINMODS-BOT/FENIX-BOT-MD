@@ -36,7 +36,9 @@ let handler = async (m, { conn, command, args }) => {
                 owner: null
             };
 
-            await conn.sendFile(m.chat, json.url, 'waifu.jpg', `Aquí tienes una waifu con el código ${waifuCode}.\n\nPuedes comprarla por ${waifuPrice} créditos usando el comando \`.comprarw ${waifuCode}\``, m);
+            await conn.sendFile(m.chat, json.url, 'waifu.jpg', 
+            `*W A I F U S*\n\n*Aquí tienes una waifu con el Código*  \`${waifuCode}\`\n\n*Puedes comprarla por ${waifuPrice} fenixcoins usando el comando* \`.comprarw ${waifuCode}\`\n\n> *-* FENIX - BOT MD 🐦‍🔥`, 
+            m);
 
             return;
         }
@@ -64,7 +66,7 @@ let handler = async (m, { conn, command, args }) => {
             let waifuPrice = waifu.price;
 
             if (user.limit < waifuPrice) {
-                conn.reply(m.chat, `No tienes suficientes créditos para comprar esta waifu. Necesitas ${waifuPrice} créditos.`, m);
+                conn.reply(m.chat, `No tienes suficientes fenixcoins para comprar esta waifu. Necesitas ${waifuPrice} fenixcoins.`, m);
                 return;
             }
 
@@ -73,28 +75,28 @@ let handler = async (m, { conn, command, args }) => {
             user.waifus.push(waifuCode);
 
             waifu.owner = m.sender;
-            conn.reply(m.chat, `Has comprado la waifu con el código ${waifuCode} por ${waifuPrice} créditos. Usa el comando .miswaifus para ver tus waifus.`, m);
+            conn.reply(m.chat, `Has comprado la waifu con el código \`${waifuCode}\` por ${waifuPrice} fenixcoins. Usa el comando .miswaifus para ver tus waifus.`, m);
         }
 
         if (command === 'miswaifus') {
-    if (!user.waifus || user.waifus.length === 0) {
-        conn.reply(m.chat, 'No tienes waifus. Compra una con el comando `.waifu`.', m);
-        return;
-    }
+            if (!user.waifus || user.waifus.length === 0) {
+                conn.reply(m.chat, 'No tienes waifus. Compra una con el comando `.waifu`.', m);
+                return;
+            }
 
-    let waifuList = user.waifus.map((waifuCode, i) => {
-        let waifu = global.db.data.waifus[waifuCode];
-        
-        // Verifica que la waifu exista en la base de datos
-        if (!waifu) {
-            return `${i + 1}. Código: ${waifuCode}, pero la waifu no existe en la base de datos.`;
+            let waifuList = user.waifus.map((waifuCode, i) => {
+                let waifu = global.db.data.waifus[waifuCode];
+
+                // Verifica que la waifu exista en la base de datos
+                if (!waifu) {
+                    return `${i + 1}. Código: ${waifuCode}, pero la waifu no existe en la base de datos.`;
+                }
+
+                return `*${i + 1}.*\n*➢ CODIGO:* \`${waifuCode}\`\n*➢ PRECIO:* ${waifu.price} fenixcoins\n*➢ URL:* ${waifu.url}`;
+            }).join('\n\n');
+
+            conn.reply(m.chat, `*T U S  -  W A I F U S*\n\n${waifuList}`, m);
         }
-        
-        return `${i + 1}. Código: ${waifuCode}, Precio original: ${waifu.price} créditos, URL: ${waifu.url}`;
-    }).join('\n\n');
-
-    conn.reply(m.chat, `Estas son tus waifus:\n\n${waifuList}`, m);
-}
 
     } catch (e) {
         console.log(e);
