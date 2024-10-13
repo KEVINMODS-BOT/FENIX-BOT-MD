@@ -34,8 +34,8 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     conn.sendMessage(m.chat, { image: { url: ruletaresultado }, caption: resultMessage }, { quoted: m });
 };
 
-handler.help = ['ruletaf apuesta'];
+handler.help = ['ruletafuego apuesta'];
 handler.tags = ['game'];
-handler.command = ['ruletaf'];
+handler.command = ['ruletafuego'];
 
 export default handler;
