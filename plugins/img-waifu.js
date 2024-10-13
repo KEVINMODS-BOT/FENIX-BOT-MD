@@ -75,8 +75,8 @@ let handler = async (m, { conn, command, args }) => {
             user.waifus.push(waifuCode);
 
             waifu.owner = m.sender;
-            conn.reply(m.chat, '*Has comprado la waifu con el código `${waifuCode}` por ${waifuPrice} fenixcoins.*\n\n *Usa el comando `.miswaifus` para ver tus waifus.*', m);
-        }
+            conn.reply(m.chat, `*Has comprado la waifu con el código \`${waifuCode}\` por ${waifuPrice} fenixcoins.*\n\n *Usa el comando \`.miswaifus\` para ver tus waifus.*`, m);
+            }
 
         if (command === 'miswaifus') {
             if (!user.waifus || user.waifus.length === 0) {
