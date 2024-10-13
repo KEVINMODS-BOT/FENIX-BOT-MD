@@ -47,26 +47,26 @@ let handler = async (m, { conn, command, args }) => {
             let waifuCode = args[0];
 
             if (!waifuCode) {
-                conn.reply(m.chat, 'Debes proporcionar un código para comprar una waifu. Usa `.comprarw [código]`.', m);
+                conn.reply(m.chat, '*Debes proporcionar un código para comprar una waifu.*\n\n *Usa `.comprarw [código]`.*', m);
                 return;
             }
 
             if (!global.db.data.waifus || !global.db.data.waifus[waifuCode]) {
-                conn.reply(m.chat, 'No existe ninguna waifu con ese código.', m);
+                conn.reply(m.chat, '*No existe ninguna waifu con ese código.*', m);
                 return;
             }
 
             let waifu = global.db.data.waifus[waifuCode];
 
             if (waifu.owner) {
-                conn.reply(m.chat, 'Esta waifu ya ha sido comprada por alguien más.', m);
+                conn.reply(m.chat, '*Esta waifu ya ha sido comprada por alguien más.*', m);
                 return;
             }
 
             let waifuPrice = waifu.price;
 
             if (user.limit < waifuPrice) {
-                conn.reply(m.chat, `No tienes suficientes fenixcoins para comprar esta waifu. Necesitas ${waifuPrice} fenixcoins.`, m);
+                conn.reply(m.chat, `*No tienes suficientes fenixcoins para comprar esta waifu.*\n\n *Necesitas ${waifuPrice} fenixcoins.*`, m);
                 return;
             }
 
@@ -75,12 +75,12 @@ let handler = async (m, { conn, command, args }) => {
             user.waifus.push(waifuCode);
 
             waifu.owner = m.sender;
-            conn.reply(m.chat, `Has comprado la waifu con el código \`${waifuCode}\` por ${waifuPrice} fenixcoins. Usa el comando .miswaifus para ver tus waifus.`, m);
+            conn.reply(m.chat, '*Has comprado la waifu con el código \`${waifuCode}\` por ${waifuPrice} fenixcoins.*\n\n *Usa el comando `.miswaifus` para ver tus waifus.*', m);
         }
 
         if (command === 'miswaifus') {
             if (!user.waifus || user.waifus.length === 0) {
-                conn.reply(m.chat, 'No tienes waifus. Compra una con el comando `.waifu`.', m);
+                conn.reply(m.chat, '*No tienes waifus.*\n\n *Compra una con el comando `.waifu`.*', m);
                 return;
             }
 
