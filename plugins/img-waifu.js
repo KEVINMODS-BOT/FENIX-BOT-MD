@@ -13,21 +13,27 @@ let handler = async (m, { conn, command, args }) => {
         // Comando .waifu para mostrar la waifu con un código único
         if (command === 'waifu') {
             let res = await fetch('https://api.waifu.pics/sfw/waifu');
-            if (!res.ok) return;
+            if (!res.ok) {
+                conn.reply(m.chat, 'Hubo un error al obtener la waifu. Inténtalo de nuevo.', m);
+                return;
+            }
             let json = await res.json();
-            if (!json.url) return;
+            if (!json.url) {
+                conn.reply(m.chat, 'No se pudo obtener la imagen de la waifu.', m);
+                return;
+            }
 
             let waifuPrice = obtenerPrecioAleatorio(); // Precio aleatorio de 10, 15, o 20 créditos
             let waifuCode = generarCodigoUnico(); // Generar un código único para la waifu
 
             // Verificar si el código ya está ocupado
-            if (global.db.data.waifus && global.db.data.waifus[waifuCode]) {
+            global.db.data.waifus = global.db.data.waifus || {}; // Asegurar que la base de datos de waifus exista
+            if (global.db.data.waifus[waifuCode]) {
                 conn.reply(m.chat, 'Hubo un problema al generar el código. Inténtalo de nuevo.', m);
                 return;
             }
 
             // Guardar la waifu con su código y precio en la base de datos global
-            global.db.data.waifus = global.db.data.waifus || {};
             global.db.data.waifus[waifuCode] = {
                 url: json.url,
                 price: waifuPrice,
@@ -43,6 +49,12 @@ let handler = async (m, { conn, command, args }) => {
         // Comando .comprarw seguido del código para comprar la waifu
         if (command === 'comprarw') {
             let waifuCode = args[0];
+
+            // Verificar si se ha proporcionado un código
+            if (!waifuCode) {
+                conn.reply(m.chat, 'Debes proporcionar un código para comprar una waifu. Usa `.comprarw [código]`.', m);
+                return;
+            }
 
             // Verificar si el código es válido y si la waifu existe
             if (!global.db.data.waifus || !global.db.data.waifus[waifuCode]) {
