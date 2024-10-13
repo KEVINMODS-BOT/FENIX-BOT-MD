@@ -4,13 +4,11 @@ let handler = async (m, { conn, command, args }) => {
     try {
         let user = global.db.data.users[m.sender];
 
-        // Verificar si el usuario está registrado
         if (!user.registered) {
             conn.reply(m.chat, 'Por favor, regístrate usando el comando `.reg nombre.edad` antes de usar este comando.', m);
             return;
         }
 
-        // Comando .waifu para mostrar la waifu con un código único
         if (command === 'waifu') {
             let res = await fetch('https://api.waifu.pics/sfw/waifu');
             if (!res.ok) {
@@ -23,40 +21,34 @@ let handler = async (m, { conn, command, args }) => {
                 return;
             }
 
-            let waifuPrice = obtenerPrecioAleatorio(); // Precio aleatorio de 10, 15, o 20 créditos
-            let waifuCode = generarCodigoUnico(); // Generar un código único para la waifu
+            let waifuPrice = obtenerPrecioAleatorio();
+            let waifuCode = generarCodigoUnico();
 
-            // Verificar si el código ya está ocupado
-            global.db.data.waifus = global.db.data.waifus || {}; // Asegurar que la base de datos de waifus exista
+            global.db.data.waifus = global.db.data.waifus || {};
             if (global.db.data.waifus[waifuCode]) {
                 conn.reply(m.chat, 'Hubo un problema al generar el código. Inténtalo de nuevo.', m);
                 return;
             }
 
-            // Guardar la waifu con su código y precio en la base de datos global
             global.db.data.waifus[waifuCode] = {
                 url: json.url,
                 price: waifuPrice,
-                owner: null // Aún no comprada
+                owner: null
             };
 
-            // Enviar la waifu con su código y precio
             await conn.sendFile(m.chat, json.url, 'waifu.jpg', `Aquí tienes una waifu con el código ${waifuCode}.\n\nPuedes comprarla por ${waifuPrice} créditos usando el comando \`.comprarw ${waifuCode}\``, m);
 
             return;
         }
 
-        // Comando .comprarw seguido del código para comprar la waifu
         if (command === 'comprarw') {
             let waifuCode = args[0];
 
-            // Verificar si se ha proporcionado un código
             if (!waifuCode) {
                 conn.reply(m.chat, 'Debes proporcionar un código para comprar una waifu. Usa `.comprarw [código]`.', m);
                 return;
             }
 
-            // Verificar si el código es válido y si la waifu existe
             if (!global.db.data.waifus || !global.db.data.waifus[waifuCode]) {
                 conn.reply(m.chat, 'No existe ninguna waifu con ese código.', m);
                 return;
@@ -64,7 +56,6 @@ let handler = async (m, { conn, command, args }) => {
 
             let waifu = global.db.data.waifus[waifuCode];
 
-            // Verificar si la waifu ya ha sido comprada
             if (waifu.owner) {
                 conn.reply(m.chat, 'Esta waifu ya ha sido comprada por alguien más.', m);
                 return;
@@ -72,20 +63,31 @@ let handler = async (m, { conn, command, args }) => {
 
             let waifuPrice = waifu.price;
 
-            // Verificar si el usuario tiene suficientes créditos
             if (user.limit < waifuPrice) {
                 conn.reply(m.chat, `No tienes suficientes créditos para comprar esta waifu. Necesitas ${waifuPrice} créditos.`, m);
                 return;
             }
 
-            // Restar créditos y agregar waifu al inventario del usuario
             user.limit -= waifuPrice;
             user.waifus = user.waifus || [];
-            user.waifus.push(waifu.url); // Almacenar la URL de la waifu en la base de datos del usuario
+            user.waifus.push(waifuCode);
 
-            // Confirmar compra y actualizar la propiedad de la waifu
-            waifu.owner = m.sender; // Marcar que el usuario actual es el dueño
+            waifu.owner = m.sender;
             conn.reply(m.chat, `Has comprado la waifu con el código ${waifuCode} por ${waifuPrice} créditos. Usa el comando .miswaifus para ver tus waifus.`, m);
+        }
+
+        if (command === 'miswaifus') {
+            if (!user.waifus || user.waifus.length === 0) {
+                conn.reply(m.chat, 'No tienes waifus. Compra una con el comando `.waifu`.', m);
+                return;
+            }
+
+            let waifuList = user.waifus.map((waifuCode, i) => {
+                let waifu = global.db.data.waifus[waifuCode];
+                return `${i + 1}. Código: ${waifuCode}, Precio original: ${waifu.price} créditos, URL: ${waifu.url}`;
+            }).join('\n\n');
+
+            conn.reply(m.chat, `Estas son tus waifus:\n\n${waifuList}`, m);
         }
 
     } catch (e) {
@@ -94,20 +96,18 @@ let handler = async (m, { conn, command, args }) => {
     }
 };
 
-// Función para obtener un precio aleatorio de compra (10, 15, o 20 créditos)
 function obtenerPrecioAleatorio() {
     const precios = [10, 15, 20];
     return precios[Math.floor(Math.random() * precios.length)];
 }
 
-// Función para generar un código único para la waifu
 function generarCodigoUnico() {
-    return Math.floor(1000 + Math.random() * 9000).toString(); // Código de 4 dígitos aleatorio
+    return Math.floor(1000 + Math.random() * 9000).toString();
 }
 
-handler.help = ['waifu', 'comprarw [código]', 'miswaifus', 'venderwaifu [número]'];
+handler.help = ['waifu', 'comprarw [código]', 'miswaifus'];
 handler.tags = ['img', 'econ'];
-handler.command = /^(waifu|comprarw|miswaifus|venderwaifu)$/i;
+handler.command = /^(waifu|comprarw|miswaifus)$/i;
 handler.register = true;
 
 export default handler;
