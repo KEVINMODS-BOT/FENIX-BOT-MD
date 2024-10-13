@@ -77,18 +77,24 @@ let handler = async (m, { conn, command, args }) => {
         }
 
         if (command === 'miswaifus') {
-            if (!user.waifus || user.waifus.length === 0) {
-                conn.reply(m.chat, 'No tienes waifus. Compra una con el comando `.waifu`.', m);
-                return;
-            }
+    if (!user.waifus || user.waifus.length === 0) {
+        conn.reply(m.chat, 'No tienes waifus. Compra una con el comando `.waifu`.', m);
+        return;
+    }
 
-            let waifuList = user.waifus.map((waifuCode, i) => {
-                let waifu = global.db.data.waifus[waifuCode];
-                return `${i + 1}. Código: ${waifuCode}, Precio original: ${waifu.price} créditos, URL: ${waifu.url}`;
-            }).join('\n\n');
-
-            conn.reply(m.chat, `Estas son tus waifus:\n\n${waifuList}`, m);
+    let waifuList = user.waifus.map((waifuCode, i) => {
+        let waifu = global.db.data.waifus[waifuCode];
+        
+        // Verifica que la waifu exista en la base de datos
+        if (!waifu) {
+            return `${i + 1}. Código: ${waifuCode}, pero la waifu no existe en la base de datos.`;
         }
+        
+        return `${i + 1}. Código: ${waifuCode}, Precio original: ${waifu.price} créditos, URL: ${waifu.url}`;
+    }).join('\n\n');
+
+    conn.reply(m.chat, `Estas son tus waifus:\n\n${waifuList}`, m);
+}
 
     } catch (e) {
         console.log(e);
