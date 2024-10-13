@@ -10,7 +10,7 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
             return;
         }
 
-        // Verificar si es el comando .waifu
+        // Comando .waifu para mostrar la waifu
         if (command === 'waifu') {
             let res = await fetch('https://api.waifu.pics/sfw/waifu');
             if (!res.ok) return;
@@ -20,19 +20,20 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
             let waifuPrice = obtenerPrecioAleatorio(); // Precio aleatorio de 10, 15, o 20 créditos
 
             // Enviar waifu y mensaje con opción de compra
-            await conn.sendFile(m.chat, json.url, 'waifu.jpg', `¿Te gusta esta waifu?\n\nPuedes comprarla por ${waifuPrice} créditos.\n\nResponde a este mensaje con "comprar" para adquirirla.`, m);
+            let waifuMessage = await conn.sendFile(m.chat, json.url, 'waifu.jpg', `¿Te gusta esta waifu?\n\nPuedes comprarla por ${waifuPrice} créditos.\n\nResponde a este mensaje con "comprar" para adquirirla.`, m);
 
-            // Guardar información temporalmente (para recordar la waifu que el usuario quiere comprar)
+            // Guardar información temporal (para recordar la waifu que el usuario quiere comprar)
             user.tempWaifu = {
                 url: json.url,
-                price: waifuPrice
+                price: waifuPrice,
+                messageId: waifuMessage.key.id // Guardar el ID del mensaje para verificar luego
             };
 
             return;
         }
 
-        // Verificar si el usuario responde con "comprar"
-        if (m.quoted && m.quoted.sender === conn.user.jid && m.text.toLowerCase() === 'comprar') {
+        // Verificar si el usuario responde con "comprar" al mensaje adecuado
+        if (m.quoted && m.text.toLowerCase() === 'comprar' && m.quoted.id === user.tempWaifu.messageId) {
             // Verificar si hay una waifu en espera para ser comprada
             if (!user.tempWaifu) {
                 conn.reply(m.chat, 'No tienes ninguna waifu disponible para comprar en este momento.', m);
@@ -56,6 +57,8 @@ let handler = async (m, { conn, usedPrefix, command, args }) => {
 
             // Limpiar la waifu temporal
             delete user.tempWaifu;
+        } else if (m.text.toLowerCase() === 'comprar') {
+            conn.reply(m.chat, 'Debes responder al mensaje de la waifu para comprarla.', m);
         }
 
     } catch (e) {
