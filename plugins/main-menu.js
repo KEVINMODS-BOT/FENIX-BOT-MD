@@ -174,21 +174,21 @@ let handler = async (m, { conn, db }) => {
 
 ║
 
-║⏤͟͟͞͞💎➢ .comprarwaifu 
+║⏤͟͟͞͞💎➢ .waifu 
 
-║➥ comprar una waifu 
+║➥ visualiza una waifu
+
+║
+
+║⏤͟͟͞͞💎➢ .comprarw codigo 
+
+║➥ compra la waifu por el codigo
 
 ║
 
 ║⏤͟͟͞͞💎➢ .miswaifus 
 
 ║➥ ve tus waifus que compraste
-
-║
-
-║⏤͟͟͞͞💎➢ .venderwaifu
-
-║➥ vende la waifu que tienes
 
 ║
 
