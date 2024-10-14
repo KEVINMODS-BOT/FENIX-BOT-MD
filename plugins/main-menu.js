@@ -612,10 +612,8 @@ let handler = async (m, { conn, db }) => {
 
 ╚═══════════════════╝
 
-`.trim()
-
-
-
+`.trim() 
+    
     let imageBuffer = await fetchBuffer("https://qu.ax/CrRAD.jpg");
 
 
@@ -623,19 +621,12 @@ let handler = async (m, { conn, db }) => {
     // Enviar imagen junto con el menú
 
     await conn.sendMessage(m.chat, { 
-
       image: imageBuffer, 
-
       caption: menuText
-
     }, { quoted: m });
 
-
-
   } catch (e) {
-
     conn.reply(m.chat, 'Hubo un error, vuelve a usar el comando  .menu, m)
-
     throw e
 
   }
@@ -645,11 +636,8 @@ let handler = async (m, { conn, db }) => {
 
 
 handler.help = ['menu']
-
 handler.tags = ['main']
-
 handler.command = ['menu', 'help', 'menú'] 
-
 handler.register = true 
 
 export default handler
