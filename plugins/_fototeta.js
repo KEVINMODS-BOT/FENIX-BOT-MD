@@ -19,16 +19,16 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     // Simular la ruleta
     const ruletaColor = colors[Math.floor(Math.random() * colors.length)];
 
-    let resultMessage = `🎡 ¡Girando la ruleta! 🎡\n`;
+    let resultMessage = `*🎡 ¡Girando la ruleta! 🎡*\n`;
     if (color === ruletaColor) {
         let wonAmount = amount; // El usuario gana lo mismo que apostó
         user.fuegos += wonAmount; // Gana la cantidad apostada
-        resultMessage += `*¡La ruleta cayó en ${ruletaColor} y apostaste a ${color}!* \n\n *¡Ganaste ${wonAmount} fuegos! 🔥\n` +
-                         `Ahora tienes ${user.fuegos} fuegos.`;
+        resultMessage += `*¡La ruleta cayó en ${ruletaColor} y apostaste a ${color}!* \n\n *¡Ganaste ${wonAmount} fuegos! 🔥*\n\n` +
+                         `*Ahora tienes ${user.fuegos} fuegos.*`;
     } else {
         user.fuegos -= amount;
-        resultMessage += `*La ruleta cayó en ${ruletaColor} y apostaste a ${color}.* \n\n Perdiste ${amount} fuegos. 😢\n` +
-                         `Ahora tienes ${user.fuegos} fuegos.`;
+        resultMessage += `*La ruleta cayó en ${ruletaColor} y apostaste a ${color}.* \n\n *Perdiste ${amount} fuegos. 😢*\n\n` +
+                         `*Ahora tienes ${user.fuegos} fuegos.*`;
     }
 
     conn.sendMessage(m.chat, { image: { url: ruletaresultado }, caption: resultMessage }, { quoted: m });
