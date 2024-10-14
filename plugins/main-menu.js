@@ -3,7 +3,7 @@ let handler = async (m, { conn, db }) => {
   try {
 
     let name = await conn.getName(m.sender)
-    
+
     let registeredUsers = Object.values(global.db.data.users).filter(user => user.registered).length;
 
     let menuText = `
@@ -22,15 +22,31 @@ let handler = async (m, { conn, db }) => {
 *➢ [🪼] \`CANAL:\`* https://whatsapp.com/channel/0029VapwUi0Dp2QC3xO9PX42
 
 └──┸─┸┸─┸─┸┸┸┸─┙
-`;
+`.trim();
 
-// Aquí añades la ruta del gif que quieres enviar
-    await conn.sendFile(m.chat, 'https://f.uguu.se/BphmWAlM.mp4'', 'fenix.gif', menuText, m)
+    let videoBuffer = await fetchBuffer("https://f.uguu.se/BphmWAlM.mp4'");
 
-  } catch (err) {
-    console.error(err);
+    // Enviar video junto con el menú
+    await conn.sendMessage(m.chat, { 
+      video: videoBuffer, 
+      caption: menuText,
+      gifPlayback: true // Opcional: si el video debe reproducirse como un GIF
+    }, { quoted: m });
+
+  } catch (e) {
+    conn.reply(m.chat, 'Lo sentimos, el menú tiene un error.', m)
+    throw e
   }
-};
 
-handler.command = /^(menu|menufenix)$/i;
-module.exports = handler;
+}
+
+handler.help = ['menu']
+handler.tags = ['main']
+handler.command = ['menu', 'help', 'menú'] 
+handler.register = true 
+export default handler
+
+async function fetchBuffer(url) {
+  let res = await fetch(url)
+  return await res.buffer()
+}
