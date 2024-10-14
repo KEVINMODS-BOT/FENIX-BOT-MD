@@ -21,13 +21,13 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     let resultMessage = `🎡 ¡Girando la ruleta! 🎡\n`;
     if (color === ruletaColor) {
-        let wonAmount = amount * 2;
-        user.fuegos += amount; // Gana el doble de lo apostado
-        resultMessage += `¡La ruleta cayó en ${ruletaColor} y apostaste a ${color}! ¡Ganaste ${wonAmount} fuegos! 🔥\n` +
+        let wonAmount = amount; // El usuario gana lo mismo que apostó
+        user.fuegos += wonAmount; // Gana la cantidad apostada
+        resultMessage += `*¡La ruleta cayó en ${ruletaColor} y apostaste a ${color}!* \n\n *¡Ganaste ${wonAmount} fuegos! 🔥\n` +
                          `Ahora tienes ${user.fuegos} fuegos.`;
     } else {
         user.fuegos -= amount;
-        resultMessage += `La ruleta cayó en ${ruletaColor} y apostaste a ${color}. Perdiste ${amount} fuegos. 😢\n` +
+        resultMessage += `*La ruleta cayó en ${ruletaColor} y apostaste a ${color}.* \n\n Perdiste ${amount} fuegos. 😢\n` +
                          `Ahora tienes ${user.fuegos} fuegos.`;
     }
 
