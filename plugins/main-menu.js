@@ -24,7 +24,7 @@ let handler = async (m, { conn, db }) => {
 └──┸─┸┸─┸─┸┸┸┸─┙
 `.trim();
 
-    let videoBuffer = await fetchBuffer("https://tinyurl.com/ytpaysl3'");
+    let videoBuffer = await fetchBuffer("https://qu.ax/ooqaO.mp4'");
 
     // Enviar video junto con el menú
     await conn.sendMessage(m.chat, { 
