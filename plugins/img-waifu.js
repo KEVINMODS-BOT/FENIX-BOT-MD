@@ -37,8 +37,8 @@ let handler = async (m, { conn, command, args }) => {
             };
 
             await conn.sendFile(m.chat, json.url, 'waifu.jpg', 
-            '*`W A I F U S`*\n\n*Aquí tienes una waifu con el Código*  \`${waifuCode}\`\n\n*Puedes comprarla por ${waifuPrice} fenixcoins usando el comando* \`.comprarw ${waifuCode}\`\n\n> *-* FENIX - BOT MD 🐦‍🔥', 
-            m);
+`*W A I F U S*\n\n*Aquí tienes una waifu con el Código*  \`${waifuCode}\`\n\n*Puedes comprarla por ${waifuPrice} fenixcoins usando el comando* \`.comprarw ${waifuCode}\`\n\n> *-* FENIX - BOT MD 🐦‍🔥`, 
+m);
 
             return;
         }
