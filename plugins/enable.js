@@ -81,32 +81,44 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
 
     default:
       if (!/[01]/.test(command)) return m.reply(`
-*🚩 Ingresa una opción para habilitar o deshabilitar*
+*MENÚ DE CONFIGURACIÓN FÉNIX* 🐦‍🔥
 
-*≡ Lista de opciones*
-*Tipo :* welcome
-*Descripción :* Des/Activa la *Bienvenida* y *Despedida* para Grupos
+Siente el poder del Fénix al controlar las funciones de tu grupo y bot.
 
-*Tipo :* nsfw 
-*Descripción :* Des/Activa los comandos *NSFW* para Grupos
+━━━━━━━━━━━━━━━
+≡ OPCIONES DISPONIBLES
 
-*Tipo :* antiarabes 
-*Descripción :* Des/Activa el *AntiArabes* para Grupos
+*📜  Tipo: welcome*
+Descripción: Activa o desactiva la Bienvenida y Despedida en grupos.
 
-*Tipo :* antilink 
-*Descripción :* Des/Activa el *AntiLink* para Grupos
+*🔞  Tipo: nsfw*
+Descripción: Activa o desactiva los comandos NSFW para grupos.
 
-*Tipo :* autoread 
-*Descripción :* Des/Activa el *AutoRead* para el Bot
+*🌍  Tipo: antiarabes*
+Descripción: Activa o desactiva el sistema AntiÁrabes en grupos.
 
-*Tipo :* document 
-*Descripción :* Des/Activa la *Descarga En Documentos* para el Usuario
+*🔗  Tipo: antilink*
+Descripción: Activa o desactiva el AntiLink en grupos.
 
-*Tipo :* antiviewonce
-*Descripción :* Des/Activar El *Ver una vez* de whatsapp
+*📥  Tipo: autoread*
+Descripción: Activa o desactiva la opción de AutoLeer mensajes para el bot.
 
-*• Ejemplo:*
-*- ${usedPrefix + command}* welcome
+*📄  Tipo: document*
+Descripción: Activa o desactiva la descarga en Formato Documento para los usuarios.
+
+*👁️  Tipo: antiviewonce*
+Descripción: Activa o desactiva la opción de visualizar contenido enviado como "Ver una vez".
+
+━━━━━━━━━━━━━━━
+⚙️ CÓMO USARLO
+Usa el comando para habilitar o deshabilitar una función:
+
+*Ejemplo:*
+.on welcome
+.off antilink
+
+
+*🔥 Control total con del Fénix. 🔥*
 `.trim())
       throw false
   }
