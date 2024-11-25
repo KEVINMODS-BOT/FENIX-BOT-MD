@@ -25,7 +25,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         // Descontar fuegos antes de proceder
         user.fuegos -= 3;
 
-        await conn.reply(m.chat, "✧ Espere un momento, estoy descargando su video...", m);
+        await conn.reply(m.chat, "Descargando su video de tiktok\n\n █▒▒▒▒▒▒▒▒▒10%\n ████▒▒▒▒▒▒30%\n█████▒▒▒▒▒50%\n ████████▒▒80%\n ██████████100%", m);
 
         const tiktokData = await tiktokdl(args[0]);
 
