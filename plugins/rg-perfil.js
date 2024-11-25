@@ -32,7 +32,7 @@ function getCountryByPrefix(phoneNumber) {
     return country ? `${country.flag} ${country.name}` : 'Desconocido';
 }
 
-let handler = async (m, { conn, usedPrefix }) => {
+let handler = async (m, { conn }) => {
     let fkontak = {
         "key": {
             "participants": "0@s.whatsapp.net",
@@ -108,12 +108,13 @@ let handler = async (m, { conn, usedPrefix }) => {
 
 *[🔢] NÚMERO DE SERIE:* ${sn}`;
 
-    // Enviar el video en lugar de una imagen
+    // Enviar el video como GIF
     conn.sendMessage(
         m.chat,
         {
-            video: { url: 'https://d.uguu.se/waZwgVZT.mp4' }, // Ruta al video
-            caption: str // Mensaje con los datos del perfil
+            video: { url: 'https://d.uguu.se/waZwgVZT.mp4' }, // Ruta del video
+            caption: str, // Datos del perfil
+            gifPlayback: true // Activar reproducción como GIF
         },
         { quoted: fkontak, mentions: mentionedJid }
     );
