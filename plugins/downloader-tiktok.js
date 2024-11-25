@@ -1,54 +1,69 @@
-import Starlights from '@StarlightsTeam/Scraper'
+import fetch from 'node-fetch'
+import ffmpeg from "fluent-ffmpeg"
 
-let handler = async (m, { conn, args, usedPrefix, command }) => {
-    let user = global.db.data.users[m.sender];
-
-    // Verificar si el usuario tiene suficientes fuegos
-    if (!user.fuegos || user.fuegos < 3) {
-        return conn.reply(m.chat, '*`No tienes suficientes fuegos para usar este comando.`*\n\n*`Necesitas al menos 3 fuegos.`*', m);
+var handler = async (m, { conn, args, usedPrefix, command }) => {
+    if (!args[0]) {
+        throw m.reply(`*✧ Ejemplo: ${usedPrefix + command
+        } https://vm.tiktok.com/ZMhAk8tLx/`);
     }
-
-    // Verificar si el enlace es proporcionado
-    if (!args || !args[0]) {
-        return conn.reply(m.chat, '*`Ingresa un enlace del vídeo de TikTok junto al comando.`*\n\n*`Ejemplo:`*\n' + `> *${usedPrefix + command}* https://vm.tiktok.com/ZMrFCX5jf/`, m);
-    }
-
-    // Verificar si el enlace es válido
-    if (!args[0].match(/tiktok/gi)) {
-        return conn.reply(m.chat, `Verifica que el link sea de TikTok`, m).then(_ => m.react('✖️'));
-    }
-
-    await m.react('🕓');
 
     try {
-        // Obtener los datos del video
-        let { title, author, duration, views, likes, published, dl_url } = await Starlights.tiktokdl(args[0]);
+        await conn.reply ( m.chat, "✧ Espere un momento, estoy descargando su video...", m, );
 
-        // Formatear el mensaje con los detalles del video
-        let txt = '`乂  T I K T O K  -  D O W N L O A D`\n\n';
-        txt += `\t✩  *Título* : ${title}\n`;
-        txt += `\t✩  *Autor* : ${author}\n`;
-        txt += `\t✩  *Duración* : ${duration} segundos\n`;
-        txt += `\t✩  *Vistas* : ${views}\n`;
-        txt += `\t✩  *Likes* : ${likes}\n\n`;
-        txt += `> *Haz gastado 3 fuegos 🔥*`;
+        const tiktokData = await tiktokdl(args[0]);
 
-        // Descontar fuegos antes de enviar el video
-        user.fuegos -= 3;
+        if (!tiktokData) {
+            throw m.reply("Error api!");
+        }
 
-        // Enviar el video y mensaje formateado
-        await conn.sendFile(m.chat, dl_url, 'tiktok.mp4', txt, m, null);
-        await m.react('✅');
-    } catch (e) {
-        // Manejo de error si falla la descarga
-        await m.react('✖️');
-        conn.reply(m.chat, '❌ Ocurrió un error al intentar descargar el vídeo de TikTok.', m);
+        const videoURL = tiktokData.data.play;
+        const videoURLWatermark = tiktokData.data.wmplay;
+        const infonya_gan = `*✧ Descripción:* ${tiktokData.data.title}\n*✧ Publicado:* ${tiktokData.data.create_time
+            }\n\n*✧ Estado:*\n=====================\nLikes = ${tiktokData.data.digg_count
+            }\nComentarios = ${tiktokData.data.comment_count}\nCompartidas = ${tiktokData.data.share_count
+            }\nVistas = ${tiktokData.data.play_count}\nDescargas = ${tiktokData.data.download_count
+            }\n=====================\n\nUploader: ${tiktokData.data.author.nickname || "No info"
+            }\n(${tiktokData.data.author.unique_id} - https://www.tiktok.com/@${tiktokData.data.author.unique_id
+            } )\n*✧ Sonido:* ${tiktokData.data.music
+            }\n`;
+
+        if (videoURL || videoURLWatermark) {
+            await conn.sendFile( m.chat, videoURL, "tiktok.mp4", "`DESCARGA DE TIKTOK`"+`\n\n${infonya_gan}`, m, );
+            setTimeout(async () => {
+                //await conn.sendFile( m.chat, videoURLWatermark, "tiktokwm.mp4", `*Ini Versi Watermark*\n\n${infonya_gan}`, m, );
+                await conn.sendFile( m.chat, `${tiktokData.data.music}`, "lagutt.mp3", "", m, );
+                //conn.reply( m.chat, "•⩊• Ini kak Videonya ૮₍ ˶ᵔ ᵕ ᵔ˶ ₎ა\nDitonton yah ₍^ >ヮ<^₎", m, );
+            }, 1500);
+        } else {
+            throw m.reply("No se pudo descargar.");
+        }
+    } catch (error1) {
+        conn.reply(m.chat, `Error: ${error1}`, m);
     }
 };
 
-handler.help = ['tiktok *<url tt>*'];
-handler.tags = ['downloader'];
-handler.command = /^(tiktok|ttdl|tiktokdl|tiktoknowm)$/i;
-handler.register = true;
+handler.help = ['tiktok'].map((v) => v + ' *<link>*')
+handler.tags = ['downloader']
+handler.command = /^t(t|iktok(d(own(load(er)?)?|l))?|td(own(load(er)?)?|l))$/i
 
-export default handler;
+handler.disable = false
+handler.register = true
+handler.limit = true
+
+export default handler
+
+async function tiktokdl(url) {
+    let tikwm = `https://www.tikwm.com/api/?url=${url}?hd=1`
+    let response = await (await fetch(tikwm)).json()
+    return response
+}
+
+async function convertVideoToMp3(videoUrl, outputFileName) {
+    return new Promise((resolve, reject) => {
+        ffmpeg(videoUrl)
+            .toFormat("mp3")
+            .on("end", () => resolve())
+            .on("error", (err) => reject(err))
+            .save(outputFileName);
+    });
+}
