@@ -20,7 +20,7 @@ const countryPrefixes = {
     "507": { name: "Panamá", flag: "🇵🇦" },
     "595": { name: "Paraguay", flag: "🇵🇾" },
     "51": { name: "Perú", flag: "🇵🇪" },
-    "1": { name: "República Dominicana", flag: "🇩🇴" }, // República Dominicana comparte el prefijo con EE.UU y Canadá
+    "1": { name: "República Dominicana", flag: "🇩🇴" },
     "598": { name: "Uruguay", flag: "🇺🇾" },
     "58": { name: "Venezuela", flag: "🇻🇪" },
 };
@@ -53,18 +53,11 @@ let handler = async (m, { conn, usedPrefix }) => {
 
     // Verificar si el usuario está registrado
     if (!user.registered) {
-        conn.reply(m.chat, 'Por favor, regístrate usando el comando `.reg nombre.edad.pais` antes de usar este comando.', m);
+        conn.reply(m.chat, 'Por favor, regístrate usando el comando `.reg nombre.edad` antes de usar este comando.', m);
         return;
     }
 
-    let pp = 'https://qu.ax/Yygas.jpg';
-    try {
-        pp = await conn.getProfilePicture(who);
-    } catch (e) {
-        // Manejar errores si es necesario
-    }
-
-    let { name, limit, lastclaim, registered, regTime, age, banned, level, premiumTime, fuegos } = global.db.data.users[who];
+    let { name, limit, age, banned, fuegos } = global.db.data.users[who];
     let mentionedJid = [who];
     let username = conn.getName(who);
     let prem = global.prems.includes(who.split`@`[0]);
@@ -85,9 +78,6 @@ let handler = async (m, { conn, usedPrefix }) => {
     else if (limit >= 300) rank = '🥇 ORO';
     else if (limit >= 100) rank = '🥈 PLATA';
     else rank = '🥉 BRONCE';
-
-    // Verificar si es usuario premium y cuánto tiempo le queda
-    let premiumStatus = prem ? `Usuario VIP (Expira en ${Math.max(0, Math.floor((premiumTime - Date.now()) / (24 * 60 * 60 * 1000)))} días)` : 'Usuario Regular';
 
     // Obtener el país y la bandera basado en el prefijo del número de teléfono
     let phoneNumber;
@@ -112,14 +102,21 @@ let handler = async (m, { conn, usedPrefix }) => {
 *[🌍] NACIONALIDAD →* ${country}
 *[🐦‍🔥] FENIXCOINS →* ${limit}
 *[🔥] FUEGOS →* ${fuegos || 0}
-*[💵] FENIXCOINS EN EL BANCO →* ${user.banco || 0}
 *[🔱] TOP →* ${topPosition} de ${sortedUsers.length}
 *[🔱] RANGO →* ${rank}
 *[🔒] ESTADO →* ${estado}
 
 *[🔢] NÚMERO DE SERIE:* ${sn}`;
 
-    conn.sendFile(m.chat, pp, 'pp.jpg', str, fkontak, false, { contextInfo: { mentionedJid }});
+    // Enviar el video en lugar de una imagen
+    conn.sendMessage(
+        m.chat,
+        {
+            video: { url: 'https://d.uguu.se/waZwgVZT.mp4' }, // Ruta al video
+            caption: str // Mensaje con los datos del perfil
+        },
+        { quoted: fkontak, mentions: mentionedJid }
+    );
 };
 
 handler.help = ['profile [@user]'];
@@ -127,33 +124,3 @@ handler.tags = ['xp'];
 handler.command = /^perfil|profile?$/i;
 
 export default handler;
-
-// Comando para mostrar datos del usuario
-let dataHandler = async (m, { conn }) => {
-    let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender;
-
-    let user = global.db.data.users[who];
-    if (!user) {
-        return conn.reply(m.chat, 'El usuario no está registrado en la base de datos.', m);
-    }
-
-    let str = `
-❰🔗❱ *ID* → ${who}
-❰👤❱ *NOMBRE* → ${user.name || 'Desconocido'}
-❰💬❱ *USUARIO* → @${who.split('@')[0]}
-❰💰❱ *CREDITOS* → ${user.limit || 0}
-❰🔥❱ *FUEGOS* → ${user.fuegos || 0}
-❰🗓❱ *REGISTRO* → ${new Date(user.registered).toLocaleDateString() || 'Desconocido'}
-❰💯❱ *ESTADO* → ${user.banned ? 'BANEADO [❌]' : 'NOBANEADO [✅]'}
-    `.trim();
-
-    conn.reply(m.chat, str, m, {
-        mentions: [who]
-    });
-};
-
-dataHandler.help = ['data [@user]'];
-dataHandler.tags = ['info'];
-dataHandler.command = /^data$/i;
-
-export { handler, dataHandler };
