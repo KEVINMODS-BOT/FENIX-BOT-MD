@@ -34,7 +34,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         }
 
         const videoURL = tiktokData.data.play;
-        const infonya_gan = `*𝘿𝙀𝙎𝘾𝘼𝙍𝙂𝘼𝙎   𝙁𝙀𝙉𝙄𝙓* 🐦‍🔥\n\n*➢ Publicado:* ${tiktokData.data.create_time
+        const infonya_gan = `*➢ Publicado:* ${tiktokData.data.create_time
             }\n\n*➢ Estado:*\nLikes = ${tiktokData.data.digg_count
             }\nComentarios = ${tiktokData.data.comment_count}\nCompartidas = ${tiktokData.data.share_count
             }\nVistas = ${tiktokData.data.play_count}\nDescargas = ${tiktokData.data.download_count
