@@ -89,7 +89,7 @@ let handler = async (m, { conn }) => {
     let country = getCountryByPrefix(phoneNumber);
 
     // Definir estado basado en si el usuario está baneado o no
-    let estado = banned ? 'BANEADO [❌]' : 'LIBRE [✅]';
+    let estado = banned ? 'BANEADO[❌]' : 'LIBRE[✅]';
 
     let str = `*[𝑭𝑬𝑵𝑰𝑿-𝑩𝑶𝑻 𝑴𝑫🐦‍🔥]*
     
