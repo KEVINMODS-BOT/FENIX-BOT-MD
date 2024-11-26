@@ -10,7 +10,7 @@ let handler = async (m, { conn, db }) => {
 \`M E N U  -  F E N I X\`
 
 *ＢＩＥＮＶＥＮＩＤＯ*
-*➢ @${name}*
+*➢ @${m.messageStubParameters[0].split`@`[0]}*
 
 ┌┰┰┰─┮┭─┭─┰──┰─┓
 
