@@ -60,14 +60,11 @@ let handler = async (m, { conn, db }) => {
 ║⏤͟͟͞͞🪙➢ .minar
 ║➥ mina diamantes
 ║
-║⏤͟͟͞͞🪙➢ .cazar 
-║➥ caza animales y gana créditos 
-║
 ║⏤͟͟͞͞🪙➢ .slot cantidad 
 ║➥ apuesta créditos y gana 
 ║
-║⏤͟͟͞͞🪙➢ .ruleta 10 negro / rojo 
-║➥ apuesta y gana créditos 
+║⏤͟͟͞͞🪙➢ .ruletafenix 10 negro / rojo 
+║➥ apuesta y gana fenixcoins 
 ║
 ║⏤͟͟͞͞🪙➢ .crimen 
 ║➥ roba créditos a otros usuarios 
@@ -98,14 +95,11 @@ let handler = async (m, { conn, db }) => {
 ╬╬════════════════╬╬
 ║
 ║
-║⏤͟͟͞͞💎➢ .comprarwaifu 
+║⏤͟͟͞͞💎➢ .comprarw
 ║➥ comprar una waifu 
 ║
 ║⏤͟͟͞͞💎➢ .miswaifus 
 ║➥ ve tus waifus que compraste
-║
-║⏤͟͟͞͞💎➢ .venderwaifu
-║➥ vende la waifu que tienes
 ║
 ║⏤͟͟͞͞💎➢ .pokemon pikachu
 ║➥ para ver el pokemon y sus estats
@@ -128,7 +122,7 @@ let handler = async (m, { conn, db }) => {
 ╬╬════════════════╬╬
 ║
 ║
-║⏤͟͟͞͞👾➢ .ruleta +cantidad negro/rojo
+║⏤͟͟͞͞👾➢ .ruletafuego +cantidad negro/rojo
 ║➥ apostar en la ruleta
 ║
 ║⏤͟͟͞͞👾➢ .casino +cantidad
